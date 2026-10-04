@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Infraestructura Conecta</title>
+<!-- GENERADO por scripts/generar-infra.mjs con la plantilla scripts/infra-plantilla.html. No editar a mano:
+     el pre-commit, el pre-push y el CI lo comparan con el código. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&amp;family=PT+Sans+Narrow:wght@400;700&amp;family=Titillium+Web:wght@600;700&amp;display=swap">
+<style>
+:root {
+  --sol: #fdda64; --aqua: #a2ddd2; --coral: #ff8e6f; --lavanda: #cad2e9; --violeta: #3f2b56; --crema: #fffaef; --mn: #1f1845;
+  --bg: var(--crema); --surface: white; --ink: var(--violeta); --muted: color-mix(in srgb, var(--violeta) 70%, transparent);
+  --line: var(--lavanda); --fn: var(--violeta); --svc: color-mix(in srgb, var(--aqua) 55%, var(--violeta)); --aviso: var(--coral);
+  --accent: var(--violeta); color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: var(--mn); --surface: color-mix(in srgb, var(--mn) 88%, white); --ink: var(--crema);
+    --muted: color-mix(in srgb, var(--lavanda) 75%, var(--mn)); --line: color-mix(in srgb, var(--lavanda) 35%, var(--mn));
+    --fn: var(--lavanda); --svc: var(--aqua); --accent: var(--sol); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: var(--mn); --surface: color-mix(in srgb, var(--mn) 88%, white); --ink: var(--crema);
+  --muted: color-mix(in srgb, var(--lavanda) 75%, var(--mn)); --line: color-mix(in srgb, var(--lavanda) 35%, var(--mn));
+  --fn: var(--lavanda); --svc: var(--aqua); --accent: var(--sol); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'PT Sans', system-ui, sans-serif; }
+header { padding: 28px 16px 8px; max-width: 1560px; margin: 0 auto; }
+h1 { font-family: 'Titillium Web', sans-serif; font-weight: 700; font-size: 2rem; margin: 0 0 6px; }
+header p { margin: 0; color: var(--muted); font-size: .92rem; max-width: 800px; }
+code { font-family: 'PT Sans Narrow', monospace; font-size: .95em; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; max-width: 1560px; margin: 0 auto; padding: 16px; }
+@media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.canvas { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+svg { display: block; min-width: 960px; width: 100%; height: auto; font-family: 'PT Sans', system-ui, sans-serif; }
+.frame rect { fill: none; stroke: var(--line); stroke-width: 1.2; }
+.frame text { fill: var(--muted); font-family: 'Titillium Web', sans-serif; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; font-weight: 700; }
+.f-libre rect { stroke-dasharray: 2 4; }
+.node rect { fill: var(--surface); stroke: var(--line); stroke-width: 1.2; }
+.node { cursor: pointer; outline: none; }
+.node .nl { fill: var(--ink); font-size: 13px; font-weight: 700; }
+.node .ns { fill: var(--muted); font-family: 'PT Sans Narrow', sans-serif; font-size: 11.5px; }
+.n-edge rect { stroke: var(--fn); }
+.n-servicio rect { stroke: var(--svc); stroke-width: 1.6; }
+.n-manual rect { stroke: var(--muted); stroke-dasharray: 5 3; }
+.n-aviso rect { stroke: var(--aviso); stroke-width: 2; stroke-dasharray: 5 3; fill: color-mix(in srgb, var(--aviso) 10%, var(--surface)); }
+.node:hover rect, .node:focus rect, .node.sel rect { stroke: var(--accent); stroke-width: 2.4; }
+.edge { fill: none; stroke: var(--muted); stroke-opacity: .45; stroke-width: 1.3; }
+.e-cron { stroke-dasharray: 6 4; }
+.e-datos { stroke-dasharray: 2 3; }
+.e-webhook { stroke: var(--aviso); stroke-opacity: .8; }
+.arrow { fill: var(--muted); }
+svg.focus .edge { stroke-opacity: .08; }
+svg.focus .edge.on { stroke: var(--accent); stroke-opacity: 1; stroke-width: 2; }
+svg.focus .node.dim { opacity: .3; }
+aside { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; align-self: start; position: sticky; top: 16px; }
+aside h2 { font-family: 'Titillium Web', sans-serif; font-weight: 700; font-size: 1.3rem; margin: 0 0 10px; word-break: break-word; }
+aside h3 { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 14px 0 4px; }
+aside ul { margin: 0; padding-left: 18px; font-size: .88rem; }
+aside li { margin: 2px 0; word-break: break-word; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: .82rem; color: var(--muted); margin-top: 10px; }
+.legend svg { min-width: 0; width: 36px; height: 10px; display: inline-block; vertical-align: middle; }
+footer { max-width: 1560px; margin: 0 auto; padding: 0 16px 28px; color: var(--muted); font-size: .82rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Infraestructura de Diverso Conecta</h1>
+  <p>Generado del código: <code>supabase/config.toml</code>, <code>supabase/functions</code>, los <code>cron.schedule</code>, triggers y buckets de <code>schema.sql</code>, <code>js/</code>, las páginas y <code>.github/workflows</code>. Toca una pieza para ver su detalle y sus conexiones.</p>
+  <div class="legend">
+    <span><svg viewBox="0 0 36 10"><path d="M0,5 H36" class="edge"/></svg> llamada</span>
+    <span><svg viewBox="0 0 36 10"><path d="M0,5 H36" class="edge e-cron"/></svg> cron o trigger</span>
+    <span><svg viewBox="0 0 36 10"><path d="M0,5 H36" class="edge e-datos"/></svg> base de datos / Storage</span>
+    <span><svg viewBox="0 0 36 10"><path d="M0,5 H36" class="edge e-webhook"/></svg> entra desde fuera</span>
+    <span>borde punteado: sin código en el repo</span>
+  </div>
+</header>
+<div class="layout">
+  <div class="canvas">
+<svg viewBox="0 0 1170 1086" role="img" aria-label="Diagrama de infraestructura de Diverso Conecta">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrow"/></marker></defs>
+<g class="frame f-cf"><rect x="258" y="36" width="234" height="140" rx="10"/><text x="270" y="54">Cloudflare</text></g>
+<g class="frame f-sb"><rect x="258" y="198" width="534" height="868" rx="10"/><text x="270" y="216">Supabase</text></g>
+<g class="frame f-gh"><rect x="8" y="232" width="214" height="140" rx="10"/><text x="20" y="250">GitHub Actions</text></g>
+<g class="frame f-cuenta"><rect x="888" y="36" width="274" height="452" rx="10"/><text x="900" y="54">Servicios con cuenta de DiversoLab</text></g>
+<g class="frame f-libre"><rect x="888" y="500" width="274" height="244" rx="10"/><text x="900" y="518">Librerías y CDN (sin cuenta)</text></g>
+<path class="edge e-datos" data-a="wf:backup.yml" data-b="bd" d="M210,287 C240,287 240,305 270,305" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="manual:pages" d="M210,91 C240,91 240,91 270,91" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="auth" d="M210,91 C240,91 240,253 270,253" marker-end="url(#arr)"/>
+<path class="edge e-datos" data-a="navegador" data-b="bd" d="M210,91 C240,91 240,305 270,305" marker-end="url(#arr)"/>
+<path class="edge e-datos" data-a="cron" data-b="bd" d="M270,357 C230,357 230,305 270,305" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="edge:consentimiento-otorgar" d="M210,91 C380,91 380,253 550,253" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:consentimiento-otorgar" data-b="svc:drive" d="M780,253 C840,253 840,143 900,143" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:consentimiento-otorgar" data-b="svc:gdocs" d="M780,253 C840,253 840,195 900,195" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:consentimiento-otorgar" data-b="svc:resend" d="M780,253 C840,253 840,91 900,91" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:consentimiento-otorgar" data-b="svc:sentry" d="M780,253 C840,253 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="edge:expediente" d="M210,91 C380,91 380,305 550,305" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:expediente" data-b="svc:drive" d="M780,305 C840,305 840,143 900,143" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:expediente" data-b="svc:sentry" d="M780,305 C840,305 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="edge:financiero" d="M210,91 C380,91 380,357 550,357" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:financiero" data-b="svc:drive" d="M780,357 C840,357 840,143 900,143" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:financiero" data-b="svc:resend" d="M780,357 C840,357 840,91 900,91" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:financiero" data-b="svc:sentry" d="M780,357 C840,357 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-datos" data-a="edge:financiero" data-b="bucket:financiero-staging" d="M550,357 C515,357 515,409 480,409" marker-end="url(#arr)"/>
+<path class="edge e-datos" data-a="edge:financiero" data-b="bucket:movimientos-staging" d="M550,357 C515,357 515,513 480,513" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="edge:form-enviar" d="M210,91 C380,91 380,409 550,409" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:form-enviar" data-b="svc:sentry" d="M780,409 C840,409 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="edge:kyc" d="M210,91 C380,91 380,461 550,461" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:kyc" data-b="svc:drive" d="M780,461 C840,461 840,143 900,143" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:kyc" data-b="svc:resend" d="M780,461 C840,461 840,91 900,91" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:kyc" data-b="svc:sentry" d="M780,461 C840,461 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-datos" data-a="edge:kyc" data-b="bucket:kyc-staging" d="M550,461 C515,461 515,461 480,461" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="edge:mapeo" d="M210,91 C380,91 380,513 550,513" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:mapeo" data-b="svc:sentry" d="M780,513 C840,513 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="edge:notificar" d="M210,91 C380,91 380,565 550,565" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:notificar" data-b="svc:resend" d="M780,565 C840,565 840,91 900,91" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:notificar" data-b="svc:sentry" d="M780,565 C840,565 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="edge:reporte-financiero" d="M210,91 C380,91 380,617 550,617" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:reporte-financiero" data-b="svc:sentry" d="M780,617 C840,617 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:reporte-financiero" data-b="svc:siigo" d="M780,617 C840,617 840,247 900,247" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="edge:siigo-sincronizar" d="M210,91 C380,91 380,669 550,669" marker-end="url(#arr)"/>
+<path class="edge e-cron" data-a="cron" data-b="edge:siigo-sincronizar" d="M480,357 C515,357 515,669 550,669" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:siigo-sincronizar" data-b="svc:sentry" d="M780,669 C840,669 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:siigo-sincronizar" data-b="svc:siigo" d="M780,669 C840,669 840,247 900,247" marker-end="url(#arr)"/>
+<path class="edge e-cron" data-a="cron" data-b="edge:alertas" d="M480,357 C515,357 515,721 550,721" marker-end="url(#arr)"/>
+<path class="edge e-cron" data-a="bd" data-b="edge:alertas" d="M480,305 C515,305 515,721 550,721" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:alertas" data-b="svc:sentry" d="M780,721 C840,721 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:alertas" data-b="svc:telegram" d="M780,721 C840,721 840,299 900,299" marker-end="url(#arr)"/>
+<path class="edge e-cron" data-a="cron" data-b="edge:cierre-financiero" d="M480,357 C515,357 515,773 550,773" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:cierre-financiero" data-b="svc:sentry" d="M780,773 C840,773 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:cierre-financiero" data-b="svc:siigo" d="M780,773 C840,773 840,247 900,247" marker-end="url(#arr)"/>
+<path class="edge e-cron" data-a="cron" data-b="edge:mantenimiento" d="M480,357 C515,357 515,825 550,825" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:mantenimiento" data-b="svc:sentry" d="M780,825 C840,825 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-datos" data-a="edge:mantenimiento" data-b="bucket:financiero-staging" d="M550,825 C515,825 515,409 480,409" marker-end="url(#arr)"/>
+<path class="edge e-datos" data-a="edge:mantenimiento" data-b="bucket:kyc-staging" d="M550,825 C515,825 515,461 480,461" marker-end="url(#arr)"/>
+<path class="edge e-datos" data-a="edge:mantenimiento" data-b="bucket:movimientos-staging" d="M550,825 C515,825 515,513 480,513" marker-end="url(#arr)"/>
+<path class="edge e-cron" data-a="cron" data-b="edge:recordatorios" d="M480,357 C515,357 515,877 550,877" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:recordatorios" data-b="svc:resend" d="M780,877 C840,877 840,91 900,91" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:recordatorios" data-b="svc:sentry" d="M780,877 C840,877 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:recordatorios" data-b="svc:telegram" d="M780,877 C840,877 840,299 900,299" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:siigo-sondeo" data-b="svc:sentry" d="M780,929 C840,929 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:siigo-sondeo" data-b="svc:siigo" d="M780,929 C840,929 840,247 900,247" marker-end="url(#arr)"/>
+<path class="edge e-cron" data-a="cron" data-b="edge:sonda" d="M480,357 C515,357 515,981 550,981" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:sonda" data-b="svc:cloudflare_api" d="M780,981 C840,981 840,351 900,351" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:sonda" data-b="svc:drive" d="M780,981 C840,981 840,143 900,143" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:sonda" data-b="svc:gmail" d="M780,981 C840,981 840,455 900,455" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:sonda" data-b="svc:resend" d="M780,981 C840,981 840,91 900,91" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:sonda" data-b="svc:sentry" d="M780,981 C840,981 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:sonda" data-b="svc:siigo" d="M780,981 C840,981 840,247 900,247" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:sonda" data-b="svc:telegram" d="M780,981 C840,981 840,299 900,299" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:telegram" data-b="svc:drive" d="M780,1033 C840,1033 840,143 900,143" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:telegram" data-b="svc:resend" d="M780,1033 C840,1033 840,91 900,91" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:telegram" data-b="svc:sentry" d="M780,1033 C840,1033 840,403 900,403" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:telegram" data-b="svc:siigo" d="M780,1033 C840,1033 840,247 900,247" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="edge:telegram" data-b="svc:telegram" d="M780,1033 C840,1033 840,299 900,299" marker-end="url(#arr)"/>
+<path class="edge e-datos" data-a="edge:telegram" data-b="bucket:movimientos-staging" d="M550,1033 C515,1033 515,513 480,513" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="svc:jsdelivr" d="M210,91 C555,91 555,607 900,607" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="svc:fonts" d="M210,91 C555,91 555,659 900,659" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="navegador" data-b="embebidos" d="M210,91 C555,91 555,711 900,711" marker-end="url(#arr)"/>
+<path class="edge e-webhook" data-a="svc:telegram" data-b="edge:telegram" d="M900,299 C840,299 840,1033 780,1033" marker-end="url(#arr)"/>
+<path class="edge e-llamada" data-a="manual:dns" data-b="manual:pages" d="M270,143 C230,143 230,91 270,91" marker-end="url(#arr)"/>
+<g class="node n-actor" data-id="navegador" tabindex="0"><rect x="20" y="70" width="190" height="42" rx="7"/><text class="nl" x="32" y="88">Navegador</text><text class="ns" x="32" y="103">titular · miembro · anónimo</text></g>
+<g class="node n-actor" data-id="wf:backup.yml" tabindex="0"><rect x="20" y="266" width="190" height="42" rx="7"/><text class="nl" x="32" y="284">Backup BD</text><text class="ns" x="32" y="299">backup.yml</text></g>
+<g class="node n-actor" data-id="wf:ci.yml" tabindex="0"><rect x="20" y="318" width="190" height="42" rx="7"/><text class="nl" x="32" y="336">CI</text><text class="ns" x="32" y="351">ci.yml</text></g>
+<g class="node n-manual" data-id="manual:pages" tabindex="0"><rect x="270" y="70" width="210" height="42" rx="7"/><text class="nl" x="282" y="88">Cloudflare Pages</text><text class="ns" x="282" y="103">publica cada push a main</text></g>
+<g class="node n-manual" data-id="manual:dns" tabindex="0"><rect x="270" y="122" width="210" height="42" rx="7"/><text class="nl" x="282" y="140">Dominio</text><text class="ns" x="282" y="155">DNS en GoDaddy · diversolab.org</text></g>
+<g class="node n-plataforma" data-id="auth" tabindex="0"><rect x="270" y="232" width="210" height="42" rx="7"/><text class="nl" x="282" y="250">Supabase Auth</text><text class="ns" x="282" y="265">código por correo (OTP)</text></g>
+<g class="node n-plataforma" data-id="bd" tabindex="0"><rect x="270" y="284" width="210" height="42" rx="7"/><text class="nl" x="282" y="302">PostgreSQL + RLS</text><text class="ns" x="282" y="317">supabase/sql/schema.sql</text></g>
+<g class="node n-plataforma" data-id="cron" tabindex="0"><rect x="270" y="336" width="210" height="42" rx="7"/><text class="nl" x="282" y="354">pg_cron</text><text class="ns" x="282" y="369">8 trabajos · hora Bogotá</text></g>
+<g class="node n-bucket" data-id="bucket:financiero-staging" tabindex="0"><rect x="270" y="388" width="210" height="42" rx="7"/><text class="nl" x="282" y="406">financiero-staging</text><text class="ns" x="282" y="421">Storage privado</text></g>
+<g class="node n-bucket" data-id="bucket:kyc-staging" tabindex="0"><rect x="270" y="440" width="210" height="42" rx="7"/><text class="nl" x="282" y="458">kyc-staging</text><text class="ns" x="282" y="473">Storage privado</text></g>
+<g class="node n-bucket" data-id="bucket:movimientos-staging" tabindex="0"><rect x="270" y="492" width="210" height="42" rx="7"/><text class="nl" x="282" y="510">movimientos-staging</text><text class="ns" x="282" y="525">Storage privado</text></g>
+<g class="node n-edge" data-id="edge:consentimiento-otorgar" tabindex="0"><rect x="550" y="232" width="230" height="42" rx="7"/><text class="nl" x="562" y="250">consentimiento-otorgar</text><text class="ns" x="562" y="265">JWT · front</text></g>
+<g class="node n-edge" data-id="edge:expediente" tabindex="0"><rect x="550" y="284" width="230" height="42" rx="7"/><text class="nl" x="562" y="302">expediente</text><text class="ns" x="562" y="317">JWT · front</text></g>
+<g class="node n-edge" data-id="edge:financiero" tabindex="0"><rect x="550" y="336" width="230" height="42" rx="7"/><text class="nl" x="562" y="354">financiero</text><text class="ns" x="562" y="369">JWT · front</text></g>
+<g class="node n-edge" data-id="edge:form-enviar" tabindex="0"><rect x="550" y="388" width="230" height="42" rx="7"/><text class="nl" x="562" y="406">form-enviar</text><text class="ns" x="562" y="421">JWT · front</text></g>
+<g class="node n-edge" data-id="edge:kyc" tabindex="0"><rect x="550" y="440" width="230" height="42" rx="7"/><text class="nl" x="562" y="458">kyc</text><text class="ns" x="562" y="473">JWT · front</text></g>
+<g class="node n-edge" data-id="edge:mapeo" tabindex="0"><rect x="550" y="492" width="230" height="42" rx="7"/><text class="nl" x="562" y="510">mapeo</text><text class="ns" x="562" y="525">sin JWT · front</text></g>
+<g class="node n-edge" data-id="edge:notificar" tabindex="0"><rect x="550" y="544" width="230" height="42" rx="7"/><text class="nl" x="562" y="562">notificar</text><text class="ns" x="562" y="577">JWT · front</text></g>
+<g class="node n-edge" data-id="edge:reporte-financiero" tabindex="0"><rect x="550" y="596" width="230" height="42" rx="7"/><text class="nl" x="562" y="614">reporte-financiero</text><text class="ns" x="562" y="629">JWT · front</text></g>
+<g class="node n-edge" data-id="edge:siigo-sincronizar" tabindex="0"><rect x="550" y="648" width="230" height="42" rx="7"/><text class="nl" x="562" y="666">siigo-sincronizar</text><text class="ns" x="562" y="681">sin JWT · front + cron</text></g>
+<g class="node n-edge" data-id="edge:alertas" tabindex="0"><rect x="550" y="700" width="230" height="42" rx="7"/><text class="nl" x="562" y="718">alertas</text><text class="ns" x="562" y="733">sin JWT · cron + trigger</text></g>
+<g class="node n-edge" data-id="edge:cierre-financiero" tabindex="0"><rect x="550" y="752" width="230" height="42" rx="7"/><text class="nl" x="562" y="770">cierre-financiero</text><text class="ns" x="562" y="785">sin JWT · cron</text></g>
+<g class="node n-edge" data-id="edge:mantenimiento" tabindex="0"><rect x="550" y="804" width="230" height="42" rx="7"/><text class="nl" x="562" y="822">mantenimiento</text><text class="ns" x="562" y="837">sin JWT · cron</text></g>
+<g class="node n-edge" data-id="edge:recordatorios" tabindex="0"><rect x="550" y="856" width="230" height="42" rx="7"/><text class="nl" x="562" y="874">recordatorios</text><text class="ns" x="562" y="889">sin JWT · cron</text></g>
+<g class="node n-edge" data-id="edge:siigo-sondeo" tabindex="0"><rect x="550" y="908" width="230" height="42" rx="7"/><text class="nl" x="562" y="926">siigo-sondeo</text><text class="ns" x="562" y="941">sin JWT</text></g>
+<g class="node n-edge" data-id="edge:sonda" tabindex="0"><rect x="550" y="960" width="230" height="42" rx="7"/><text class="nl" x="562" y="978">sonda</text><text class="ns" x="562" y="993">sin JWT · cron</text></g>
+<g class="node n-edge" data-id="edge:telegram" tabindex="0"><rect x="550" y="1012" width="230" height="42" rx="7"/><text class="nl" x="562" y="1030">telegram</text><text class="ns" x="562" y="1045">sin JWT</text></g>
+<g class="node n-servicio" data-id="svc:resend" tabindex="0"><rect x="900" y="70" width="250" height="42" rx="7"/><text class="nl" x="912" y="88">Resend</text><text class="ns" x="912" y="103">correos transaccionales</text></g>
+<g class="node n-servicio" data-id="svc:drive" tabindex="0"><rect x="900" y="122" width="250" height="42" rx="7"/><text class="nl" x="912" y="140">Google Drive</text><text class="ns" x="912" y="155">cuenta de servicio · expedientes</text></g>
+<g class="node n-servicio" data-id="svc:gdocs" tabindex="0"><rect x="900" y="174" width="250" height="42" rx="7"/><text class="nl" x="912" y="192">Google Docs</text><text class="ns" x="912" y="207">textos de consentimiento</text></g>
+<g class="node n-servicio" data-id="svc:siigo" tabindex="0"><rect x="900" y="226" width="250" height="42" rx="7"/><text class="nl" x="912" y="244">Siigo</text><text class="ns" x="912" y="259">contabilidad</text></g>
+<g class="node n-servicio" data-id="svc:telegram" tabindex="0"><rect x="900" y="278" width="250" height="42" rx="7"/><text class="nl" x="912" y="296">Telegram</text><text class="ns" x="912" y="311">bot de movimientos y alertas</text></g>
+<g class="node n-servicio" data-id="svc:cloudflare_api" tabindex="0"><rect x="900" y="330" width="250" height="42" rx="7"/><text class="nl" x="912" y="348">API de Cloudflare</text><text class="ns" x="912" y="363">builds del mes de Pages (solo lectura)</text></g>
+<g class="node n-servicio" data-id="svc:sentry" tabindex="0"><rect x="900" y="382" width="250" height="42" rx="7"/><text class="nl" x="912" y="400">Sentry</text><text class="ns" x="912" y="415">errores de las Edges</text></g>
+<g class="node n-servicio" data-id="svc:gmail" tabindex="0"><rect x="900" y="434" width="250" height="42" rx="7"/><text class="nl" x="912" y="452">Gmail SMTP</text><text class="ns" x="912" y="467">prueba de la clave de los códigos (465)</text></g>
+<g class="node n-libre" data-id="svc:npm" tabindex="0"><rect x="900" y="534" width="250" height="42" rx="7"/><text class="nl" x="912" y="552">npm</text><text class="ns" x="912" y="567">librerías de las Edges (deno.json)</text></g>
+<g class="node n-libre" data-id="svc:jsdelivr" tabindex="0"><rect x="900" y="586" width="250" height="42" rx="7"/><text class="nl" x="912" y="604">jsDelivr</text><text class="ns" x="912" y="619">supabase-js del front</text></g>
+<g class="node n-libre" data-id="svc:fonts" tabindex="0"><rect x="900" y="638" width="250" height="42" rx="7"/><text class="nl" x="912" y="656">Google Fonts</text><text class="ns" x="912" y="671">tipografías</text></g>
+<g class="node n-libre" data-id="embebidos" tabindex="0"><rect x="900" y="690" width="250" height="42" rx="7"/><text class="nl" x="912" y="708">Recursos incrustados</text><text class="ns" x="912" y="723">iframes permitidos por la CSP</text></g>
+</svg>
+  </div>
+  <aside id="panel"><h2>Detalle</h2><p>39 piezas · 75 conexiones</p></aside>
+</div>
+<footer>Regenerar: <code>node scripts/generar-infra.mjs</code>. El pre-commit, el pre-push y el CI corren <code>--revisar</code> y fallan si este archivo no coincide con el código.</footer>
+<script type="application/json" id="infra-datos">{"navegador":{"nombre":"Navegador","detalle":[["Usa Supabase Auth",["login.js","mi-expediente.js","registro.js","supabase-client.js"]],["Lee tablas directo (REST con RLS)",["accesos.js","admin.js","dashboard.js","expediente.js","formulario.js","herramientas.js","mi-cuenta.js","mi-expediente.js","mis-tareas.js","requisitos.js","tabla-paginada.js","utils.js"]],["Llamadas con nombre variable",["dashboard.js: origen","expediente.js: btn.dataset.edge","mi-expediente.js: edge"]]]},"wf:backup.yml":{"nombre":"Backup BD","detalle":[["Archivo",[".github/workflows/backup.yml"]],["Horario (UTC)",["17 6 * * *"]],["Pasos",["Instalar cliente PostgreSQL 17","Volcar la base de datos","Subir artefacto","Avisar el resultado a la sonda"]]]},"wf:ci.yml":{"nombre":"CI","detalle":[["Archivo",[".github/workflows/ci.yml"]],["Horario (UTC)",["cada push a main"]],["Pasos",["Tipos de las Edges y del banco (deno check)","Candados del repo","Instalar dependencias","Instalar navegador Playwright","Smoke E2E + accesibilidad","Lighthouse CI (informativo)"]]]},"manual:pages":{"nombre":"Cloudflare Pages","detalle":[["Fuente",["_headers (CSP y cabeceras)","la integración git de Cloudflare publica main"]]]},"manual:dns":{"nombre":"Dominio","detalle":[["Fuera del repo",["Registros DNS administrados en GoDaddy; v2-conecta es un CNAME a Cloudflare Pages."]]]},"auth":{"nombre":"Supabase Auth","detalle":[["Lo usan",["login.js","mi-expediente.js","registro.js","supabase-client.js"]]]},"bd":{"nombre":"PostgreSQL + RLS","detalle":[["Desde las Edges",["service_role vía _shared/supabase.ts (todas)"]],["Desde el navegador",["accesos.js","admin.js","dashboard.js","expediente.js","formulario.js","herramientas.js","mi-cuenta.js","mi-expediente.js","mis-tareas.js","requisitos.js","tabla-paginada.js","utils.js"]],["Triggers que llaman a una Edge",["alertar_revision → alertas (catalogo_docs, documentos_financieros, profiles, tareas)","registrar_inicio_sesion → alertas ()"]]]},"cron":{"nombre":"pg_cron","detalle":[["Trabajos",["alertas-resumen-diario · 07:30 → Edge alertas","cierre-financiero-diario · 02:00 → Edge cierre-financiero","purga-huerfanos-semanal · dom 01:30 → Edge mantenimiento","recordatorios-diario · 1-5 08:00 → Edge recordatorios","siigo-sincronizar-diario · 01:20 → Edge siigo-sincronizar","sonda-servicio · cada hora, minuto 7,37 → Edge sonda","vencer-sesiones-horario · cada hora, minuto 15 → SQL DELETE FROM auth.sessions WHERE created_at \u003c now() - interva","vencer-tareas-diario · 06:00 → SQL public.procesar_vencimientos();"]]]},"bucket:financiero-staging":{"nombre":"financiero-staging","detalle":[["Lo usan",["financiero","mantenimiento"]]]},"bucket:kyc-staging":{"nombre":"kyc-staging","detalle":[["Lo usan",["kyc","mantenimiento"]]]},"bucket:movimientos-staging":{"nombre":"movimientos-staging","detalle":[["Lo usan",["financiero","mantenimiento","telegram"]]]},"edge:consentimiento-otorgar":{"nombre":"consentimiento-otorgar","detalle":[["verify_jwt",["true"]],["Llamada desde el front",["mi-expediente.js","registro.js"]],["Cron",["—"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["Google Drive","Google Docs","npm","Resend","Sentry"]],["Buckets",["—"]],["Secretos que lee",["DRIVE_ROOT_FOLDER_ID","DRIVE_SHARED_DRIVE_ID","FRONTEND_ORIGIN","GOOGLE_SA_EMAIL","GOOGLE_SA_PRIVATE_KEY","RESEND_API_KEY","RESEND_FROM","SENTRY_DSN","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL"]],["Módulos de _shared",["consentimiento.ts","cors.ts","drive.ts","email.ts","fecha.ts","hash.ts","pdf_evidence.ts","perfil.ts","response.ts","sentry.ts","supabase.ts"]]]},"edge:expediente":{"nombre":"expediente","detalle":[["verify_jwt",["true"]],["Llamada desde el front",["accesos.js"]],["Cron",["—"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["Google Drive","npm","Sentry"]],["Buckets",["—"]],["Secretos que lee",["DRIVE_ROOT_FOLDER_ID","DRIVE_SHARED_DRIVE_ID","FRONTEND_ORIGIN","GOOGLE_SA_EMAIL","GOOGLE_SA_PRIVATE_KEY","SENTRY_DSN","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL"]],["Módulos de _shared",["cors.ts","drive.ts","perfil.ts","response.ts","sentry.ts","supabase.ts","uuid.ts"]]]},"edge:financiero":{"nombre":"financiero","detalle":[["verify_jwt",["true"]],["Llamada desde el front",["dashboard.js","expediente.js","mi-expediente.js","operaciones.js","reporte-financiero.js","utils.js"]],["Cron",["—"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["Google Drive","npm","Resend","Sentry"]],["Buckets",["financiero-staging","movimientos-staging"]],["Secretos que lee",["DRIVE_ROOT_FOLDER_ID","DRIVE_SHARED_DRIVE_ID","FRONTEND_ORIGIN","GOOGLE_SA_EMAIL","GOOGLE_SA_PRIVATE_KEY","RESEND_API_KEY","RESEND_FROM","SENTRY_DSN","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL"]],["Módulos de _shared",["archivo.ts","cors.ts","drive.ts","email.ts","operacion.ts","perfil.ts","response.ts","sentry.ts","supabase.ts","uuid.ts"]]]},"edge:form-enviar":{"nombre":"form-enviar","detalle":[["verify_jwt",["true"]],["Llamada desde el front",["formulario.js"]],["Cron",["—"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["npm","Sentry"]],["Buckets",["—"]],["Secretos que lee",["FRONTEND_ORIGIN","SENTRY_DSN","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL"]],["Módulos de _shared",["cors.ts","fecha.ts","formulario.ts","perfil.ts","response.ts","sentry.ts","supabase.ts","uuid.ts"]]]},"edge:kyc":{"nombre":"kyc","detalle":[["verify_jwt",["true"]],["Llamada desde el front",["dashboard.js","expediente.js","formulario.js","mi-cuenta.js","mis-tareas.js","reporte-financiero.js"]],["Cron",["—"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["Google Drive","npm","Resend","Sentry"]],["Buckets",["kyc-staging"]],["Secretos que lee",["DRIVE_ROOT_FOLDER_ID","DRIVE_SHARED_DRIVE_ID","FRONTEND_ORIGIN","GOOGLE_SA_EMAIL","GOOGLE_SA_PRIVATE_KEY","RESEND_API_KEY","RESEND_FROM","SENTRY_DSN","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL"]],["Módulos de _shared",["archivo.ts","cors.ts","drive.ts","email.ts","fecha.ts","perfil.ts","response.ts","sentry.ts","supabase.ts","uuid.ts"]]]},"edge:mapeo":{"nombre":"mapeo","detalle":[["verify_jwt",["false"]],["Llamada desde el front",["mapeo.js"]],["Cron",["—"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["npm","Sentry"]],["Buckets",["—"]],["Secretos que lee",["FRONTEND_ORIGIN","SENTRY_DSN","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL"]],["Módulos de _shared",["cors.ts","formulario.ts","perfil.ts","response.ts","sentry.ts","supabase.ts","uuid.ts"]]]},"edge:notificar":{"nombre":"notificar","detalle":[["verify_jwt",["true"]],["Llamada desde el front",["accesos.js"]],["Cron",["—"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["npm","Resend","Sentry"]],["Buckets",["—"]],["Secretos que lee",["FRONTEND_ORIGIN","RESEND_API_KEY","RESEND_FROM","SENTRY_DSN","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL"]],["Módulos de _shared",["cors.ts","email.ts","perfil.ts","response.ts","sentry.ts","supabase.ts","uuid.ts"]]]},"edge:reporte-financiero":{"nombre":"reporte-financiero","detalle":[["verify_jwt",["true"]],["Llamada desde el front",["reporte-financiero.js"]],["Cron",["—"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["npm","Sentry","Siigo"]],["Buckets",["—"]],["Secretos que lee",["FRONTEND_ORIGIN","SENTRY_DSN","SIIGO_ACCESS_KEY","SIIGO_PARTNER_ID","SIIGO_USER","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL"]],["Módulos de _shared",["cors.ts","cuentas_por_pagar.ts","operacion.ts","perfil.ts","response.ts","sentry.ts","siigo.ts","supabase.ts"]]]},"edge:siigo-sincronizar":{"nombre":"siigo-sincronizar","detalle":[["verify_jwt",["false"]],["Llamada desde el front",["reporte-financiero.js"]],["Cron",["siigo-sincronizar-diario · 01:20"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["npm","Sentry","Siigo"]],["Buckets",["—"]],["Secretos que lee",["FRONTEND_ORIGIN","SENTRY_DSN","SIIGO_ACCESS_KEY","SIIGO_PARTNER_ID","SIIGO_USER","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL"]],["Módulos de _shared",["cors.ts","cron.ts","cuentas_por_pagar.ts","perfil.ts","response.ts","secreto.ts","sentry.ts","siigo.ts","supabase.ts"]]]},"edge:alertas":{"nombre":"alertas","detalle":[["verify_jwt",["false"]],["Llamada desde el front",["—"]],["Cron",["alertas-resumen-diario · 07:30"]],["Trigger de la BD",["alertar_revision (catalogo_docs, documentos_financieros, profiles, tareas)","registrar_inicio_sesion ()"]],["Módulos de servicios que importa",["npm","Sentry","Telegram"]],["Buckets",["—"]],["Secretos que lee",["FRONTEND_ORIGIN","SENTRY_DSN","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL","Telegram_Diversolab_Conecta_Alerta","Telegram_Diversolab_Conecta_Alerta_ChatID"]],["Módulos de _shared",["cors.ts","cron.ts","perfil.ts","requisitos.ts","response.ts","secreto.ts","sentry.ts","supabase.ts","telegram.ts"]]]},"edge:cierre-financiero":{"nombre":"cierre-financiero","detalle":[["verify_jwt",["false"]],["Llamada desde el front",["—"]],["Cron",["cierre-financiero-diario · 02:00"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["npm","Sentry","Siigo"]],["Buckets",["—"]],["Secretos que lee",["FRONTEND_ORIGIN","SENTRY_DSN","SIIGO_ACCESS_KEY","SIIGO_PARTNER_ID","SIIGO_USER","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL"]],["Módulos de _shared",["cors.ts","cron.ts","cuentas_por_pagar.ts","operacion.ts","perfil.ts","response.ts","secreto.ts","sentry.ts","siigo.ts","supabase.ts"]]]},"edge:mantenimiento":{"nombre":"mantenimiento","detalle":[["verify_jwt",["false"]],["Llamada desde el front",["—"]],["Cron",["purga-huerfanos-semanal · dom 01:30"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["npm","Sentry"]],["Buckets",["financiero-staging","kyc-staging","movimientos-staging"]],["Secretos que lee",["FRONTEND_ORIGIN","SENTRY_DSN","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL"]],["Módulos de _shared",["cors.ts","cron.ts","perfil.ts","response.ts","secreto.ts","sentry.ts","supabase.ts"]]]},"edge:recordatorios":{"nombre":"recordatorios","detalle":[["verify_jwt",["false"]],["Llamada desde el front",["—"]],["Cron",["recordatorios-diario · 1-5 08:00"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["npm","Resend","Sentry","Telegram"]],["Buckets",["—"]],["Secretos que lee",["FRONTEND_ORIGIN","RESEND_API_KEY","RESEND_FROM","SENTRY_DSN","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL"]],["Módulos de _shared",["cors.ts","cron.ts","email.ts","fecha.ts","perfil.ts","requisitos.ts","response.ts","secreto.ts","sentry.ts","supabase.ts","telegram.ts"]]]},"edge:siigo-sondeo":{"nombre":"siigo-sondeo","detalle":[["verify_jwt",["false"]],["Llamada desde el front",["—"]],["Cron",["—"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["npm","Sentry","Siigo"]],["Buckets",["—"]],["Secretos que lee",["FRONTEND_ORIGIN","SENTRY_DSN","SIIGO_ACCESS_KEY","SIIGO_PARTNER_ID","SIIGO_USER","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL"]],["Módulos de _shared",["cors.ts","hash.ts","perfil.ts","response.ts","secreto.ts","sentry.ts","siigo.ts","supabase.ts"]]]},"edge:sonda":{"nombre":"sonda","detalle":[["verify_jwt",["false"]],["Llamada desde el front",["—"]],["Cron",["sonda-servicio · cada hora, minuto 7,37"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["API de Cloudflare","Google Drive","Gmail SMTP","npm","Resend","Sentry","Siigo","Telegram"]],["Buckets",["—"]],["Secretos que lee",["CLOUDFLARE_ACCOUNT_ID","CLOUDFLARE_API_TOKEN","CLOUDFLARE_PAGES_PROYECTO","DRIVE_ROOT_FOLDER_ID","DRIVE_SHARED_DRIVE_ID","FRONTEND_ORIGIN","GMAIL_SMTP_CLAVE","GMAIL_SMTP_USUARIO","GOOGLE_SA_EMAIL","GOOGLE_SA_PRIVATE_KEY","RESEND_API_KEY","RESEND_FROM","SENTRY_DSN","SIIGO_ACCESS_KEY","SIIGO_PARTNER_ID","SIIGO_USER","SUPABASE_PUBLISHABLE_KEYS","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL","TELEGRAM_BOT_TOKEN","Telegram_Diversolab_Conecta_Alerta"]],["Módulos de _shared",["cors.ts","cron.ts","drive.ts","email.ts","hash.ts","perfil.ts","response.ts","secreto.ts","sentry.ts","siigo.ts","smtp.ts","supabase.ts","telegram.ts"]]]},"edge:telegram":{"nombre":"telegram","detalle":[["verify_jwt",["false"]],["Llamada desde el front",["—"]],["Cron",["—"]],["Trigger de la BD",["—"]],["Módulos de servicios que importa",["Google Drive","npm","Resend","Sentry","Siigo","Telegram"]],["Buckets",["movimientos-staging"]],["Secretos que lee",["DRIVE_ROOT_FOLDER_ID","DRIVE_SHARED_DRIVE_ID","FRONTEND_ORIGIN","GOOGLE_SA_EMAIL","GOOGLE_SA_PRIVATE_KEY","RESEND_API_KEY","RESEND_FROM","SENTRY_DSN","SIIGO_ACCESS_KEY","SIIGO_PARTNER_ID","SIIGO_USER","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL","TELEGRAM_BOT_TOKEN"]],["Módulos de _shared",["archivo.ts","cors.ts","cuentas_por_pagar.ts","drive.ts","email.ts","fecha.ts","hash.ts","perfil.ts","response.ts","secreto.ts","sentry.ts","siigo.ts","supabase.ts","telegram.ts"]]]},"svc:resend":{"nombre":"Resend","detalle":[["Hosts",["api.resend.com"]],["Lo importan o cargan",["Edge consentimiento-otorgar","Edge financiero","Edge kyc","Edge notificar","Edge recordatorios","Edge sonda","Edge telegram"]]]},"svc:drive":{"nombre":"Google Drive","detalle":[["Hosts",["www.googleapis.com","oauth2.googleapis.com"]],["Lo importan o cargan",["Edge consentimiento-otorgar","Edge expediente","Edge financiero","Edge kyc","Edge sonda","Edge telegram"]]]},"svc:gdocs":{"nombre":"Google Docs","detalle":[["Hosts",["docs.google.com"]],["Lo importan o cargan",["Edge consentimiento-otorgar"]]]},"svc:siigo":{"nombre":"Siigo","detalle":[["Hosts",["api.siigo.com"]],["Lo importan o cargan",["Edge cierre-financiero","Edge reporte-financiero","Edge siigo-sincronizar","Edge siigo-sondeo","Edge sonda","Edge telegram"]]]},"svc:telegram":{"nombre":"Telegram","detalle":[["Hosts",["api.telegram.org"]],["Lo importan o cargan",["Edge alertas","Edge recordatorios","Edge sonda","Edge telegram"]]]},"svc:cloudflare_api":{"nombre":"API de Cloudflare","detalle":[["Hosts",["api.cloudflare.com"]],["Lo importan o cargan",["Edge sonda"]]]},"svc:sentry":{"nombre":"Sentry","detalle":[["Hosts",["— (se detecta por su secreto)"]],["Lo importan o cargan",["Edge alertas","Edge cierre-financiero","Edge consentimiento-otorgar","Edge expediente","Edge financiero","Edge form-enviar","Edge kyc","Edge mantenimiento","Edge mapeo","Edge notificar","Edge recordatorios","Edge reporte-financiero","Edge siigo-sincronizar","Edge siigo-sondeo","Edge sonda","Edge telegram"]]]},"svc:gmail":{"nombre":"Gmail SMTP","detalle":[["Hosts",["— (se detecta por su secreto)"]],["Lo importan o cargan",["Edge sonda"]]]},"svc:npm":{"nombre":"npm","detalle":[["Hosts",["— (los npm: del deno.json de cada Edge)"]],["Lo importan o cargan",["Edge alertas","Edge cierre-financiero","Edge consentimiento-otorgar","Edge expediente","Edge financiero","Edge form-enviar","Edge kyc","Edge mantenimiento","Edge mapeo","Edge notificar","Edge recordatorios","Edge reporte-financiero","Edge siigo-sincronizar","Edge siigo-sondeo","Edge sonda","Edge telegram"]]]},"svc:jsdelivr":{"nombre":"jsDelivr","detalle":[["Hosts",["cdn.jsdelivr.net"]],["Lo importan o cargan",["front (páginas y css)"]]]},"svc:fonts":{"nombre":"Google Fonts","detalle":[["Hosts",["fonts.googleapis.com","fonts.gstatic.com"]],["Lo importan o cargan",["front (páginas y css)"]]]},"embebidos":{"nombre":"Recursos incrustados","detalle":[["Por página (frame-src)",["pages/herramientas.html: docs.google.com, forms.gle, drive.google.com, script.google.com, *.googleusercontent.com, lookerstudio.google.com, app.powerbi.com","pages/registro.html: docs.google.com"]]]}}</script>
+<script>
+(function () {
+  const datos = JSON.parse(document.getElementById('infra-datos').textContent);
+  const svg = document.querySelector('.canvas svg');
+  const panel = document.getElementById('panel');
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  function seleccionar(id) {
+    const vecinos = new Set([id]);
+    svg.querySelectorAll('.edge').forEach((e) => {
+      const toca = e.dataset.a === id || e.dataset.b === id;
+      e.classList.toggle('on', toca);
+      if (toca) { vecinos.add(e.dataset.a); vecinos.add(e.dataset.b); }
+    });
+    svg.querySelectorAll('.node').forEach((n) => {
+      n.classList.toggle('sel', n.dataset.id === id);
+      n.classList.toggle('dim', !vecinos.has(n.dataset.id));
+    });
+    svg.classList.add('focus');
+    const pieza = datos[id];
+    panel.innerHTML = '<h2>' + esc(pieza.nombre) + '</h2>' + pieza.detalle.map(([titulo, lista]) =>
+      '<h3>' + esc(titulo) + '</h3><ul>' + lista.map((l) => '<li>' + esc(l) + '</li>').join('') + '</ul>').join('');
+  }
+  svg.querySelectorAll('.node').forEach((n) => {
+    n.addEventListener('click', (ev) => { ev.stopPropagation(); seleccionar(n.dataset.id); });
+    n.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); seleccionar(n.dataset.id); } });
+  });
+  svg.addEventListener('click', () => {
+    svg.classList.remove('focus');
+    svg.querySelectorAll('.edge.on, .node.sel, .node.dim').forEach((x) => x.classList.remove('on', 'sel', 'dim'));
+  });
+  const inicial = decodeURIComponent(location.hash.slice(1));
+  if (datos[inicial]) seleccionar(inicial);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Academic projects — Carlos Davila</title>
+  <meta name="description" content="ChequeGuardAI · Reconciliation · Fraud Exploration · Sentinel · BeaconIQ">
+  <link rel="canonical" href="https://cardavil.github.io/en/projects/academic/">
+  <link rel="alternate" hreflang="es" href="https://cardavil.github.io/proyectos/academicos/">
+  <link rel="alternate" hreflang="en" href="https://cardavil.github.io/en/projects/academic/">
+  <link rel="alternate" hreflang="x-default" href="https://cardavil.github.io/proyectos/academicos/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Carlos Davila">
+  <meta property="og:title" content="Academic projects — Carlos Davila">
+  <meta property="og:description" content="ChequeGuardAI · Reconciliation · Fraud Exploration · Sentinel · BeaconIQ">
+  <meta property="og:url" content="https://cardavil.github.io/en/projects/academic/">
+  <meta property="og:locale" content="en_CA">
+  <meta property="og:locale:alternate" content="es_CO">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../css/tokens.css">
+  <link rel="stylesheet" href="../../../css/proyectos.css">
+  <link rel="stylesheet" href="../../../css/componentes.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Skip to content</a>
+
+  <!-- encabezado:inicio -->
+  <header class="encabezado">
+    <div class="contenedor encabezado-interior">
+      <a class="marca" href="../../"><span class="marca-sello" aria-hidden="true">CD</span><span class="marca-nombre">Carlos Davila</span></a>
+      <nav class="navegacion" aria-label="Main">
+        <a href="../../">Home</a>
+        <a href="../../cv/">CV</a>
+        <a href="../" aria-current="true">Projects</a>
+      </nav>
+      <a class="idioma" href="../../../proyectos/academicos/" hreflang="es" lang="es">Español</a>
+    </div>
+  </header>
+  <!-- encabezado:fin -->
+
+  <main id="contenido" class="contenedor">
+    <nav class="migas" aria-label="Breadcrumb"><a href="../">Projects</a> / Academic projects</nav>
+    <header class="proyectos-cabecera">
+      <h1>Academic projects</h1>
+    </header>
+
+    <div class="rejilla-2">
+        <article class="tarjeta academico" id="chequeguard">
+          <div>
+            <h2>ChequeGuardAI</h2>
+            <p class="academico-subtitulo">Intelligent Cheque Deposit System</p>
+          </div>
+          <ul class="vinetas">
+        <li>Built a compliance-oriented cheque processing engine aligned with Payments Canada Rules A4/A10: a deterministic decision pipeline covering validation, duplicate detection, fraud scoring, hold calculation and ledger posting, with an 18-case evaluation suite.</li>
+        <li>Added a 3-agent Gemini LLM pipeline that generates explanations for both the customer and the operations team; the LLMs narrate and advise, but never override the compliance rules.</li>
+        <li>Every run is logged to a Google Sheets tab with a trace ID and the details of each step (input, output, duration and outcome).</li>
+        <li>Each outcome is formatted as ISO 20022-structured messages (pacs.002, pacs.004 and camt.054, as applicable), with A4 codes mapped to ISO return reasons; the delivery channel is simulated.</li>
+      </ul>
+          <ul class="etiquetas"><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Gemini API</li><li class="etiqueta">Google Sheets</li></ul>
+          
+        </article>
+        <article class="tarjeta academico" id="conciliacion">
+          <div>
+            <h2>Reconciliation</h2>
+            <p class="academico-subtitulo">Payroll Reconciliation Engine</p>
+          </div>
+          <ul class="vinetas">
+        <li>Built a reconciliation tool for payroll-deducted loan and savings payments: it matches expected against actual amounts by member and product, flags differences, detects changes relative to previous periods and generates Excel reports with audit trails.</li>
+        <li>Runs entirely in the browser through Pyodide (client-side Python/pandas), with no backend, in a single HTML file that works offline, designed for non-technical payroll analysts.</li>
+        <li>Exceptions are resolved in 4 queues, individually or in bulk, and each analyst decision is recorded in the audit trail with a timestamp, the action and the applied value.</li>
+        <li>Reference capacity: about 200,000 total rows with 8 GB of RAM; files are processed locally and never leave the computer.</li>
+      </ul>
+          <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">Pandas</li><li class="etiqueta">Pyodide</li><li class="etiqueta">GitHub Pages</li></ul>
+          
+        </article>
+        <article class="tarjeta academico" id="fraud-exploration">
+          <div>
+            <h2>Fraud Exploration</h2>
+            <p class="academico-subtitulo">Fraud Exploration Board</p>
+          </div>
+          <ul class="vinetas">
+        <li>Built an AML/fraud analytics engine on a risk and compliance dataset with dirty data: an audited cleaning pipeline that feeds a three-tier Isolation Forest anomaly-detection model (transaction, account and customer), able to identify transaction splitting (structuring), unresolved sanctions-list matches and account control failures.</li>
+        <li>Added a 5-agent Gemini pipeline (Compliance Sentinel) that interprets the scores and turns them into a risk verdict and a single action within a fixed six-level ladder. Evidence strength is computed in code and caps the action's severity, so the LLMs advise but never decide.</li>
+        <li>The serving layer is Postgres (Supabase) with row-level security: the public key allows reads only (SELECT) and write privileges are revoked.</li>
+        <li>The account-level model is exported to JSON and recomputed in the browser, without libraries, to verify the served scores.</li>
+      </ul>
+          <ul class="etiquetas"><li class="etiqueta">PostgreSQL</li><li class="etiqueta">Python</li><li class="etiqueta">Power BI</li><li class="etiqueta">ML</li><li class="etiqueta">LLM</li></ul>
+          <div class="acciones"><a class="boton" href="https://fraud-exploration.pages.dev" rel="noopener" target="_blank">View demo ↗</a></div>
+        </article>
+        <article class="tarjeta academico" id="sentinel">
+          <div>
+            <h2>Sentinel</h2>
+            <p class="academico-subtitulo">Card Fraud Detector</p>
+          </div>
+          <ul class="vinetas">
+        <li>Card-fraud detector on the public IEEE-CIS dataset (590,540 transactions × 434 columns, 3.5% fraud): XGBoost with customer-level features fitted on training data only, evaluated with a time-based split and PR-AUC as the headline metric.</li>
+        <li>On validation: PR-AUC 0.589 vs. a 0.547 baseline, precision 0.74 and recall 0.49 at a tuned 0.66 threshold (ROC-AUC 0.90). The ~0.94 commonly seen on Kaggle is deliberately rejected, since much of it comes from customers repeated across train and test; a level with union-find graph features and an ensemble did not improve PR-AUC and was not promoted to production.</li>
+        <li>FastAPI inference service (/predict and /explain, with the top SHAP contributions per transaction) and a Google Apps Script dashboard with Plotly charts and a playground of examples with precomputed SHAP.</li>
+      </ul>
+          <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">XGBoost</li><li class="etiqueta">SHAP</li><li class="etiqueta">FastAPI</li><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Plotly</li></ul>
+          
+        </article>
+        <article class="tarjeta academico" id="beaconiq">
+          <div>
+            <h2>BeaconIQ</h2>
+            <p class="academico-subtitulo">BLE Indoor Positioning System</p>
+          </div>
+          <ul class="vinetas">
+        <li>Developed an Android indoor positioning app based on BLE beacon signals: RSSI-to-distance conversion, Kalman filtering, a trilateration solver and real-time 2D visualization with configurable parameters.</li>
+        <li>Two-phase testing architecture with a GAS backend that records each session's data in Google Sheets for model calibration and analysis.</li>
+        <li>Signalion test lab (own code): a pure-Java positioning core with no Android dependencies, 1D/2D Kalman filters and Levenberg–Marquardt trilateration, covered by 161 automated tests (136 core, 25 app).</li>
+        <li>On-device testing found that on Android 12+, declaring the BLE scan permission with neverForLocation causes the system to silently drop iBeacon advertisements; the app requests precise location on all versions.</li>
+      </ul>
+          <ul class="etiquetas"><li class="etiqueta">Android/Java</li><li class="etiqueta">AltBeacon</li><li class="etiqueta">Google Apps Script (GAS)</li></ul>
+          
+        </article>
+    </div>
+  </main>
+
+  <!-- pie:inicio -->
+  <footer class="pie">
+    <div class="contenedor pie-interior">
+      <span>Carlos Davila</span>
+      <span>HTML, CSS &amp; JavaScript · GitHub Pages</span>
+    </div>
+  </footer>
+  <!-- pie:fin -->
+</body>
+</html>

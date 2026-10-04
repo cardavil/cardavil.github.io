@@ -1,0 +1,28 @@
+/* Impresión del CV (botón «Descargar PDF» → Guardar como PDF). Se enlaza con media="print".
+   Conserva la disposición del PDF original: barra lateral gris pizarra + columna principal. */
+
+@page { size: A4; margin: 12mm; }
+
+html { scroll-behavior: auto; }
+body { background: var(--superficie); font-size: 10pt; }
+
+.saltar, .encabezado, .pie, .acciones { display: none !important; }
+.contenedor { max-width: none; padding: 0; }
+
+.perfil {
+  grid-template-columns: 62mm minmax(0, 1fr);
+  margin: 0; border: 0; border-radius: 0; box-shadow: none; overflow: visible;
+}
+.perfil-lateral {
+  grid-column: 1; grid-row: 1; padding: 8mm 6mm;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.perfil-principal { grid-column: 2; grid-row: 1; padding: 6mm 0 0 8mm; gap: 7mm; }
+.perfil-cabecera h1 { font-size: 26pt; }
+.perfil-titular { font-size: 11pt; }
+.perfil-seccion h2 { font-size: 13pt; }
+.perfil-lateral a, .perfil a { color: inherit; text-decoration: none; }
+
+.cv-cargo { padding: 4mm 0; }
+.vinetas li { break-inside: avoid; }
+.cv-empresa, .cv-grupo { break-after: avoid; }

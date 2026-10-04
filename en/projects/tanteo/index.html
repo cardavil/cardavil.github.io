@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tanteo — Carlos Davila</title>
+  <meta name="description" content="Point of sale and back office for Colombian micro-businesses.">
+  <link rel="canonical" href="https://cardavil.github.io/en/projects/tanteo/">
+  <link rel="alternate" hreflang="es" href="https://cardavil.github.io/proyectos/tanteo/">
+  <link rel="alternate" hreflang="en" href="https://cardavil.github.io/en/projects/tanteo/">
+  <link rel="alternate" hreflang="x-default" href="https://cardavil.github.io/proyectos/tanteo/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Carlos Davila">
+  <meta property="og:title" content="Tanteo — Carlos Davila">
+  <meta property="og:description" content="Point of sale and back office for Colombian micro-businesses.">
+  <meta property="og:url" content="https://cardavil.github.io/en/projects/tanteo/">
+  <meta property="og:locale" content="en_CA">
+  <meta property="og:locale:alternate" content="es_CO">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../css/tokens.css">
+  <link rel="stylesheet" href="../../../css/proyectos.css">
+  <link rel="stylesheet" href="../../../css/componentes.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Skip to content</a>
+
+  <!-- encabezado:inicio -->
+  <header class="encabezado">
+    <div class="contenedor encabezado-interior">
+      <a class="marca" href="../../"><span class="marca-sello" aria-hidden="true">CD</span><span class="marca-nombre">Carlos Davila</span></a>
+      <nav class="navegacion" aria-label="Main">
+        <a href="../../">Home</a>
+        <a href="../../cv/">CV</a>
+        <a href="../" aria-current="true">Projects</a>
+      </nav>
+      <a class="idioma" href="../../../proyectos/tanteo/" hreflang="es" lang="es">Español</a>
+    </div>
+  </header>
+  <!-- encabezado:fin -->
+
+  <main id="contenido" class="contenedor" data-proyecto="tanteo">
+    <nav class="migas" aria-label="Breadcrumb"><a href="../">Projects</a> / Tanteo</nav>
+
+    <header class="tarjeta caso-cabecera" data-proyecto="tanteo">
+      <h1>Tanteo</h1>
+      <p class="caso-lema">Point of sale and back office for Colombian micro-businesses.</p>
+      <p class="caso-resumen">Installable web app (PWA) for businesses not yet required to e-invoice: checkout, cash count, expenses and reports, with tenant isolation enforced in the database.</p>
+      <dl class="caso-ficha">
+        <div><dt>Status</dt><dd>In production · pilot business</dd></div>
+        <div><dt>Period</dt><dd>Aug 2026 – present</dd></div>
+        <div><dt>Role</dt><dd>Independent project: design, development and operations</dd></div>
+      </dl>
+    </header>
+
+    <section class="caso-seccion caso-seccion-ancha" aria-label="By the numbers">
+      <div class="metricas"><div class="metrica"><b>672</b><span>pgTAP assertions in CI</span></div><div class="metrica"><b>39</b><span>tables, all under RLS (52 policies)</span></div><div class="metrica"><b>91</b><span>SECURITY DEFINER functions</span></div><div class="metrica"><b>22</b><span>rules in the single quality gate</span></div><div class="metrica"><b>149</b><span>SQL patches applied to production</span></div><div class="metrica"><b>22</b><span>architecture decision records</span></div></div>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-contexto">
+      <h2 id="titulo-contexto">Context & problem</h2>
+      <p>In Colombia, many micro-businesses (neighborhood stores and small counter businesses) are not required to issue invoices or equivalent documents, and they track sales and cash in a notebook or a spreadsheet. For them, issuing an “invoice” voluntarily has consequences: the tax authority (DIAN) treats anyone who issues one as taking on the full electronic-invoicing regime. So Tanteo issues a “sales receipt” (comprobante de venta), and the word “invoice” (factura) appears nowhere in screens, printouts or code. Data is still stored with DIAN codes (ID type, payment method, municipality) so electronic invoicing can be switched on through a certified provider once a business becomes obligated.</p>
+      <p>A business day comes down to four actions. At the counter, every barcode scan adds one unit, with no extra questions for the cashier. At closing, the cash count tallies bills and coins by denomination and reconciles each money account (cash, digital wallets, bank, card terminal) against sales. Expenses are recorded by reading the QR code on the supplier's electronic invoice (with the 2D scanner, the camera, or a PDF or image), and the QR is parsed on the device without relying on the DIAN portal. The formalization traffic light compares the year's sales against 3,500 UVT, the tax unit DIAN sets each year (yellow above 70%, red above 90%), so the owner sees the obligation coming. The accountant downloads CSVs laid out like Siigo Nube's import templates, and the owner gets the day's close on Telegram.</p>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-rol">
+      <h2 id="titulo-rol">My role & constraints</h2>
+      <ul class="vinetas">
+        <li>Independent project, built solo for friends’ businesses (hence its pilot business): product definition, architecture, database schema and policies, the two web apps, the worker, and operations (deploys, backups and monitoring).</li>
+        <li>AI-assisted development with Claude Code under a written protocol: audit → diagnose → plan → request approval → implement only what was approved → verify. No change may degrade existing behavior; if a plan turns out wrong midway, it is reverted rather than patched on the fly.</li>
+        <li>The AI agent is an actor in the threat model: PreToolUse hooks block commands and files that could print a secret, and any script that writes to production (SQL, deploys, secrets) stops until the owner approves. One gate rule tests those hooks.</li>
+        <li>Constraints: an expected budget of $0/month during the pilot, on free tiers with plan quotas measured; the pilot business is read-only for development work (screens are verified on a synthetic tenant); once deployed, no change to the counter or cash-count screens and flows without explicit approval; and the legal vocabulary rule: receipt, never invoice.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-arquitectura">
+      <h2 id="titulo-arquitectura">Architecture & decisions</h2>
+      <ol class="decisiones">
+        <li><h3>RLS as the tenant boundary</h3><p>One database and one schema: every business table carries the business id and membership-based RLS policies, and an accountant can be a member of several businesses. Security holds in the database even if the app code has bugs; the trade-off is no per-tenant schema, and a new table without RLS is an incident, so the pgTAP suite fails if any table is left without RLS.</p></li>
+        <li><h3>The platform cannot see a real business's data without an invitation</h3><p>The superadmin sits outside memberships and no data policy mentions it: it sees business identity and status, never amounts, customers or sale details. It can only join synthetic test environments as a member (the function rejects a real business), and every action lands in the affected business's audit log. Adding a superadmin exception to the policies was rejected because it would put access to every business behind a single account.</p></li>
+        <li><h3>Key model and revoking the legacy secret</h3><p>After a service key was exposed in local logs, the whole stack moved to Supabase's opaque keys (publishable on the client, secret on the server) and the legacy JWT secret was revoked. Testing showed that disabling the legacy keys was not enough: the leaked JWT still bypassed RLS until its signing key was revoked. The cost was ending sessions issued before the rotation, acceptable during the pilot.</p></li>
+        <li><h3>The canary signs in as the least-privileged role</h3><p>Every 5 minutes during business hours (every 30 overnight), the worker signs in as the cashier of a canary business, sells through the same RPC the counter uses, and rereads the sale with that session. With the secret key the probe would bypass RLS and miss a broken policy; the cashier is the most restricted role and the first to break. The trade-off: cleaning up the test sale does use the secret key, because a cashier cannot delete receipts.</p></li>
+        <li><h3>One install file and manual, scripted deploys</h3><p>Names, addresses and external resources live in a single install file that the apps, the worker, the scripts and the workflows all read; nothing is hard-coded. No workflow deploys: everything ships through repo scripts, with wrangler pinned to an exact version, the Cloudflare account confirmed before any write, and a hook that holds the deploy until the owner approves. The trade-off: Edge Functions cannot read the file, so their values are injected at upload time, and any placeholder left without a value stops the upload.</p></li>
+      </ol>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-resultados">
+      <h2 id="titulo-resultados">Results</h2>
+      <ul class="vinetas">
+        <li>In production: the counter PWA, the public sign-up form, the worker (bot, probes and alerts) and the RLS-protected database. The pilot micro-business has already loaded its real catalog from the Catalog screen; its acceptance test, one full day of operation without the spreadsheet, is still pending.</li>
+        <li>Tenant isolation is tested on every PR: the pgTAP suite (672 assertions) runs in CI against a local Supabase and checks, among other things, that another business's owner sees zero foreign rows and that every table in the schema has RLS enabled.</li>
+        <li>A single 22-rule gate runs on pre-commit (fast mode) and on pre-push and CI (full): lint, type checks, about 370 Vitest cases run under three time zones, build, the format of every commit message, that every RPC the code calls exists in the schema, and that the agent hooks still block.</li>
+        <li>Five GitHub Actions workflows: CI (gate, npm audit failing on high and critical, gitleaks, pgTAP and, after each push to main, a smoke test against what is deployed), a daily AES-256-encrypted backup to R2 kept for 90 days, an hourly watchdog that runs outside Cloudflare and Supabase, the nightly Demo day close, and its daily purge.</li>
+        <li>Continuous monitoring: the canary probe runs every 5 minutes from 06:00 to 22:00 Bogotá time (every 30 overnight) and alerts on Telegram when it fails; the Demo tenant runs every day like a real business, with sales through the cashier path and a cash count every night.</li>
+        <li>Traceable schema changes: 149 SQL patches applied to production, each mirrored in the baseline in the same commit, and 22 ADRs recording the architecture decisions.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-lecciones">
+      <h2 id="titulo-lecciones">Lessons & next steps</h2>
+      <ul class="vinetas">
+        <li>A CI that is always red protects nothing. A step that depended on a secret that was never loaded kept CI red for 20 runs in a row and buried real pgTAP failures in the noise; it was removed, and what it guarded was checked by hand across the whole repository history.</li>
+        <li>A watchdog fed incoherent data only produces noise, and noise teaches people to ignore red. Demo stopped fabricating data through special paths and now runs like a real business, so a red day means the service actually failed that day.</li>
+        <li>Having CI check after the push is not enough: failures reached main and new work piled on top. Now main only accepts PRs with green CI, and pre-push runs the full gate and blocks while main is red; since GitHub does not enforce branch protection on a private personal-account repo, the rule rests on process and versioned hooks.</li>
+        <li>Next, per the roadmap and ADRs: the pilot's acceptance day; a single plan, approved on 2026-10-04, that orders pending work by surface (phases F60 to F67); and later, electronic invoicing through a provider once a business becomes obligated, an opening balance, a count of the general cash box, and customer credit (fiado).</li>
+      </ul>
+    </section>
+
+    <details class="apendice">
+      <summary>For technical reviewers: infrastructure, stack and code</summary>
+      <div class="apendice-contenido">
+        <div class="infra-cabecera">
+          <h2>Infrastructure</h2>
+          <a class="boton" href="../../../archivos/tanteo/infra.en.html" target="_blank" rel="noopener">Open full screen ↗</a>
+        </div>
+        <p class="infra-nota">Interactive diagram generated from the project’s code. Tap a node to see its details and connections.</p>
+        <iframe class="infra-marco" src="../../../archivos/tanteo/infra.en.html" title="Tanteo infrastructure" loading="lazy" sandbox="allow-scripts"></iframe>
+        <h3>Stack</h3>
+        <ul class="etiquetas"><li class="etiqueta">React</li><li class="etiqueta">TypeScript</li><li class="etiqueta">Vite</li><li class="etiqueta">Tailwind CSS</li><li class="etiqueta">PWA + IndexedDB</li><li class="etiqueta">Supabase</li><li class="etiqueta">PostgreSQL + RLS</li><li class="etiqueta">pgTAP</li><li class="etiqueta">Cloudflare Pages</li><li class="etiqueta">Cloudflare Workers</li><li class="etiqueta">Cloudflare R2</li><li class="etiqueta">Vitest</li><li class="etiqueta">Playwright</li><li class="etiqueta">GitHub Actions</li></ul>
+        <p class="apendice-nota">How I build: I define the problem, the requirements, the data model and the controls; I implement with AI coding assistants (Claude Code) under my direction, and every change passes automated tests and my review before release.</p>
+        <p class="apendice-nota">The source code is private because it contains the client’s business rules and data. I can walk through it live: code, tests and deployment.</p>
+      </div>
+    </details>
+
+    <nav class="caso-navegacion" aria-label="Projects">
+      <a class="boton" href="../consentia/">← Previous: Consentia</a>
+      <a class="boton" href="../corex/">Next: Corex →</a>
+    </nav>
+  </main>
+
+  <!-- pie:inicio -->
+  <footer class="pie">
+    <div class="contenedor pie-interior">
+      <span>Carlos Davila</span>
+      <span>HTML, CSS &amp; JavaScript · GitHub Pages</span>
+    </div>
+  </footer>
+  <!-- pie:fin -->
+</body>
+</html>

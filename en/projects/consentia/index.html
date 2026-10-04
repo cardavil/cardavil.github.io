@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Consentia — Carlos Davila</title>
+  <meta name="description" content="Informed consent and e-signatures for small businesses.">
+  <link rel="canonical" href="https://cardavil.github.io/en/projects/consentia/">
+  <link rel="alternate" hreflang="es" href="https://cardavil.github.io/proyectos/consentia/">
+  <link rel="alternate" hreflang="en" href="https://cardavil.github.io/en/projects/consentia/">
+  <link rel="alternate" hreflang="x-default" href="https://cardavil.github.io/proyectos/consentia/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Carlos Davila">
+  <meta property="og:title" content="Consentia — Carlos Davila">
+  <meta property="og:description" content="Informed consent and e-signatures for small businesses.">
+  <meta property="og:url" content="https://cardavil.github.io/en/projects/consentia/">
+  <meta property="og:locale" content="en_CA">
+  <meta property="og:locale:alternate" content="es_CO">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../css/tokens.css">
+  <link rel="stylesheet" href="../../../css/proyectos.css">
+  <link rel="stylesheet" href="../../../css/componentes.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Skip to content</a>
+
+  <!-- encabezado:inicio -->
+  <header class="encabezado">
+    <div class="contenedor encabezado-interior">
+      <a class="marca" href="../../"><span class="marca-sello" aria-hidden="true">CD</span><span class="marca-nombre">Carlos Davila</span></a>
+      <nav class="navegacion" aria-label="Main">
+        <a href="../../">Home</a>
+        <a href="../../cv/">CV</a>
+        <a href="../" aria-current="true">Projects</a>
+      </nav>
+      <a class="idioma" href="../../../proyectos/consentia/" hreflang="es" lang="es">Español</a>
+    </div>
+  </header>
+  <!-- encabezado:fin -->
+
+  <main id="contenido" class="contenedor" data-proyecto="consentia">
+    <nav class="migas" aria-label="Breadcrumb"><a href="../">Projects</a> / Consentia</nav>
+
+    <header class="tarjeta caso-cabecera" data-proyecto="consentia">
+      <h1>Consentia</h1>
+      <p class="caso-lema">Informed consent and e-signatures for small businesses.</p>
+      <p class="caso-resumen">Verifies each signer over two channels, seals the PDF with SHA-256 hashes and keeps the document in the customer's own cloud.</p>
+      <dl class="caso-ficha">
+        <div><dt>Status</dt><dd>In production · pilot clients</dd></div>
+        <div><dt>Period</dt><dd>May 2026 – present</dd></div>
+        <div><dt>Role</dt><dd>Independent project: design, development and operations</dd></div>
+        <div><dt>Website</dt><dd><a href="https://consentia.com.co" rel="noopener" target="_blank">consentia.com.co</a></dd></div>
+      </dl>
+    </header>
+
+    <section class="caso-seccion caso-seccion-ancha" aria-label="By the numbers">
+      <div class="metricas"><div class="metrica"><b>13</b><span>Edge Functions in Deno/TypeScript</span></div><div class="metrica"><b>24/24</b><span>tables with RLS enabled (26 policies)</span></div><div class="metrica"><b>45</b><span>cases in the SQL RLS isolation harness</span></div><div class="metrica"><b>343</b><span>Deno unit tests</span></div><div class="metrica"><b>39</b><span>rules in the repository's own linter</span></div><div class="metrica"><b>37</b><span>recorded architecture decisions (ADRs)</span></div></div>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-contexto">
+      <h2 id="titulo-contexto">Context & problem</h2>
+      <p>In Colombia, a medical practice, a beauty clinic, a tattoo studio, a foundation or a school needs informed consent forms and data-processing authorizations that hold up legally. The product thesis is that there is no standalone consent product: the real alternative is buying a full industry software suite or staying on paper. Buyers want something simple that meets their compliance obligations without changing their software or their cloud.</p>
+      <p>Consentia keeps two modes separate per request, because mixing them blurs the legal nature of each: consent (a PDF with “I have read and accept” clauses that are never pre-checked) and document (a visual editor to place signature, date, initials, checkbox and text fields on a PDF, with up to 7 signers). It is not a document management system: the sealed PDF and the history log stay in the customer's cloud. It is a simple electronic signature under Colombian law (Law 527 of 1999, Decree 2364 of 2012), so its value lies in the evidence: IP taken from the edge, per-channel timestamps, a SHA-256 hash per signer and a global hash printed on every page.</p>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-rol">
+      <h2 id="titulo-rol">My role & constraints</h2>
+      <ul class="vinetas">
+        <li>Independent project, built solo for friends’ businesses (hence its pilot clients): product definition, architecture, database, backend, frontend, deployment and operations.</li>
+        <li>AI-assisted development with Claude Code under a protocol written into the repository: audit, diagnose, plan, get explicit approval, then implement only what was approved. If a plan turns out to be incomplete midway, the work is reverted and re-planned. The protocol is backed by 13 skills and 5 versioned rule files.</li>
+        <li>Design constraints set in writing: never store signers' personal data in the permanent database, never mix consent and signature in the same request, and never operate external services through a CLI; everything goes through MCP or repo scripts with tokens in environment variables, so work never lands on the wrong project.</li>
+        <li>Constrained infrastructure: a static frontend with no framework and no build step, a Supabase backend, frontend releases only by pushing to main, and a design ceiling of 300 customer accounts.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-arquitectura">
+      <h2 id="titulo-arquitectura">Architecture & decisions</h2>
+      <ol class="decisiones">
+        <li><h3>Per-function JWT policy, declared in a single file</h3><p>Of the 13 Edge Functions, 8 turn off the gateway's JWT check because they are called by actors without a session (the signer, the auth hook, cron jobs, public verification and a webhook) and authenticate in code instead: a 256-bit per-signer token plus OTP, a webhook signature or a header secret. Each function's setting lives in config.toml; the deploy script reads it, aborts if it is missing, requires the project identifier to match across two repo files, and checks the value actually applied. The trade-off is that those 8 functions rely entirely on code, not on the gateway, for authentication.</p></li>
+        <li><h3>Documents stay in the customer's own cloud, with the narrowest permission</h3><p>PDFs and the history log (one CSV per year) live in the customer's Drive or OneDrive; the platform does not keep the document. On Google the app moved to the drive.file permission, which only allows access to files the app itself created, so every PDF is uploaded through the UI instead of being picked from an existing folder. That removed the only restricted permission and the annual security assessment (CASA) it required. In exchange, the CSV log is read-modify-write rather than an atomic append, so each write is serialized with a per-customer lock held in the database.</p></li>
+        <li><h3>External watchdog with a read-only secret</h3><p>The monitor that sends every alert is triggered by pg_cron, so if pg_cron dies nothing is left to report it. A GitHub Actions workflow, outside Supabase, checks a heartbeat using its own secret that only allows reads: reusing the monitor's secret would have allowed forcing a real run and moving the alert cursor past events not yet reported. The same heartbeat checks that the platform's email sender is still alive. Trade-off: GitHub's scheduled runs are delayed or dropped under load, so the job runs three times an hour and the alert thresholds were set from the measured gap.</p></li>
+        <li><h3>Signer data is purged at sealing</h3><p>Signers' personal data lives only in a temporary table and is deleted when the document is sealed; the database keeps hashes, record numbers and timestamps. The one exception is bounded: if delivery to the customer's Drive or the copies fail, that data survives only until the request expires (120 hours at most) so delivery can be retried at no charge, and is then purged. The trade-off is that the evidence must be self-contained: the exact inputs to each hash are attached as JSON inside the sealed PDF itself.</p></li>
+        <li><h3>Neutral delivery channels to preserve non-repudiation</h3><p>If the invitation and the code were sent from the customer's own accounts, the customer, who benefits from the signature, could read both and sign on the signer's behalf. So the link is sent from the platform's email account and the one-time code through an SMS aggregator on a platform account; only the copy of the already-signed document goes out from the customer's account. The trade-off is that the platform processes the signer's email and phone transiently: data minimization applies to content, not to delivery.</p></li>
+      </ol>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-resultados">
+      <h2 id="titulo-resultados">Results</h2>
+      <ul class="vinetas">
+        <li>Three-phase MVP implemented and deployed at consentia.com.co: consent, a visual signature editor with reusable templates and up to 7 signers, and two-channel signer verification (email + SMS).</li>
+        <li>Verifiable multi-tenant isolation: all 24 tables in the production schema have RLS enabled (26 policies), and a 45-case SQL harness simulates the anonymous and authenticated roles inside a transaction that is rolled back.</li>
+        <li>The same quality gate runs on pre-commit and in CI: lint, type-check, 343 Deno tests, a custom 39-rule linter and a page check. CI also regenerates the schema from production with a read-only token and fails if the versioned mirror (functions, tables, RLS, grants and cron jobs) has drifted; the pre-push hook repeats that check.</li>
+        <li>Public QR verification without exposing data: the browser computes the PDF's SHA-256 locally and compares it with the record without uploading the file, then extracts the attached JSON files and recomputes each signer hash and the global hash.</li>
+        <li>Automated operations and reporting: 7 pg_cron jobs (request expiry every 15 minutes, code purging, idle-session revocation every 5 minutes, an hourly monitor, a daily evidence archive with no personal data, and expiry of credit lots and orders), alerts by email and Telegram, and an indicators dashboard showing the state of each job.</li>
+        <li>37 architecture decisions recorded with their origin, rejected alternatives and consequences; superseded ones are kept and marked rather than rewritten.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-lecciones">
+      <h2 id="titulo-lecciones">Lessons & next steps</h2>
+      <ul class="vinetas">
+        <li>A deployment path that has never been run is not validated: the one first chosen (sending the files inline through an MCP call) could not fit the largest function, which only surfaced on the first real deploy. It was replaced by a script that reads from disk and turns the written warning into a check that aborts.</li>
+        <li>Measure the infrastructure before setting thresholds: the external watchdog assumed hourly detection, but GitHub's scheduled runs are delayed or dropped under load. The thresholds were set from the measured gap, not the nominal schedule.</li>
+        <li>A check counts only once it has been seen to fail: each new linter rule is tested by seeding the defect in a throwaway clone before it is accepted, and a number is either measured or left out.</li>
+        <li>Next steps stated in the docs: a live end-to-end validation with the field checklist, a staging environment before running with paying customers, and third-party timestamping (RFC 3161 or OpenTimestamps).</li>
+      </ul>
+    </section>
+
+    <details class="apendice">
+      <summary>For technical reviewers: infrastructure, stack and code</summary>
+      <div class="apendice-contenido">
+        <div class="infra-cabecera">
+          <h2>Infrastructure</h2>
+          <a class="boton" href="../../../archivos/consentia/infra.en.html" target="_blank" rel="noopener">Open full screen ↗</a>
+        </div>
+        <p class="infra-nota">Interactive diagram generated from the project’s code. Tap a node to see its details and connections.</p>
+        <iframe class="infra-marco" src="../../../archivos/consentia/infra.en.html" title="Consentia infrastructure" loading="lazy" sandbox="allow-scripts"></iframe>
+        <h3>Stack</h3>
+        <ul class="etiquetas"><li class="etiqueta">Supabase</li><li class="etiqueta">PostgreSQL + RLS</li><li class="etiqueta">pg_cron</li><li class="etiqueta">Deno / TypeScript</li><li class="etiqueta">Cloudflare Workers</li><li class="etiqueta">HTML/CSS/JavaScript</li><li class="etiqueta">pdf-lib</li><li class="etiqueta">Google Drive API</li><li class="etiqueta">Microsoft Graph</li><li class="etiqueta">GitHub Actions</li></ul>
+        <p class="apendice-nota">How I build: I define the problem, the requirements, the data model and the controls; I implement with AI coding assistants (Claude Code) under my direction, and every change passes automated tests and my review before release.</p>
+        <p class="apendice-nota">The source code is private because it contains the client’s business rules and data. I can walk through it live: code, tests and deployment.</p>
+      </div>
+    </details>
+
+    <nav class="caso-navegacion" aria-label="Projects">
+      <a class="boton" href="../">← All projects</a>
+      <a class="boton" href="../tanteo/">Next: Tanteo →</a>
+    </nav>
+  </main>
+
+  <!-- pie:inicio -->
+  <footer class="pie">
+    <div class="contenedor pie-interior">
+      <span>Carlos Davila</span>
+      <span>HTML, CSS &amp; JavaScript · GitHub Pages</span>
+    </div>
+  </footer>
+  <!-- pie:fin -->
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Infraestructura Consentia</title>
+<!-- GENERADO por scripts/infra_map.ts (deno task map:infra). No editar a mano: check:repo lo compara. -->
+<style>
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('fuentes/dm-sans-v17-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('fuentes/dm-sans-v17-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Serif Display';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fuentes/dm-serif-display-v17-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'DM Serif Display';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fuentes/dm-serif-display-v17-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fuentes/ibm-plex-mono-400-v20-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fuentes/ibm-plex-mono-400-v20-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fuentes/ibm-plex-mono-600-v20-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fuentes/ibm-plex-mono-600-v20-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Sans respaldo';
+  src: local('Arial');
+  size-adjust: 104.6%;
+  ascent-override: 94.6%;
+  descent-override: 29.6%;
+}
+@font-face {
+  font-family: 'DM Serif Display respaldo';
+  src: local('Georgia');
+  size-adjust: 100%;
+  ascent-override: 104%;
+  descent-override: 34%;
+}
+@font-face {
+  font-family: 'IBM Plex Mono respaldo';
+  src: local('Courier New');
+  size-adjust: 100%;
+  ascent-override: 103%;
+  descent-override: 28%;
+}
+:root {
+  --gris-azulado: #1E2A3A;
+  --verde-profundo: #0F4C5C;
+  --teal: #00A99D;
+  --azul-grisaceo: #5F7D95;
+  --fondo: #F5F8FC;
+  --white: #ffffff;
+  --gris-oscuro: #1F2937;
+  --gris-claro: #DCE5EE;
+  --gris-tenue: #99A8B8;
+  --teal-soft: #E6F7F5;
+  --teal-dark: #0E8A7D;
+  --teal-accesible: #0B7A6D;
+  --teal-accesible-hover: #0A6B60;
+  --danger: #E74C3C;
+  --danger-soft: #FEF2F2;
+  --danger-dark: #C0392B;
+  --warning-soft: #FEF9E7;
+  --warning-text: #8B6F28;
+  --info-soft: #EBF5FB;
+  --info-text: #2875A8;
+  --azul-grisaceo-texto: #577389;
+  --borde-control: #818D9B;
+  --bg: var(--fondo); --ink: var(--gris-oscuro); --muted: var(--azul-grisaceo); --line: var(--gris-claro);
+  --surface: #ffffff; --accent: var(--teal-dark); --client: var(--azul-grisaceo); --own: var(--verde-profundo);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: var(--gris-azulado); --ink: var(--gris-claro);
+    --muted: color-mix(in srgb, var(--azul-grisaceo) 45%, var(--gris-claro));
+    --line: color-mix(in srgb, var(--azul-grisaceo) 55%, var(--gris-azulado));
+    --surface: color-mix(in srgb, var(--gris-azulado) 92%, white); --accent: var(--teal);
+    --client: color-mix(in srgb, var(--azul-grisaceo) 45%, var(--gris-claro)); --own: var(--gris-claro); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: var(--gris-azulado); --ink: var(--gris-claro);
+  --muted: color-mix(in srgb, var(--azul-grisaceo) 45%, var(--gris-claro));
+  --line: color-mix(in srgb, var(--azul-grisaceo) 55%, var(--gris-azulado));
+  --surface: color-mix(in srgb, var(--gris-azulado) 92%, white); --accent: var(--teal);
+  --client: color-mix(in srgb, var(--azul-grisaceo) 45%, var(--gris-claro)); --own: var(--gris-claro); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'DM Sans', system-ui, sans-serif; }
+header { padding: 28px 16px 8px; max-width: 1560px; margin: 0 auto; }
+h1 { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; font-size: 2rem; margin: 0 0 6px; }
+header p { margin: 0; color: var(--muted); font-size: .9rem; max-width: 760px; }
+code, .mono { font-family: 'IBM Plex Mono', monospace; font-size: .85em; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; max-width: 1560px; margin: 0 auto; padding: 16px; }
+@media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.canvas { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+svg { display: block; min-width: 960px; width: 100%; height: auto; font-family: 'DM Sans', system-ui, sans-serif; }
+.frame rect { fill: none; stroke: var(--line); stroke-width: 1.2; }
+.frame text { fill: var(--muted); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; font-weight: 600; }
+.f-client rect { stroke-dasharray: 5 4; }
+.f-probe rect { stroke-dasharray: 2 4; }
+.node rect { fill: var(--surface); stroke: var(--line); stroke-width: 1.2; }
+.node { cursor: pointer; outline: none; }
+.node .nl { fill: var(--ink); font-size: 13px; font-weight: 600; }
+.node .ns { fill: var(--muted); font-size: 11px; }
+.n-function rect { stroke: var(--accent); }
+.n-consentia rect { stroke: var(--own); stroke-width: 1.6; }
+.n-client rect { stroke: var(--client); stroke-dasharray: 5 3; }
+.node:hover rect, .node:focus rect, .node.sel rect { stroke: var(--accent); stroke-width: 2.4; }
+.edge { fill: none; stroke: var(--muted); stroke-opacity: .45; stroke-width: 1.3; }
+.e-cron, .e-watch { stroke-dasharray: 6 4; }
+.e-db { stroke-dasharray: 2 3; }
+.arrow { fill: var(--muted); }
+svg.focus .edge { stroke-opacity: .08; }
+svg.focus .edge.on { stroke: var(--accent); stroke-opacity: 1; stroke-width: 2; }
+svg.focus .node.dim { opacity: .35; }
+aside { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; align-self: start; position: sticky; top: 16px; }
+aside h2 { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; font-size: 1.3rem; margin: 0 0 10px; word-break: break-word; }
+aside h3 { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 14px 0 4px; }
+aside ul { margin: 0; padding-left: 18px; font-size: .85rem; }
+aside li { margin: 2px 0; word-break: break-word; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: .8rem; color: var(--muted); margin-top: 10px; }
+.legend svg { min-width: 0; width: 36px; height: 10px; display: inline-block; vertical-align: middle; }
+footer { max-width: 1560px; margin: 0 auto; padding: 0 16px 28px; color: var(--muted); font-size: .8rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Infraestructura de Consentia</h1>
+  <p>Generado del código: <code>supabase/config.toml</code>, las puertas de <code>supabase/functions</code>, los <code>cron.schedule</code> de las migraciones, <code>frontend/js</code>, <code>wrangler.toml</code> y <code>.github/workflows</code>. Toca un nodo para ver su detalle y sus conexiones.</p>
+  <div class="legend">
+    <span><svg viewBox="0 0 36 10"><path d="M0,5 H36" class="edge"/></svg> llamada</span>
+    <span><svg viewBox="0 0 36 10"><path d="M0,5 H36" class="edge e-cron"/></svg> cron / vigilante</span>
+    <span><svg viewBox="0 0 36 10"><path d="M0,5 H36" class="edge e-db"/></svg> base de datos</span>
+  </div>
+</header>
+<div class="layout">
+  <div class="canvas">
+<svg viewBox="0 0 1170 968" role="img" aria-label="Diagrama de infraestructura de Consentia">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrow"/></marker></defs>
+<g class="frame f-cf"><rect x="248" y="36" width="224" height="88" rx="10"/><text x="260" y="52">Cloudflare</text></g>
+<g class="frame f-sb"><rect x="242" y="162" width="526" height="776" rx="10"/><text x="254" y="178">Supabase</text></g>
+<g class="frame f-gh"><rect x="8" y="218" width="214" height="140" rx="10"/><text x="20" y="234">GitHub Actions</text></g>
+<g class="frame f-own"><rect x="878" y="36" width="274" height="244" rx="10"/><text x="890" y="52">Cuentas de Consentia</text></g>
+<g class="frame f-client"><rect x="878" y="294" width="274" height="192" rx="10"/><text x="890" y="310">Cuentas del cliente (su OAuth / su token)</text></g>
+<g class="frame f-probe"><rect x="878" y="500" width="274" height="88" rx="10"/><text x="890" y="516">Solo lectura, sin cuenta</text></g>
+<path class="edge e-call" data-a="_shared" data-b="cloud" d="M750,899 C820,899 820,349 890,349" marker-end="url(#arr)"/>
+<path class="edge e-db" data-a="_shared" data-b="db" d="M530,899 C495,899 495,483 460,483" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="_shared" data-b="gmail" d="M750,899 C820,899 820,91 890,91" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="_shared" data-b="telegram" d="M750,899 C820,899 820,195 890,195" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="admin-service" data-b="cloud" d="M750,275 C820,275 820,349 890,349" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="admin-service" data-b="gmail" d="M750,275 C820,275 820,91 890,91" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="admin-service" data-b="status" d="M750,275 C820,275 820,555 890,555" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="auth-email-hook" data-b="gmail" d="M750,327 C820,327 820,91 890,91" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="auth" data-b="auth-email-hook" d="M460,431 C495,431 495,327 530,327" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="browser" data-b="account-service" d="M210,151 C370,151 370,223 530,223" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="browser" data-b="admin-service" d="M210,151 C370,151 370,275 530,275" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="browser" data-b="auth" d="M210,151 C235,151 235,431 260,431" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="browser" data-b="config-service" d="M210,151 C370,151 370,379 530,379" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="browser" data-b="consent-service" d="M210,151 C370,151 370,431 530,431" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="browser" data-b="credits-service" d="M210,151 C370,151 370,483 530,483" marker-end="url(#arr)"/>
+<path class="edge e-db" data-a="browser" data-b="db" d="M210,151 C235,151 235,483 260,483" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="browser" data-b="drive-service" d="M210,151 C370,151 370,535 530,535" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="browser" data-b="otp-service" d="M210,151 C370,151 370,691 530,691" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="browser" data-b="signing-service" d="M210,151 C370,151 370,743 530,743" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="browser" data-b="verify-service" d="M210,151 C370,151 370,847 530,847" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="browser" data-b="worker" d="M210,151 C235,151 235,91 260,91" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="config-service" data-b="whatsapp" d="M750,379 C820,379 820,453 890,453" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="consent-service" data-b="cloud" d="M750,431 C820,431 820,349 890,349" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="credits-service" data-b="gmail" d="M750,483 C820,483 820,91 890,91" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="credits-service" data-b="telegram" d="M750,483 C820,483 820,195 890,195" marker-end="url(#arr)"/>
+<path class="edge e-db" data-a="cron" data-b="db" d="M260,587 C211.68,587 211.68,483 260,483" marker-end="url(#arr)"/>
+<path class="edge e-cron" data-a="cron" data-b="export-evidence" d="M460,587 C495,587 495,587 530,587" marker-end="url(#arr)"/>
+<path class="edge e-cron" data-a="cron" data-b="monitor" d="M460,587 C495,587 495,639 530,639" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="drive-service" data-b="cloud" d="M750,535 C820,535 820,349 890,349" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="drive-service" data-b="gmail" d="M750,535 C820,535 820,91 890,91" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="drive-service" data-b="oauth" d="M750,535 C820,535 820,401 890,401" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="export-evidence" data-b="r2" d="M750,587 C820,587 820,247 890,247" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="monitor" data-b="gmail" d="M750,639 C820,639 820,91 890,91" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="monitor" data-b="telegram" d="M750,639 C820,639 820,195 890,195" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="otp-service" data-b="gmail" d="M750,691 C820,691 820,91 890,91" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="otp-service" data-b="onurix" d="M750,691 C820,691 820,143 890,143" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="otp-service" data-b="whatsapp" d="M750,691 C820,691 820,453 890,453" marker-end="url(#arr)"/>
+<path class="edge e-call" data-a="signing-service" data-b="cloud" d="M750,743 C820,743 820,349 890,349" marker-end="url(#arr)"/>
+<path class="edge e-db" data-a="vault" data-b="cron" d="M260,535 C215.84,535 215.84,587 260,587" marker-end="url(#arr)"/>
+<path class="edge e-db" data-a="wf:ci.yml" data-b="db" d="M210,273 C235,273 235,483 260,483" marker-end="url(#arr)"/>
+<path class="edge e-watch" data-a="wf:monitor-heartbeat.yml" data-b="monitor" d="M210,325 C370,325 370,639 530,639" marker-end="url(#arr)"/>
+<g class="node n-actor" data-id="browser" tabindex="0"><rect x="20" y="130" width="190" height="42" rx="7"/><text class="nl" x="32" y="148">Navegador</text><text class="ns" x="32" y="163">inscrito · firmante · admin · público</text></g>
+<g class="node n-actor" data-id="wf:ci.yml" tabindex="0"><rect x="20" y="252" width="190" height="42" rx="7"/><text class="nl" x="32" y="270">CI</text><text class="ns" x="32" y="285">ci.yml</text></g>
+<g class="node n-actor" data-id="wf:monitor-heartbeat.yml" tabindex="0"><rect x="20" y="304" width="190" height="42" rx="7"/><text class="nl" x="32" y="322">Latido del monitor</text><text class="ns" x="32" y="337">monitor-heartbeat.yml</text></g>
+<g class="node n-cloudflare" data-id="worker" tabindex="0"><rect x="260" y="70" width="200" height="42" rx="7"/><text class="nl" x="272" y="88">Worker consentia</text><text class="ns" x="272" y="103">assets ./frontend</text></g>
+<g class="node n-platform" data-id="auth" tabindex="0"><rect x="260" y="410" width="200" height="42" rx="7"/><text class="nl" x="272" y="428">Supabase Auth</text><text class="ns" x="272" y="443">OTP de acceso del inscrito</text></g>
+<g class="node n-platform" data-id="db" tabindex="0"><rect x="260" y="462" width="200" height="42" rx="7"/><text class="nl" x="272" y="480">PostgreSQL + RLS</text><text class="ns" x="272" y="495">esquema vivo: deno task map:db</text></g>
+<g class="node n-platform" data-id="vault" tabindex="0"><rect x="260" y="514" width="200" height="42" rx="7"/><text class="nl" x="272" y="532">Vault</text><text class="ns" x="272" y="547">4 secretos que lee el cron</text></g>
+<g class="node n-platform" data-id="cron" tabindex="0"><rect x="260" y="566" width="200" height="42" rx="7"/><text class="nl" x="272" y="584">pg_cron</text><text class="ns" x="272" y="599">7 jobs</text></g>
+<g class="node n-function" data-id="account-service" tabindex="0"><rect x="530" y="202" width="220" height="42" rx="7"/><text class="nl" x="542" y="220">account-service</text><text class="ns" x="542" y="235">JWT</text></g>
+<g class="node n-function" data-id="admin-service" tabindex="0"><rect x="530" y="254" width="220" height="42" rx="7"/><text class="nl" x="542" y="272">admin-service</text><text class="ns" x="542" y="287">JWT</text></g>
+<g class="node n-function" data-id="auth-email-hook" tabindex="0"><rect x="530" y="306" width="220" height="42" rx="7"/><text class="nl" x="542" y="324">auth-email-hook</text><text class="ns" x="542" y="339">sin JWT</text></g>
+<g class="node n-function" data-id="config-service" tabindex="0"><rect x="530" y="358" width="220" height="42" rx="7"/><text class="nl" x="542" y="376">config-service</text><text class="ns" x="542" y="391">JWT</text></g>
+<g class="node n-function" data-id="consent-service" tabindex="0"><rect x="530" y="410" width="220" height="42" rx="7"/><text class="nl" x="542" y="428">consent-service</text><text class="ns" x="542" y="443">sin JWT</text></g>
+<g class="node n-function" data-id="credits-service" tabindex="0"><rect x="530" y="462" width="220" height="42" rx="7"/><text class="nl" x="542" y="480">credits-service</text><text class="ns" x="542" y="495">JWT</text></g>
+<g class="node n-function" data-id="drive-service" tabindex="0"><rect x="530" y="514" width="220" height="42" rx="7"/><text class="nl" x="542" y="532">drive-service</text><text class="ns" x="542" y="547">JWT</text></g>
+<g class="node n-function" data-id="export-evidence" tabindex="0"><rect x="530" y="566" width="220" height="42" rx="7"/><text class="nl" x="542" y="584">export-evidence</text><text class="ns" x="542" y="599">sin JWT</text></g>
+<g class="node n-function" data-id="monitor" tabindex="0"><rect x="530" y="618" width="220" height="42" rx="7"/><text class="nl" x="542" y="636">monitor</text><text class="ns" x="542" y="651">sin JWT</text></g>
+<g class="node n-function" data-id="otp-service" tabindex="0"><rect x="530" y="670" width="220" height="42" rx="7"/><text class="nl" x="542" y="688">otp-service</text><text class="ns" x="542" y="703">sin JWT</text></g>
+<g class="node n-function" data-id="signing-service" tabindex="0"><rect x="530" y="722" width="220" height="42" rx="7"/><text class="nl" x="542" y="740">signing-service</text><text class="ns" x="542" y="755">sin JWT</text></g>
+<g class="node n-function" data-id="telegram-bot" tabindex="0"><rect x="530" y="774" width="220" height="42" rx="7"/><text class="nl" x="542" y="792">telegram-bot</text><text class="ns" x="542" y="807">sin JWT</text></g>
+<g class="node n-function" data-id="verify-service" tabindex="0"><rect x="530" y="826" width="220" height="42" rx="7"/><text class="nl" x="542" y="844">verify-service</text><text class="ns" x="542" y="859">sin JWT</text></g>
+<g class="node n-function" data-id="_shared" tabindex="0"><rect x="530" y="878" width="220" height="42" rx="7"/><text class="nl" x="542" y="896">_shared</text><text class="ns" x="542" y="911">kernel mode-blind</text></g>
+<g class="node n-consentia" data-id="gmail" tabindex="0"><rect x="890" y="70" width="250" height="42" rx="7"/><text class="nl" x="902" y="88">Gmail de Consentia</text><text class="ns" x="902" y="103">invitaciones, Auth, alertas</text></g>
+<g class="node n-consentia" data-id="onurix" tabindex="0"><rect x="890" y="122" width="250" height="42" rx="7"/><text class="nl" x="902" y="140">Onurix</text><text class="ns" x="902" y="155">OTP por SMS</text></g>
+<g class="node n-consentia" data-id="telegram" tabindex="0"><rect x="890" y="174" width="250" height="42" rx="7"/><text class="nl" x="902" y="192">Telegram</text><text class="ns" x="902" y="207">alertas al operador</text></g>
+<g class="node n-consentia" data-id="r2" tabindex="0"><rect x="890" y="226" width="250" height="42" rx="7"/><text class="nl" x="902" y="244">Cloudflare R2</text><text class="ns" x="902" y="259">archivo de evidencia</text></g>
+<g class="node n-client" data-id="cloud" tabindex="0"><rect x="890" y="328" width="250" height="42" rx="7"/><text class="nl" x="902" y="346">Nube del cliente</text><text class="ns" x="902" y="361">Drive / OneDrive + copia firmada</text></g>
+<g class="node n-client" data-id="oauth" tabindex="0"><rect x="890" y="380" width="250" height="42" rx="7"/><text class="nl" x="902" y="398">OAuth del cliente</text><text class="ns" x="902" y="413">Google / Microsoft</text></g>
+<g class="node n-client" data-id="whatsapp" tabindex="0"><rect x="890" y="432" width="250" height="42" rx="7"/><text class="nl" x="902" y="450">WhatsApp del cliente</text><text class="ns" x="902" y="465">Business API (oculto en UI)</text></g>
+<g class="node n-probe" data-id="status" tabindex="0"><rect x="890" y="534" width="250" height="42" rx="7"/><text class="nl" x="902" y="552">Páginas de estado</text><text class="ns" x="902" y="567">sondas de solo lectura</text></g>
+</svg>
+  </div>
+  <aside id="panel"><h2>Detalle</h2><p class="mono">30 nodos · 41 conexiones</p></aside>
+</div>
+<footer>Regenerar: <code>deno task map:infra</code>. El candado <code>infra-map</code> de <code>check:repo</code> falla si este archivo no coincide con el código.</footer>
+<script type="application/json" id="infra-data">{"browser":{"label":"Navegador","detail":[["Llamadas con nombre variable",["dashboard.js service — reenvío: consent-service o signing-service según el modo de la sesión","dashboard.js _signer_being_edited.service — editar y reenviar: consent-service o signing-service según el modo"]],["Lee tablas (RLS)",["admin-analysts.js","admin-audit.js","admin-catalogs.js","admin-guard.js","admin-sessions.js","admin-tenants.js","app-header.js","consentimiento-solicitar.js","dashboard.js","documento-solicitar.js","perfil.js","plantilla-consentimiento-editor.js","plantilla-firma-editor.js","plantillas-consentimiento.js","plantillas-firma.js","supabase-client.js","utils.js"]],["Usa Supabase Auth",["admin-guard.js","login.js","perfil.js","registro.js","supabase-client.js"]]]},"wf:ci.yml":{"label":"CI","detail":[["Archivo",[".github/workflows/ci.yml"]],["Golpea",["ninguna función (no despliega)"]],["Lee",["BD de producción, solo lectura (001–003 contra prod)"]]]},"wf:monitor-heartbeat.yml":{"label":"Latido del monitor","detail":[["Archivo",[".github/workflows/monitor-heartbeat.yml"]],["Horario (UTC)",["13,33,53 * * * *"]],["Golpea",["functions/v1/monitor"]]]},"worker":{"label":"Worker consentia","detail":[["Fuente",["wrangler.toml","frontend/_headers (CSP y cabeceras)"]],["Se publica",["push a main (integración git de Cloudflare)"]]]},"auth":{"label":"Supabase Auth","detail":[["Lo usan",["admin-guard.js","login.js","perfil.js","registro.js","supabase-client.js"]],["Correos",["salen por auth-email-hook (Send Email Hook)"]]]},"db":{"label":"PostgreSQL + RLS","detail":[["Desde funciones",["service_role vía _shared/supabase.ts"]],["Desde el navegador",["admin-analysts.js","admin-audit.js","admin-catalogs.js","admin-guard.js","admin-sessions.js","admin-tenants.js","app-header.js","consentimiento-solicitar.js","dashboard.js","documento-solicitar.js","perfil.js","plantilla-consentimiento-editor.js","plantilla-firma-editor.js","plantillas-consentimiento.js","plantillas-firma.js","supabase-client.js","utils.js"]]]},"vault":{"label":"Vault","detail":[["Secretos",["evidence_export_secret","evidence_export_url","monitor_secret","monitor_url"]]]},"cron":{"label":"pg_cron","detail":[["Jobs",["consentia_cleanup_otps · 0 * * * * · SQL purge_expired_otps_and_oauth_states() (001_functions.sql)","consentia_evidence_export · 30 6 * * * · export-evidence (001_functions.sql)","consentia_expire_credit_lots · 0 * * * * · SQL expire_credit_lots() (001_functions.sql)","consentia_expire_credit_orders · 0 * * * * · SQL expire_credit_orders() (001_functions.sql)","consentia_expire_sessions · */15 * * * * · SQL expire_sessions() (001_functions.sql)","consentia_monitor · 0 * * * * · monitor (001_functions.sql)","consentia_revoke_idle_access · */5 * * * * · SQL revoke_idle_access() (001_functions.sql)"]]]},"account-service":{"label":"account-service","detail":[["verify_jwt",["true"]],["Llamada desde el frontend",["app-header.js","perfil.js"]],["Secretos en su carpeta",["—"]],["Externos que llama",["—"]]]},"admin-service":{"label":"admin-service","detail":[["verify_jwt",["true"]],["Llamada desde el frontend",["admin-analysts.js","admin-dashboard.js","admin-finance.js","admin-sessions.js","admin-tenants.js"]],["Secretos en su carpeta",["CONSENTIA_EMAIL","ONURIX_CLIENT","ONURIX_KEY","TELEGRAM_SUPPORT_BOT_TOKEN","TELEGRAM_SUPPORT_OPS_CHAT_ID"]],["Externos que llama",["cloud ← admin-service/cloud_audit.ts","gmail ← admin-service/finance.ts"]]]},"auth-email-hook":{"label":"auth-email-hook","detail":[["verify_jwt",["false"]],["Llamada desde el frontend",["—"]],["Secretos en su carpeta",["SEND_EMAIL_HOOK_SECRET"]],["Externos que llama",["gmail ← auth-email-hook/send.ts"]],["Fuera del repo",["Lo invoca Supabase Auth como Send Email Hook. El hook se activa en el dashboard de Supabase: no está en config.toml ni en las migraciones."]]]},"config-service":{"label":"config-service","detail":[["verify_jwt",["true"]],["Llamada desde el frontend",["onboarding.js"]],["Secretos en su carpeta",["—"]],["Externos que llama",["whatsapp ← config-service/config.ts"]]]},"consent-service":{"label":"consent-service","detail":[["verify_jwt",["false"]],["Llamada desde el frontend",["consent.js","consentimiento-solicitar.js"]],["Secretos en su carpeta",["—"]],["Externos que llama",["cloud ← consent-service/get_document.ts"]]]},"credits-service":{"label":"credits-service","detail":[["verify_jwt",["true"]],["Llamada desde el frontend",["configuracion.js"]],["Secretos en su carpeta",["CONSENTIA_EMAIL"]],["Externos que llama",["gmail ← credits-service/orders.ts","telegram ← credits-service/orders.ts"]]]},"drive-service":{"label":"drive-service","detail":[["verify_jwt",["true"]],["Llamada desde el frontend",["cloud-connection.js","dashboard.js","plantilla-consentimiento-editor.js","plantilla-firma-editor.js","plantillas-consentimiento.js","plantillas-firma.js","supabase-client.js"]],["Secretos en su carpeta",["CONSENTIA_EMAIL","ENCRYPTION_KEY","GOOGLE_CLIENT_ID","GOOGLE_CLIENT_SECRET","MS_CLIENT_ID","MS_CLIENT_SECRET"]],["Externos que llama",["cloud ← drive-service/diagnose.ts","cloud ← drive-service/files.ts","cloud ← drive-service/history.ts","gmail ← drive-service/diagnose.ts","oauth ← drive-service/oauth.ts"]]]},"export-evidence":{"label":"export-evidence","detail":[["verify_jwt",["false"]],["Llamada desde el frontend",["—"]],["Secretos en su carpeta",["CONSENTIA_R2_ACCESS_KEY","CONSENTIA_R2_BUCKET","CONSENTIA_R2_ENDPOINT","CONSENTIA_R2_SECRET_KEY","EXPORT_SECRET"]],["Externos que llama",["r2 ← export-evidence/index.ts"]],["Cron",["consentia_evidence_export · 30 6 * * *"]]]},"monitor":{"label":"monitor","detail":[["verify_jwt",["false"]],["Llamada desde el frontend",["—"]],["Secretos en su carpeta",["CONSENTIA_EMAIL","CONSENTIA_GMAIL_REFRESH_TOKEN","MONITOR_SECRET","PROBE_SECRET","SUPABASE_URL","TELEGRAM_SUPPORT_BOT_TOKEN","TELEGRAM_SUPPORT_OPS_CHAT_ID","TELEGRAM_SUPPORT_WEBHOOK_SECRET"]],["Externos que llama",["gmail ← monitor/index.ts","telegram ← monitor/index.ts"]],["Cron",["consentia_monitor · 0 * * * *"]],["Vigilado por",["monitor-heartbeat.yml"]]]},"otp-service":{"label":"otp-service","detail":[["verify_jwt",["false"]],["Llamada desde el frontend",["consent.js","firmar.js"]],["Secretos en su carpeta",["—"]],["Externos que llama",["gmail ← otp-service/register.ts","onurix ← otp-service/send.ts","whatsapp ← otp-service/send.ts"]]]},"signing-service":{"label":"signing-service","detail":[["verify_jwt",["false"]],["Llamada desde el frontend",["documento-solicitar.js","firmar.js","plantilla-firma-editor.js"]],["Secretos en su carpeta",["ONURIX_KEY"]],["Externos que llama",["cloud ← signing-service/get_document.ts"]]]},"telegram-bot":{"label":"telegram-bot","detail":[["verify_jwt",["false"]],["Llamada desde el frontend",["—"]],["Secretos en su carpeta",["TELEGRAM_SUPPORT_OPS_CHAT_ID","TELEGRAM_SUPPORT_WEBHOOK_SECRET"]],["Externos que llama",["—"]]]},"verify-service":{"label":"verify-service","detail":[["verify_jwt",["false"]],["Llamada desde el frontend",["verificar.js"]],["Secretos en su carpeta",["—"]],["Externos que llama",["—"]]]},"_shared":{"label":"_shared","detail":[["Secretos que lee",["CONSENTIA_EMAIL","CONSENTIA_GMAIL_REFRESH_TOKEN","FRONTEND_ORIGIN","ONURIX_CLIENT","ONURIX_KEY","OTP_HASH_KEY","SB_SECRET_KEY","SUPABASE_SERVICE_ROLE_KEY","SUPABASE_URL","TELEGRAM_SUPPORT_BOT_TOKEN","TELEGRAM_SUPPORT_OPS_CHAT_ID","WHATSAPP_OTP_LANG","WHATSAPP_OTP_TEMPLATE"]],["Externos que llama",["cloud ← _shared/sign_pipeline.ts","gmail ← _shared/alerts.ts","gmail ← _shared/cloud_outage.ts","gmail ← _shared/invite_resend.ts","gmail ← _shared/session.ts","gmail ← _shared/sign_pipeline.ts","telegram ← _shared/alerts.ts"]]]},"gmail":{"label":"Gmail de Consentia","detail":[["Puerta",["_shared/channels/email.ts"]],["Secretos",["CONSENTIA_EMAIL","CONSENTIA_GMAIL_REFRESH_TOKEN"]],["Llamado desde",["_shared/alerts.ts","_shared/cloud_outage.ts","_shared/invite_resend.ts","_shared/session.ts","_shared/sign_pipeline.ts","admin-service/finance.ts","auth-email-hook/send.ts","credits-service/orders.ts","drive-service/diagnose.ts","monitor/index.ts","otp-service/register.ts"]]]},"onurix":{"label":"Onurix","detail":[["Puerta",["_shared/channels/sms.ts"]],["Hosts",["www.onurix.com"]],["Secretos",["ONURIX_CLIENT","ONURIX_KEY"]],["Llamado desde",["otp-service/send.ts"]]]},"telegram":{"label":"Telegram","detail":[["Puerta",["_shared/channels/telegram.ts"]],["Hosts",["api.telegram.org"]],["Secretos",["TELEGRAM_SUPPORT_BOT_TOKEN","TELEGRAM_SUPPORT_OPS_CHAT_ID"]],["Llamado desde",["_shared/alerts.ts","credits-service/orders.ts","monitor/index.ts"]]]},"r2":{"label":"Cloudflare R2","detail":[["Puerta",["export-evidence/index.ts (S3 firmado)"]],["Llamado desde",["export-evidence/index.ts"]]]},"cloud":{"label":"Nube del cliente","detail":[["Puerta",["drive-service/connection.ts"]],["Hosts",["accounts.google.com","drive.google.com","gmail.googleapis.com","graph.microsoft.com","login.microsoftonline.com","oauth2.googleapis.com","www.googleapis.com"]],["Secretos",["ENCRYPTION_KEY"]],["Llamado desde",["_shared/sign_pipeline.ts","admin-service/cloud_audit.ts","consent-service/get_document.ts","drive-service/diagnose.ts","drive-service/files.ts","drive-service/history.ts","signing-service/get_document.ts"]]]},"oauth":{"label":"OAuth del cliente","detail":[["Puerta",["drive-service/connection.ts"]],["Secretos",["ENCRYPTION_KEY"]],["Llamado desde",["drive-service/oauth.ts"]]]},"whatsapp":{"label":"WhatsApp del cliente","detail":[["Puerta",["_shared/channels/whatsapp.ts"]],["Hosts",["graph.facebook.com"]],["Secretos",["WHATSAPP_OTP_LANG","WHATSAPP_OTP_TEMPLATE"]],["Llamado desde",["config-service/config.ts","otp-service/send.ts"]]]},"status":{"label":"Páginas de estado","detail":[["Módulo",["admin-service/status.ts"]],["Hosts",["api.telegram.org","graph.facebook.com","login.microsoftonline.com","new.cloudflarestatus.com","status.supabase.com","www.cloudflarestatus.com","www.githubstatus.com","www.google.com","www.onurix.com"]]]}}</script>
+<script>
+(function () {
+  const data = JSON.parse(document.getElementById('infra-data').textContent);
+  const svg = document.querySelector('.canvas svg');
+  const panel = document.getElementById('panel');
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  function select(id) {
+    const on = new Set([id]);
+    svg.querySelectorAll('.edge').forEach((e) => {
+      const hit = e.dataset.a === id || e.dataset.b === id;
+      e.classList.toggle('on', hit);
+      if (hit) { on.add(e.dataset.a); on.add(e.dataset.b); }
+    });
+    svg.querySelectorAll('.node').forEach((n) => {
+      n.classList.toggle('sel', n.dataset.id === id);
+      n.classList.toggle('dim', !on.has(n.dataset.id));
+    });
+    svg.classList.add('focus');
+    const d = data[id];
+    panel.innerHTML = '<h2>' + esc(d.label) + '</h2>' + d.detail.map(([h, items]) =>
+      '<h3>' + esc(h) + '</h3><ul>' + items.map((i) => '<li>' + esc(i) + '</li>').join('') + '</ul>').join('');
+  }
+  svg.querySelectorAll('.node').forEach((n) => {
+    n.addEventListener('click', (ev) => { ev.stopPropagation(); select(n.dataset.id); });
+    n.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); select(n.dataset.id); } });
+  });
+  svg.addEventListener('click', () => {
+    svg.classList.remove('focus');
+    svg.querySelectorAll('.edge.on, .node.sel, .node.dim').forEach((x) => x.classList.remove('on', 'sel', 'dim'));
+  });
+})();
+</script>
+</body>
+</html>

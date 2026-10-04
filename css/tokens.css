@@ -1,0 +1,98 @@
+/* Tokens del sitio: fuentes, color, tipografía, espaciado, radios y sombras.
+   Las paletas de marca de cada proyecto viven en proyectos.css.
+   Fuentes servidas desde el propio sitio (assets/fuentes/, licencias OFL junto a cada archivo): la CSP solo
+   permite 'self'. El navegador baja cada archivo solo si la página usa letras de su unicode-range. */
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../assets/fuentes/inter-latin-ext-wght.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../assets/fuentes/inter-latin-wght.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../assets/fuentes/jetbrains-mono-latin-wght.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* Color */
+  --fondo: #f6f7f9;
+  --superficie: #ffffff;
+  --superficie-2: #eff2f5;
+  --texto: #17212b;
+  --texto-suave: #586472;   /* 5.9:1 sobre --superficie */
+  --texto-tenue: #6b7682;   /* 4.7:1 sobre --superficie: metadatos */
+  --borde: #e1e5ea;
+  --borde-control: #8a95a1;
+  --acento: #0f766e;        /* 5.5:1 sobre --superficie: enlaces y foco */
+  --acento-fuerte: #0b5f58;
+  --acento-suave: #e3f3f1;
+  --sobre-acento: #ffffff;
+  --marca: #2c3e4a;         /* el gris pizarra de la barra lateral del CV en PDF */
+  --sobre-marca: #ffffff;
+  --sobre-marca-suave: #c5d2db; /* 7.2:1 sobre --marca: títulos y datos secundarios de la barra lateral */
+  --aviso-fondo: #fff4e0;
+  --aviso-texto: #7a5000;
+  --sombra: 0 1px 2px rgba(16, 24, 32, .05), 0 4px 16px rgba(16, 24, 32, .05);
+
+  /* Código (visor de infraestructura) */
+  --codigo-fondo: #f7f8fa;
+  --codigo-texto: #1f2328;
+  --codigo-margen: #8c959f;
+  --codigo-resaltado: #fff8c5;
+
+  /* Tipografía */
+  --fuente: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --fuente-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --texto-xs: 0.75rem;    /* 12px: antetítulos, etiquetas */
+  --texto-sm: 0.875rem;   /* 14px: metadatos, botones, navegación */
+  --texto-base: 1rem;     /* 16px */
+  --texto-lg: 1.0625rem;  /* 17px: párrafos destacados */
+  --texto-xl: 1.25rem;    /* 20px: titulares */
+  --texto-titulo: clamp(1.5rem, 3.2vw, 2rem);    /* h2 de sección */
+  --texto-portada: clamp(2.5rem, 7vw, 4.25rem);  /* h1 de portada */
+
+  /* Espaciado */
+  --espacio-1: 4px;
+  --espacio-2: 8px;
+  --espacio-3: 12px;
+  --espacio-4: 16px;
+  --espacio-5: 24px;
+  --espacio-6: 32px;
+  --espacio-7: 48px;
+  --espacio-8: 72px;
+
+  /* Forma */
+  --radio: 12px;
+  --radio-sm: 8px;
+  --radio-xs: 6px;
+  --radio-pildora: 999px;
+  --ancho: 1120px;
+  --ancho-texto: 760px;
+
+  /* Paleta de proyecto por defecto: la usan las tarjetas sin marca propia.
+     proyectos.css la sobrescribe dentro de cada [data-proyecto]. */
+  --p-acento: var(--acento);
+  --p-acento-texto: var(--acento);
+  --p-suave: var(--acento-suave);
+  --p-boton: var(--acento);
+  --p-boton-texto: var(--sobre-acento);
+  --p-boton-hover: var(--acento-fuerte);
+  --p-firma: var(--acento);
+
+  color-scheme: light;
+}

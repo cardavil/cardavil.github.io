@@ -1,0 +1,17 @@
+# Local y secretos
+.env
+.env.*
+.claude/settings.local.json
+
+# Privado: contexto, material de trabajo y documentos fuente (nunca se publican)
+/CLAUDE.md
+/trabajo/
+/capturas/
+# Archivos de referencia pegados por el usuario (CV de LinkedIn y CV en español): solo consulta local
+/Profile.pdf
+/CarlosDavila_CV_COP_SP_Diversolab.pdf
+/*.pdf
+/*.docx
+
+# Herramientas
+node_modules/

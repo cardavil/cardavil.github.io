@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Corex — Carlos Davila</title>
+  <meta name="description" content="Plataforma para entrenadores: antropometría ISAK, rutinas, planes nutricionales e informes.">
+  <link rel="canonical" href="https://cardavil.github.io/proyectos/corex/">
+  <link rel="alternate" hreflang="es" href="https://cardavil.github.io/proyectos/corex/">
+  <link rel="alternate" hreflang="en" href="https://cardavil.github.io/en/projects/corex/">
+  <link rel="alternate" hreflang="x-default" href="https://cardavil.github.io/proyectos/corex/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Carlos Davila">
+  <meta property="og:title" content="Corex — Carlos Davila">
+  <meta property="og:description" content="Plataforma para entrenadores: antropometría ISAK, rutinas, planes nutricionales e informes.">
+  <meta property="og:url" content="https://cardavil.github.io/proyectos/corex/">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:locale:alternate" content="en_CA">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../css/tokens.css">
+  <link rel="stylesheet" href="../../css/proyectos.css">
+  <link rel="stylesheet" href="../../css/componentes.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- encabezado:inicio -->
+  <header class="encabezado">
+    <div class="contenedor encabezado-interior">
+      <a class="marca" href="../../"><span class="marca-sello" aria-hidden="true">CD</span><span class="marca-nombre">Carlos Davila</span></a>
+      <nav class="navegacion" aria-label="Principal">
+        <a href="../../">Inicio</a>
+        <a href="../../cv/">CV</a>
+        <a href="../" aria-current="true">Proyectos</a>
+      </nav>
+      <a class="idioma" href="../../en/projects/corex/" hreflang="en" lang="en">English</a>
+    </div>
+  </header>
+  <!-- encabezado:fin -->
+
+  <main id="contenido" class="contenedor" data-proyecto="corex">
+    <nav class="migas" aria-label="Ruta"><a href="../">Proyectos</a> / Corex</nav>
+
+    <header class="tarjeta caso-cabecera" data-proyecto="corex">
+      <h1>Corex</h1>
+      <p class="caso-lema">Plataforma para entrenadores: antropometría ISAK, rutinas, planes nutricionales e informes.</p>
+      <p class="caso-resumen">Aplicación web con 4 roles (administrador, entrenador, analista y usuario) que migró de un prototipo en Google Apps Script a Next.js y Supabase.</p>
+      <dl class="caso-ficha">
+        <div><dt>Estado</dt><dd>En producción · en uso</dd></div>
+        <div><dt>Periodo</dt><dd>Abr 2026 – presente</dd></div>
+        <div><dt>Rol</dt><dd>Proyecto independiente: diseño, desarrollo y operación</dd></div>
+      </dl>
+    </header>
+
+    <section class="caso-seccion caso-seccion-ancha" aria-label="En cifras">
+      <div class="metricas"><div class="metrica"><b>25</b><span>tablas en PostgreSQL</span></div><div class="metrica"><b>72</b><span>políticas RLS</span></div><div class="metrica"><b>490</b><span>tests automatizados</span></div><div class="metrica"><b>19</b><span>reglas en el gate del repo</span></div><div class="metrica"><b>11</b><span>dimensiones en la auditoría repetible</span></div><div class="metrica"><b>~35k</b><span>líneas de TypeScript en la app web</span></div></div>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-contexto">
+      <h2 id="titulo-contexto">Contexto y problema</h2>
+      <p>Corex es una plataforma web para profesionales de la salud y hoy sirve a entrenadores. Incluye un asistente de 4 pasos para evaluaciones antropométricas ISAK (composición corporal, somatotipo Heath-Carter, Z-scores Phantom, gráficas y comparación entre evaluaciones), rutinas organizadas de lunes a domingo con catálogo de ejercicios y planes nutricionales con TMB, TDEE y macros por día. Cuatro roles (admin, entrenador, analista y usuario) comparten la plataforma; una persona puede tener varios y cambiar entre ellos.</p>
+      <p>Nació como prototipo en Google Apps Script y se migró a Next.js 14 + Supabase. Maneja datos personales y de salud, por eso el control de acceso vive en PostgreSQL (RLS) y no solo en la interfaz. Está en producción y en uso.</p>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-rol">
+      <h2 id="titulo-rol">Mi rol y restricciones</h2>
+      <ul class="vinetas">
+        <li>Proyecto independiente, construido en solitario para negocios de amigos: producto, código, base de datos, despliegue y operación (CI y respaldos).</li>
+        <li>Desarrollo asistido por IA con Claude Code bajo un protocolo escrito y obligatorio para todo cambio, sin importar su tamaño: auditar → diagnosticar → planear → pedir autorización → implementar solo lo aprobado. Si un plan falla a mitad de camino, se revierte y se escribe otro.</li>
+        <li>Cada plan se ensaya completo en un clon desechable y se mide (gate, lint, typecheck, tests y build) contra main; si algún número empeora, el cambio se cancela.</li>
+        <li>Restricciones de operación: planes gratuitos (Supabase Free no hace respaldos, por eso existe un workflow propio), secretos que nunca se imprimen (solo se comprueba su existencia o su largo) y nunca datos reales de usuarios como ejemplo.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-arquitectura">
+      <h2 id="titulo-arquitectura">Arquitectura y decisiones</h2>
+      <ol class="decisiones">
+        <li><h3>Rol activo en un claim del JWT que el usuario no puede editar</h3><p>El rol activo viaja en los metadatos de app del JWT, que solo escribe una Edge Function con service role; las funciones de RLS lo cruzan con los roles activos de la persona, así que alterar el claim solo puede reducir permisos, nunca escalarlos. La contrapartida: cada cambio de rol obliga a refrescar la sesión para que el JWT nuevo llegue a PostgreSQL.</p></li>
+        <li><h3>RLS automático en cada tabla nueva</h3><p>Un event trigger sobre ddl_command_end habilita RLS en toda tabla nueva del esquema public, como defensa en profundidad si una migración lo olvida. A cambio, una tabla nueva nace cerrada hasta que tenga políticas; la de bloqueos de edición se deja así a propósito y solo se accede por funciones SECURITY DEFINER.</p></li>
+        <li><h3>R15: cada server action comprueba su guarda</h3><p>La regla R15 del gate recorre cada archivo 'use server' y exige, de forma estática, que toda función exportada llame a una guarda que resuelve la persona desde la sesión (no desde un argumento) antes de cualquier lectura o escritura. El costo es imponer una forma de código que el chequeo sepa leer y listar cada excepción con su razón (el login ocurre antes de que exista sesión); una excepción sin uso también hace fallar el gate.</p></li>
+        <li><h3>R19: toda escritura devuelve filas</h3><p>R19 obliga a que cada UPDATE o DELETE de Supabase en la app pida la fila de vuelta: una escritura que RLS filtra no da error, toca 0 filas y la app respondería éxito. Implica devolver filas en cada escritura; la lista de excepciones existe y hoy está vacía.</p></li>
+        <li><h3>Informe con IA: consentimiento y anonimización en el servidor</h3><p>La Edge Function del informe comprueba ella misma el consentimiento guardado en la fila antes de enviar datos a Gemini, y solo envía antropometría, sin nombre, email ni documento; las notas del entrenador se limpian, van entre marcadores aleatorios por solicitud y se rechaza una salida que los copie. El pipeline de 5 agentes tarda 1–2 minutos, así que corre en segundo plano, y si un agente falla no se guarda un informe parcial.</p></li>
+      </ol>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-resultados">
+      <h2 id="titulo-resultados">Resultados</h2>
+      <ul class="vinetas">
+        <li>Módulos principales funcionando: asistente ISAK de 4 pasos con composición corporal, somatotipo Heath-Carter, Z-scores Phantom y comparación entre evaluaciones; rutinas de lunes a domingo con catálogo de ejercicios; planes nutricionales con TMB, TDEE y macros por día.</li>
+        <li>Acceso resuelto en PostgreSQL: 25 tablas con RLS y 72 políticas, todas para usuarios autenticados. El cambio de rol es real a nivel de RLS (un admin que actúa como usuario solo ve sus propios datos), y el usuario recibe su informe ISAK solo cuando el entrenador lo publica: lo filtra la política, no la interfaz.</li>
+        <li>Un único gate corre en cada commit y en CI: las 19 reglas del repo, deno check y deno lint de las Edge Functions, ESLint, tsc y los tests. CI añade el build, y un hook pre-push bloquea el push a main si el último CI de main está en rojo.</li>
+        <li>Respaldo diario de la base, cifrado con AES-256-GCM y clave protegida con RSA-OAEP, guardado 30 días. Los domingos se restaura en una Supabase local y se comparan las filas de las tablas clave; el resultado se anota en la base aunque algún paso falle.</li>
+        <li>CSP con nonce por respuesta y strict-dynamic, sin 'unsafe-inline' en script-src, y rechazo de escrituras cuyo Origin no coincide con el Host.</li>
+        <li>Auditoría 360 de 11 dimensiones con scorecard: la línea base del 2026-06-01 quedó en 4 verdes, 4 amarillas y 3 rojas; tras la remediación del 2026-06-02, las 11 pasaron a verde.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-lecciones">
+      <h2 id="titulo-lecciones">Lecciones y siguientes pasos</h2>
+      <ul class="vinetas">
+        <li>Lo que se puede verificar con código se vuelve regla del gate: cada regla tiene número y dice qué protege, sus excepciones viven en la propia regla con su razón, y una excepción que deja de usarse también hace fallar el commit.</li>
+        <li>Fuente de verdad explícita: BD viva &gt; código &gt; docs. El esquema versionado se regenera por introspección de la base viva y, antes de abrirse a usuarios, el historial de migraciones se consolidó en una línea base limpia de cuatro archivos.</li>
+        <li>Con IA en el ciclo, el plan aprobado funciona como contrato: se ejecuta exactamente lo aprobado, y un cambio que quita una función, una garantía o un test sin reemplazo equivalente no se ejecuta.</li>
+        <li>Próximos pasos documentados: soporte offline (service worker + IndexedDB), funciones nativas en Capacitor (cámara, push, archivos), tests E2E de flujos completos, y rutinas avanzadas (RIR, tempo, rango de repeticiones) con fechas de inicio y fin en rutinas y planes.</li>
+      </ul>
+    </section>
+
+    <details class="apendice">
+      <summary>Para revisores técnicos: infraestructura, stack y código</summary>
+      <div class="apendice-contenido">
+        <div class="infra-cabecera">
+          <h2>Infraestructura</h2>
+          <a class="boton" href="../../archivos/corex/infra.html" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a>
+        </div>
+        <p class="infra-nota">Diagrama interactivo generado a partir del código del proyecto. Toca un nodo para ver su detalle y sus conexiones.</p>
+        <iframe class="infra-marco" src="../../archivos/corex/infra.html" title="Infraestructura de Corex" loading="lazy" sandbox="allow-scripts"></iframe>
+        <h3>Stack</h3>
+        <ul class="etiquetas"><li class="etiqueta">Next.js 14</li><li class="etiqueta">React 18</li><li class="etiqueta">TypeScript</li><li class="etiqueta">Tailwind CSS</li><li class="etiqueta">Supabase</li><li class="etiqueta">PostgreSQL + RLS</li><li class="etiqueta">Deno Edge Functions</li><li class="etiqueta">Gemini API</li><li class="etiqueta">Vitest</li><li class="etiqueta">Capacitor (Android)</li><li class="etiqueta">Vercel</li><li class="etiqueta">GitHub Actions</li></ul>
+        <p class="apendice-nota">Cómo construyo: defino el problema, los requisitos, el modelo de datos y los controles; implemento con asistentes de IA (Claude Code) bajo mi dirección, y cada cambio pasa pruebas automáticas y mi revisión antes de publicarse.</p>
+        <p class="apendice-nota">El código es privado porque contiene reglas de negocio y datos del cliente. Puedo recorrerlo en vivo: código, pruebas y despliegue.</p>
+      </div>
+    </details>
+
+    <nav class="caso-navegacion" aria-label="Proyectos">
+      <a class="boton" href="../tanteo/">← Anterior: Tanteo</a>
+      <a class="boton" href="../conecta/">Siguiente: CONECTA →</a>
+    </nav>
+  </main>
+
+  <!-- pie:inicio -->
+  <footer class="pie">
+    <div class="contenedor pie-interior">
+      <span>Carlos Davila</span>
+      <span>HTML, CSS y JavaScript · GitHub Pages</span>
+    </div>
+  </footer>
+  <!-- pie:fin -->
+</body>
+</html>

@@ -1,0 +1,51 @@
+/* Paletas de marca de los proyectos principales, copiadas de su propio tokens.css.
+   Cada bloque traduce la marca a las mismas variables --p-* que usan los componentes:
+     --p-acento        decoración: viñetas, subrayados, bordes
+     --p-acento-texto  texto y cifras con color de marca (contraste AA sobre la superficie)
+     --p-suave         fondos tenues: insignias, archivo seleccionado
+     --p-boton*        botón principal dentro del proyecto
+     --p-firma         franja superior de la tarjeta (color o degradado de marca) */
+
+/* --- Consentia · frontend/css/tokens.css --- */
+[data-proyecto="consentia"] {
+  --p-acento: #00A99D;              /* --teal */
+  --p-acento-texto: #0B7A6D;        /* --teal-accesible */
+  --p-suave: #E6F7F5;               /* --teal-soft */
+  --p-boton: #0B7A6D;               /* --teal-accesible */
+  --p-boton-texto: #ffffff;
+  --p-boton-hover: #0A6B60;         /* --teal-accesible-hover */
+  --p-firma: linear-gradient(90deg, #1E2A3A 0%, #0F4C5C 45%, #00A99D 100%); /* gris-azulado → verde-profundo → teal */
+}
+
+/* --- Tanteo · instalacion/marca/colores.css ("de biche a maduro") --- */
+[data-proyecto="tanteo"] {
+  --p-acento: hsl(20 85% 50%);       /* --mango-maduro */
+  --p-acento-texto: hsl(20 75% 36%); /* --primary-deep */
+  --p-suave: hsl(40 40% 93%);        /* --surface (crema) */
+  --p-boton: hsl(18 30% 16%);        /* --primary: tinta cacao */
+  --p-boton-texto: hsl(40 55% 97%);  /* --primary-foreground: crema */
+  --p-boton-hover: hsl(18 30% 24%);
+  --p-firma: linear-gradient(90deg, hsl(85 55% 45%) 0%, hsl(45 90% 50%) 50%, hsl(20 85% 50%) 100%); /* --degradado-mango */
+}
+
+/* --- Corex · apps/web/styles/tokens.css --- */
+[data-proyecto="corex"] {
+  --p-acento: hsl(21 100% 38%);      /* --primary */
+  --p-acento-texto: hsl(21 100% 38%);
+  --p-suave: hsl(21 40% 95%);        /* --primary-muted */
+  --p-boton: hsl(21 100% 38%);
+  --p-boton-texto: hsl(0 0% 100%);   /* --primary-foreground */
+  --p-boton-hover: hsl(22 92% 32%);  /* --primary-hover */
+  --p-firma: hsl(21 100% 38%);
+}
+
+/* --- CONECTA · DiversoLAB · css/tokens.css --- */
+[data-proyecto="conecta"] {
+  --p-acento: #ff8e6f;               /* --color-coral */
+  --p-acento-texto: #3f2b56;         /* --color-violeta */
+  --p-suave: color-mix(in srgb, #cad2e9 40%, white); /* --color-lavanda */
+  --p-boton: #3f2b56;                /* --color-violeta */
+  --p-boton-texto: #ffffff;
+  --p-boton-hover: #1f1845;          /* --color-mn */
+  --p-firma: linear-gradient(90deg, #fdda64 0 25%, #a2ddd2 25% 50%, #ff8e6f 50% 75%, #cad2e9 75% 100%); /* sol · aqua · coral · lavanda */
+}

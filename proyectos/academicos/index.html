@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proyectos académicos — Carlos Davila</title>
+  <meta name="description" content="ChequeGuardAI · Reconciliation · Fraud Exploration · Sentinel · BeaconIQ">
+  <link rel="canonical" href="https://cardavil.github.io/proyectos/academicos/">
+  <link rel="alternate" hreflang="es" href="https://cardavil.github.io/proyectos/academicos/">
+  <link rel="alternate" hreflang="en" href="https://cardavil.github.io/en/projects/academic/">
+  <link rel="alternate" hreflang="x-default" href="https://cardavil.github.io/proyectos/academicos/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Carlos Davila">
+  <meta property="og:title" content="Proyectos académicos — Carlos Davila">
+  <meta property="og:description" content="ChequeGuardAI · Reconciliation · Fraud Exploration · Sentinel · BeaconIQ">
+  <meta property="og:url" content="https://cardavil.github.io/proyectos/academicos/">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:locale:alternate" content="en_CA">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../css/tokens.css">
+  <link rel="stylesheet" href="../../css/proyectos.css">
+  <link rel="stylesheet" href="../../css/componentes.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- encabezado:inicio -->
+  <header class="encabezado">
+    <div class="contenedor encabezado-interior">
+      <a class="marca" href="../../"><span class="marca-sello" aria-hidden="true">CD</span><span class="marca-nombre">Carlos Davila</span></a>
+      <nav class="navegacion" aria-label="Principal">
+        <a href="../../">Inicio</a>
+        <a href="../../cv/">CV</a>
+        <a href="../" aria-current="true">Proyectos</a>
+      </nav>
+      <a class="idioma" href="../../en/projects/academic/" hreflang="en" lang="en">English</a>
+    </div>
+  </header>
+  <!-- encabezado:fin -->
+
+  <main id="contenido" class="contenedor">
+    <nav class="migas" aria-label="Ruta"><a href="../">Proyectos</a> / Proyectos académicos</nav>
+    <header class="proyectos-cabecera">
+      <h1>Proyectos académicos</h1>
+    </header>
+
+    <div class="rejilla-2">
+        <article class="tarjeta academico" id="chequeguard">
+          <div>
+            <h2>ChequeGuardAI</h2>
+            <p class="academico-subtitulo">Sistema Inteligente de Depósito de Cheques</p>
+          </div>
+          <ul class="vinetas">
+        <li>Construí un motor de procesamiento de cheques orientado al cumplimiento normativo, alineado con las Reglas A4/A10 de Payments Canada: pipeline de decisión determinístico que abarca validación, detección de duplicados, puntuación de fraude, cálculo de retenciones (holds) y registro contable, con una suite de evaluación de 18 casos.</li>
+        <li>Incorporé un pipeline de 3 agentes con Gemini LLM que genera explicaciones dirigidas tanto al cliente como al equipo de operaciones; los LLM narran y asesoran, pero nunca anulan las reglas de cumplimiento.</li>
+        <li>Cada ejecución queda registrada con un identificador de traza y el detalle de cada paso (entrada, salida, duración y resultado) en una hoja de Google Sheets.</li>
+        <li>Cada resultado se formatea como mensajes con estructura ISO 20022 (pacs.002, pacs.004 y camt.054, según el caso), con los códigos A4 mapeados a motivos de devolución ISO; el canal de envío es simulado.</li>
+      </ul>
+          <ul class="etiquetas"><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Gemini API</li><li class="etiqueta">Google Sheets</li></ul>
+          
+        </article>
+        <article class="tarjeta academico" id="conciliacion">
+          <div>
+            <h2>Reconciliation</h2>
+            <p class="academico-subtitulo">Motor de Conciliación de Nómina</p>
+          </div>
+          <ul class="vinetas">
+        <li>Construí una herramienta de conciliación para pagos de créditos y ahorros descontados por nómina: cruza los valores esperados frente a los reales por asociado y producto, señala diferencias, detecta novedades frente a periodos anteriores y genera reportes en Excel con pistas de auditoría.</li>
+        <li>Se ejecuta completamente en el navegador mediante Pyodide (Python/pandas del lado del cliente), sin backend, en un único archivo HTML que funciona sin conexión, pensado para analistas de nómina sin perfil técnico.</li>
+        <li>Las excepciones se resuelven en 4 colas, de forma individual o masiva, y cada decisión del analista queda en la pista de auditoría con fecha y hora, acción y valor aplicado.</li>
+        <li>Capacidad de referencia: unas 200.000 filas en total con 8 GB de RAM; los archivos se procesan localmente y no salen del equipo.</li>
+      </ul>
+          <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">Pandas</li><li class="etiqueta">Pyodide</li><li class="etiqueta">GitHub Pages</li></ul>
+          
+        </article>
+        <article class="tarjeta academico" id="fraud-exploration">
+          <div>
+            <h2>Fraud Exploration</h2>
+            <p class="academico-subtitulo">Tablero de Exploración de Fraude</p>
+          </div>
+          <ul class="vinetas">
+        <li>Construí un motor de analítica AML/fraude sobre un dataset de riesgo y cumplimiento con datos sucios: un pipeline de limpieza auditado que alimenta un modelo de detección de anomalías Isolation Forest en tres niveles (transacción, cuenta y cliente), capaz de identificar fraccionamiento de operaciones (structuring), coincidencias no resueltas con listas de sanciones y fallas de control en cuentas.</li>
+        <li>Incorporé un pipeline de 5 agentes con Gemini (Compliance Sentinel) que interpreta los puntajes y los convierte en un dictamen de riesgo y una única acción dentro de una escalera fija de seis niveles. La solidez de la evidencia se calcula en código y limita la severidad de la acción, de modo que los LLM asesoran pero nunca deciden.</li>
+        <li>La capa de servicio es Postgres (Supabase) con seguridad a nivel de fila: la clave pública solo permite lectura (SELECT) y los privilegios de escritura están revocados.</li>
+        <li>El modelo a nivel de cuenta se exporta a JSON y se recalcula en el navegador, sin librerías, para verificar los puntajes servidos.</li>
+      </ul>
+          <ul class="etiquetas"><li class="etiqueta">PostgreSQL</li><li class="etiqueta">Python</li><li class="etiqueta">Power BI</li><li class="etiqueta">ML</li><li class="etiqueta">LLM</li></ul>
+          <div class="acciones"><a class="boton" href="https://fraud-exploration.pages.dev" rel="noopener" target="_blank">Ver demo ↗</a></div>
+        </article>
+        <article class="tarjeta academico" id="sentinel">
+          <div>
+            <h2>Sentinel</h2>
+            <p class="academico-subtitulo">Detector de Fraude con Tarjeta</p>
+          </div>
+          <ul class="vinetas">
+        <li>Detector de fraude con tarjeta sobre el dataset público IEEE-CIS (590.540 transacciones × 434 columnas, 3,5 % de fraude): XGBoost con features por cliente ajustadas solo con datos de entrenamiento, evaluado con un split temporal y con PR-AUC como métrica principal.</li>
+        <li>En validación: PR-AUC 0,589 frente a 0,547 de la línea base, precisión 0,74 y recall 0,49 con un umbral afinado de 0,66 (ROC-AUC 0,90). Se descarta a propósito el ~0,94 habitual en Kaggle, que en buena parte se debe a clientes repetidos entre entrenamiento y prueba; un nivel con features de grafo (union-find) y ensemble no mejoró el PR-AUC y no pasó a producción.</li>
+        <li>API de inferencia en FastAPI (/predict y /explain, con los principales aportes SHAP por transacción) y dashboard en Google Apps Script con gráficas Plotly y un playground de ejemplos con SHAP precalculado.</li>
+      </ul>
+          <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">XGBoost</li><li class="etiqueta">SHAP</li><li class="etiqueta">FastAPI</li><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Plotly</li></ul>
+          
+        </article>
+        <article class="tarjeta academico" id="beaconiq">
+          <div>
+            <h2>BeaconIQ</h2>
+            <p class="academico-subtitulo">Sistema de Posicionamiento en Interiores BLE</p>
+          </div>
+          <ul class="vinetas">
+        <li>Desarrollé una aplicación Android de posicionamiento en interiores basada en señales de beacons BLE: conversión de RSSI a distancia, filtrado de Kalman, solucionador de trilateración y visualización 2D en tiempo real con parámetros configurables.</li>
+        <li>Arquitectura de pruebas en dos fases con un backend en GAS que registra los datos de cada sesión en Google Sheets para la calibración y el análisis del modelo.</li>
+        <li>Laboratorio de pruebas Signalion (código propio): núcleo de posicionamiento en Java puro, sin dependencias de Android, con filtros de Kalman 1D/2D y trilateración por Levenberg–Marquardt, cubierto por 161 pruebas automatizadas (136 del núcleo y 25 de la app).</li>
+        <li>En pruebas en dispositivo se encontró que, en Android 12+, declarar el permiso de escaneo BLE con neverForLocation hace que el sistema descarte en silencio los anuncios iBeacon; la app solicita ubicación precisa en todas las versiones.</li>
+      </ul>
+          <ul class="etiquetas"><li class="etiqueta">Android/Java</li><li class="etiqueta">AltBeacon</li><li class="etiqueta">Google Apps Script (GAS)</li></ul>
+          
+        </article>
+    </div>
+  </main>
+
+  <!-- pie:inicio -->
+  <footer class="pie">
+    <div class="contenedor pie-interior">
+      <span>Carlos Davila</span>
+      <span>HTML, CSS y JavaScript · GitHub Pages</span>
+    </div>
+  </footer>
+  <!-- pie:fin -->
+</body>
+</html>

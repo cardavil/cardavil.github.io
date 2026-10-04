@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CONECTA — Carlos Davila</title>
+  <meta name="description" content="Consent-backed digital records management for a social innovation organization.">
+  <link rel="canonical" href="https://cardavil.github.io/en/projects/conecta/">
+  <link rel="alternate" hreflang="es" href="https://cardavil.github.io/proyectos/conecta/">
+  <link rel="alternate" hreflang="en" href="https://cardavil.github.io/en/projects/conecta/">
+  <link rel="alternate" hreflang="x-default" href="https://cardavil.github.io/proyectos/conecta/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Carlos Davila">
+  <meta property="og:title" content="CONECTA — Carlos Davila">
+  <meta property="og:description" content="Consent-backed digital records management for a social innovation organization.">
+  <meta property="og:url" content="https://cardavil.github.io/en/projects/conecta/">
+  <meta property="og:locale" content="en_CA">
+  <meta property="og:locale:alternate" content="es_CO">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../css/tokens.css">
+  <link rel="stylesheet" href="../../../css/proyectos.css">
+  <link rel="stylesheet" href="../../../css/componentes.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Skip to content</a>
+
+  <!-- encabezado:inicio -->
+  <header class="encabezado">
+    <div class="contenedor encabezado-interior">
+      <a class="marca" href="../../"><span class="marca-sello" aria-hidden="true">CD</span><span class="marca-nombre">Carlos Davila</span></a>
+      <nav class="navegacion" aria-label="Main">
+        <a href="../../">Home</a>
+        <a href="../../cv/">CV</a>
+        <a href="../" aria-current="true">Projects</a>
+      </nav>
+      <a class="idioma" href="../../../proyectos/conecta/" hreflang="es" lang="es">Español</a>
+    </div>
+  </header>
+  <!-- encabezado:fin -->
+
+  <main id="contenido" class="contenedor" data-proyecto="conecta">
+    <nav class="migas" aria-label="Breadcrumb"><a href="../">Projects</a> / CONECTA</nav>
+
+    <header class="tarjeta caso-cabecera" data-proyecto="conecta">
+      <h1>CONECTA</h1>
+      <p class="caso-lema">Consent-backed digital records management for a social innovation organization.</p>
+      <p class="caso-resumen">Digital records for beneficiaries, partner companies, contractors and suppliers, with verifiable consent and authorization in the database. v2 replaced a static portal (v1) with Supabase.</p>
+      <dl class="caso-ficha">
+        <div><dt>Status</dt><dd>In production</dd></div>
+        <div><dt>Period</dt><dd>Jan 2026 – present</dd></div>
+        <div><dt>Role</dt><dd>Technology &amp; Governance Consultant</dd></div>
+        <div><dt>Organization</dt><dd>DiversoLAB</dd></div>
+      </dl>
+    </header>
+
+    <section class="caso-seccion caso-seccion-ancha" aria-label="By the numbers">
+      <div class="metricas"><div class="metrica"><b>37</b><span>tables, all with RLS</span></div><div class="metrica"><b>83</b><span>RLS policies</span></div><div class="metrica"><b>16</b><span>Edge Functions (Deno/TypeScript) sharing 22 modules</span></div><div class="metrica"><b>156</b><span>Playwright tests across 20 specs</span></div><div class="metrica"><b>182</b><span>Edge Function test-bench scenarios</span></div><div class="metrica"><b>24</b><span>automated repository checks</span></div></div>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-contexto">
+      <h2 id="titulo-contexto">Context & problem</h2>
+      <p>DiversoLAB is a Colombian organization that works with people with disabilities, partner companies, contractors and suppliers. It needed to capture, safeguard and coordinate their data, including sensitive data such as disability and health, with legally backed consent and traceability, without relying on scattered spreadsheets or manual data entry. CONECTA v1 was a static internal portal, with no backend and no authentication, that gathered 62 links in three sections (forms, Power BI and Looker Studio dashboards, and the quality-management and ethics-system documentation) embedded in a viewer; access control depended on each external resource's own permissions.</p>
+      <p>The v1 backlog left a third-party management module (KYC/AML and document management) pending, planned on Wix, Apps Script, Drive and Monday.com, because documents arrived by email, were filed by hand and had no expiry alerts. Version 2 built that module as a platform of its own. A first architecture relied on Apps Script services for OTP and signing; in July 2026 they were retired and all privileged access moved to Supabase Edge Functions that call the Drive API directly. The v1 links remain available on the v2 Tools page, and the Monday.com integration was left out of scope for this version.</p>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-rol">
+      <h2 id="titulo-rol">My role & constraints</h2>
+      <ul class="vinetas">
+        <li>Designed and built the platform (data model, RLS policies, Edge Functions, frontend, tests and operations) as an Independent Technology &amp; Governance Consultant. DiversoLAB owns the project: the repositories and the Supabase organization are held by an institutional account.</li>
+        <li>Colombian regulatory compliance: Law 1581 of 2012 (personal data protection) and Law 527 of 1999 (data messages and electronic signatures). Anti-money-laundering due diligence is adopted voluntarily and works as a condition for onboarding third parties.</li>
+        <li>Sensitive data (disability, health, sexual orientation) is restricted to the data subject, their assigned analyst and platform administration; the finance role cannot see it.</li>
+        <li>Services run on free tiers (Cloudflare Pages with a private repository, Supabase), and the accounting API offers no read-only credentials: the Siigo key could also issue documents, so every query goes through a single function that only sends GET requests. Edge Functions cannot use ports 25 or 587, so transactional email goes through Resend's HTTP API.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-arquitectura">
+      <h2 id="titulo-arquitectura">Architecture & decisions</h2>
+      <ol class="decisiones">
+        <li><h3>Static frontend with no build step</h3><p>Vanilla HTML, CSS and JavaScript served by Cloudflare Pages, with no framework or bundler: any file can be edited directly and deploying means copying the site. The accepted cost is no reusable components, no typing and some helper duplication across pages.</p></li>
+        <li><h3>RLS on every table, backed by SECURITY DEFINER helpers</h3><p>Authorization lives in the database, not in the public frontend. Policies rely on SECURITY DEFINER STABLE functions with search_path='' that resolve the active profile, permissions and assignments; the set of profiles a member manages is computed once per query, not per row. The cost is expressing every access rule in SQL and maintaining complex policies.</p></li>
+        <li><h3>Constant-time header secrets for functions without JWT</h3><p>Edge Functions that do not use JWT (cron jobs, alert triggers, the Telegram webhook) authenticate with a header secret compared in constant time; where the design allows, the database stores only its hash. Turning off JWT verification moves the check into code, so the comparison lives in a single shared module: it had been copied into seven functions, and one copy drifting out of line would have opened that door without the others revealing it.</p></li>
+        <li><h3>Immutable consent records with SHA-256 hashes and serial numbers</h3><p>The consent table has no UPDATE or DELETE policies and its INSERT is closed to the client: only the Edge Function writes it, after checking a JWT issued less than five minutes earlier. Each record gets an atomic sequential number (DL-Cx-YYYY-NNNN) and a SHA-256 hash that a third party can recompute without secrets, and the PDF certificate is archived in Drive. The trade-off is that nothing is corrected in place: every amendment is a new record.</p></li>
+        <li><h3>Drive as the permanent store; private buckets only for staging</h3><p>Case-file documents live in a Google Drive shared drive that Edge Functions reach through a service account. Supabase buckets are private (10 MB, PDF, JPEG and PNG only) and act as quarantine until approval; a weekly cron job purges orphaned objects. The browser never touches Storage or receives Drive URLs: the Edge Function checks the permission and returns the bytes, so there is a single access control. The cost is a double hop (bucket → Drive) on approval.</p></li>
+      </ol>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-resultados">
+      <h2 id="titulo-resultados">Results</h2>
+      <ul class="vinetas">
+        <li>Schema with 37 tables (all with RLS), 83 policies and 52 SQL functions; 16 Edge Functions in Deno/TypeScript sharing 22 modules, and 8 pg_cron jobs: task expiry, email reminders, Siigo sync and close-out, orphaned-file purge, alert digest, session expiry and a service probe.</li>
+        <li>Self-registration for four external profile types (beneficiary, partner, contractor and supplier): data entry, consents C1–C7 and OTP verification end in an atomic creation of the profile and its consents, with a PDF certificate carrying serial numbers and hashes archived in Drive.</li>
+        <li>Third-party payment cycle: upload and review of payment requests, capture of the payment receipt through a Telegram bot with its own code (not a platform session; it expires after 10 minutes and allows 5 attempts), and automatic close-out of each transaction by matching it against the Siigo accounting system, which is only read.</li>
+        <li>Onboarding configurable without deploying code: versioned JSONB instruments, KYC split into six tables and playbooks that create tasks when a profile is approved. The diversity survey stores answers with no identity and reports only aggregates under k-anonymity (threshold 5).</li>
+        <li>Checks on every change: 24 repository checks plus type checking in pre-commit, pre-push and CI; 156 Playwright tests with axe accessibility checks across 20 specs; a bench of 182 scenarios that compares two versions of the Edge Functions against in-memory fake services before deploying; and a probe every 30 minutes that signs in with a synthetic no-access account and verifies that RLS only lets it see its own profile.</li>
+        <li>AI-assisted development with Claude Code under a written protocol (audit, diagnose, plan, request approval, implement, verify) and guard hooks that ask for confirmation before every push, Edge Function deployment or production SQL write, and block force pushes and bypassing git hooks.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-lecciones">
+      <h2 id="titulo-lecciones">Lessons & next steps</h2>
+      <ul class="vinetas">
+        <li>Documentation drifts from code. The project treats the code and the live database as the source of truth, and turned that rule into checks that fail the build when the docs index, the secrets inventory, the repository map, the RLS matrix or the infrastructure diagram stop matching the code.</li>
+        <li>An incomplete list reads as a complete one. With an accounting API that paginates in its own way, and where one resource failed for weeks, the sync reports whether it read everything, degrades instead of aborting, and the automatic close-out stops when the response is incomplete.</li>
+        <li>A «successful» cron job does not mean the work finished: pg_cron marks the call as done as soon as the request leaves. Each run now leaves its own trace and a daily digest reports cron jobs with problems. For the same reason, repeated security code was moved into a single module: a copy that drifts gives no warning.</li>
+        <li>Documented next steps: unify everything asked of each data subject (tasks, documents and payment requests) in a single engine (phases F138–F143 in progress), move to the final domain and retire v1, and, when adopting the next version of the DEI diagnostic, require the analytics-and-AI consent (C4) before any data is shared.</li>
+      </ul>
+    </section>
+
+    <details class="apendice">
+      <summary>For technical reviewers: infrastructure, stack and code</summary>
+      <div class="apendice-contenido">
+        <div class="infra-cabecera">
+          <h2>Infrastructure</h2>
+          <a class="boton" href="../../../archivos/conecta/infra.en.html" target="_blank" rel="noopener">Open full screen ↗</a>
+        </div>
+        <p class="infra-nota">Interactive diagram generated from the project’s code. Tap a node to see its details and connections.</p>
+        <iframe class="infra-marco" src="../../../archivos/conecta/infra.en.html" title="CONECTA infrastructure" loading="lazy" sandbox="allow-scripts"></iframe>
+        <h3>Stack</h3>
+        <ul class="etiquetas"><li class="etiqueta">Supabase</li><li class="etiqueta">PostgreSQL + RLS</li><li class="etiqueta">Deno / TypeScript</li><li class="etiqueta">pg_cron</li><li class="etiqueta">HTML/CSS/JavaScript</li><li class="etiqueta">Cloudflare Pages</li><li class="etiqueta">Google Drive API</li><li class="etiqueta">Playwright + axe</li><li class="etiqueta">Sentry</li><li class="etiqueta">GitHub Actions</li></ul>
+        <p class="apendice-nota">How I build: I define the problem, the requirements, the data model and the controls; I implement with AI coding assistants (Claude Code) under my direction, and every change passes automated tests and my review before release.</p>
+        <p class="apendice-nota">The source code is private because it contains the client’s business rules and data. I can walk through it live: code, tests and deployment.</p>
+      </div>
+    </details>
+
+    <nav class="caso-navegacion" aria-label="Projects">
+      <a class="boton" href="../corex/">← Previous: Corex</a>
+      <a class="boton" href="../">All projects →</a>
+    </nav>
+  </main>
+
+  <!-- pie:inicio -->
+  <footer class="pie">
+    <div class="contenedor pie-interior">
+      <span>Carlos Davila</span>
+      <span>HTML, CSS &amp; JavaScript · GitHub Pages</span>
+    </div>
+  </footer>
+  <!-- pie:fin -->
+</body>
+</html>
