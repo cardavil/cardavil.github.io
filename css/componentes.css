@@ -15,6 +15,8 @@ body {
 }
 a { color: var(--acento); text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 3px; }
+/* Un enlace dentro de un texto va siempre subrayado: el color solo no basta para distinguirlo (WCAG 1.4.1). */
+:is(p, li, dd) a:not(.boton) { text-decoration: underline; text-underline-offset: 3px; }
 h1, h2, h3, h4 { line-height: 1.2; margin: 0; letter-spacing: -0.01em; }
 p { margin: 0; }
 ul, ol { margin: 0; padding: 0; }
@@ -64,9 +66,13 @@ img, svg { max-width: 100%; }
   padding: 6px 10px; border: 1px solid var(--borde); border-radius: var(--radio-sm); white-space: nowrap;
 }
 .idioma:hover { color: var(--texto); border-color: var(--borde-control); text-decoration: none; }
+/* En teléfono, el menú baja a su propia fila (bajo el sello y el idioma) y puede partirse en dos líneas:
+   "Experiencia y habilidades" no cabe en una sola fila de 320 px junto a las demás. */
 @media (max-width: 560px) {
   .marca-nombre { display: none; }
-  .encabezado-interior { gap: var(--espacio-2); }
+  .encabezado-interior { gap: var(--espacio-2); padding-block: var(--espacio-2); }
+  .idioma { margin-left: auto; }
+  .navegacion { order: 3; flex-basis: 100%; flex-wrap: wrap; margin-left: 0; }
 }
 
 /* --- Secciones --- */
@@ -127,7 +133,7 @@ img, svg { max-width: 100%; }
 .pie { border-top: 1px solid var(--borde); margin-top: var(--espacio-8); padding: var(--espacio-5) 0 40px; color: var(--texto-tenue); font-size: 13px; }
 .pie-interior { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--espacio-2); }
 
-/* --- Perfil (Inicio y CV: misma disposición que el PDF, barra lateral + columna principal) --- */
+/* --- Perfil (misma disposición que el PDF: barra lateral + columna principal) --- */
 /* En el DOM va primero la columna principal (orden de lectura); en escritorio la barra pasa a la izquierda. */
 .perfil {
   display: grid; grid-template-columns: 1fr; margin: var(--espacio-6) 0 0;
@@ -166,7 +172,12 @@ img, svg { max-width: 100%; }
 .perfil-habilidades dt { font-weight: 600; }
 .perfil-habilidades dd { margin: 2px 0 0; color: var(--texto-suave); }
 
-/* --- Página: CV (experiencia y educación) --- */
+/* --- Página: Experiencia y habilidades (la misma hoja, en una sola columna: la barra lateral vive en Perfil) --- */
+@media (min-width: 900px) {
+  .cv-hoja { grid-template-columns: minmax(0, 1fr); }
+  .cv-hoja .perfil-principal { grid-column: 1; }
+}
+.cv-titulo { font-size: var(--texto-titulo); font-weight: 500; letter-spacing: -0.01em; }
 .cv-cargo { padding: var(--espacio-5) 0; border-top: 1px solid var(--borde); display: grid; gap: var(--espacio-2); }
 .cv-cargo:first-of-type { border-top: 0; padding-top: 0; }
 .cv-empresa { font-size: var(--texto-xl); font-weight: 500; }
