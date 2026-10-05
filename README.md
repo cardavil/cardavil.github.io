@@ -6,9 +6,9 @@ Sitio estático plano (HTML, CSS y JavaScript, sin compilación) publicado en Gi
 
 | Ruta | Contenido |
 |---|---|
-| `index.html` · `en/index.html` | Perfil: resumen, contacto, educación y certificaciones (español en la raíz, inglés bajo `/en/`) |
-| `cv/` · `en/cv/` | Experiencia y habilidades |
-| `proyectos/` · `en/projects/` | Índice, un caso de estudio por proyecto y los proyectos académicos |
+| `index.html` · `es/index.html` | Perfil: resumen, contacto, educación y certificaciones (inglés en la raíz, español bajo `/es/`) |
+| `cv/` · `es/cv/` | Experiencia y habilidades |
+| `projects/` · `es/proyectos/` | Índice, un caso de estudio por proyecto y los proyectos académicos |
 | `css/tokens.css` | Fuentes propias, color, tipografía, espaciado, radios y sombras |
 | `css/proyectos.css` | Paletas de marca de cada proyecto (`[data-proyecto="…"]`) |
 | `css/componentes.css` | Componentes compartidos, por secciones; las de una página llevan su prefijo |
