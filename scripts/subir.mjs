@@ -16,8 +16,8 @@ const fallar = (msg) => { console.error(`subir: ${msg}`); process.exit(1); };
 
 if (!process.env.CLAUDE_CV_GITHUB) fallar('CLAUDE_CV_GITHUB no está definida en el entorno de este proceso');
 
-// 1. Nada privado en la rama: contexto, material de trabajo, documentos de referencia, copias sin verificar.
-const PRIVADO = /^(CLAUDE\.md|trabajo\/|capturas\/|infra\/)|\.(pdf|docx)$|settings\.local\.json$/i;
+// 1. Nada privado en la rama: contexto, skills, material de trabajo, documentos de referencia, copias sin verificar.
+const PRIVADO = /^(CLAUDE\.md|\.claude\/skills\/|trabajo\/|capturas\/|infra\/)|\.(pdf|docx)$|settings\.local\.json$/i;
 const privados = git('ls-tree', '-r', '--name-only', rama).split('\n').filter((f) => PRIVADO.test(f));
 if (privados.length) fallar(`la rama ${rama} lleva archivos privados: ${privados.join(', ')}`);
 

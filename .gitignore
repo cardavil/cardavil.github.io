@@ -2,6 +2,8 @@
 .env
 .env.*
 .claude/settings.local.json
+# Skills de Claude Code del proyecto (contenido y diseño): reglas de trabajo, no se publican
+/.claude/skills/
 
 # Privado: contexto, material de trabajo y documentos fuente (nunca se publican)
 /CLAUDE.md
