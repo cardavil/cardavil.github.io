@@ -1,0 +1,5 @@
+# Fin de línea LF en todo el repo; los scripts .sh lo necesitan para ejecutarse con su shebang.
+* text=auto eol=lf
+*.woff2 binary
+*.png binary
+*.svg text eol=lf
