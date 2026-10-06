@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Consentia — Carlos Davila</title>
-  <meta name="description" content="Consentimiento informado y firma electrónica sobre los documentos del propio negocio, con evidencia verificable y sin conservar los datos personales del firmante.">
+  <meta name="description" content="Consentimiento informado y firma electrónica sobre los documentos del propio negocio, con evidencia verificable y sin conservar los datos personales de firmantes ni consintientes.">
   <link rel="canonical" href="https://cardavil.github.io/es/proyectos/consentia/">
   <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/proyectos/consentia/">
   <link rel="alternate" hreflang="en" href="https://cardavil.github.io/projects/consentia/">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Carlos Davila">
   <meta property="og:title" content="Consentia — Carlos Davila">
-  <meta property="og:description" content="Consentimiento informado y firma electrónica sobre los documentos del propio negocio, con evidencia verificable y sin conservar los datos personales del firmante.">
+  <meta property="og:description" content="Consentimiento informado y firma electrónica sobre los documentos del propio negocio, con evidencia verificable y sin conservar los datos personales de firmantes ni consintientes.">
   <meta property="og:url" content="https://cardavil.github.io/es/proyectos/consentia/">
   <meta property="og:locale" content="es_CO">
   <meta property="og:locale:alternate" content="en_CA">
@@ -46,7 +46,7 @@
     <header class="tarjeta caso-cabecera" data-proyecto="consentia">
       <h1>Consentia</h1>
       <p class="caso-lema">Consentimiento informado y firma electrónica sobre los documentos del propio negocio.</p>
-      <p class="caso-resumen">Cada firmante verifica su identidad por correo y por SMS. Cuando firma el último, el PDF se sella con evidencia verificable y se guarda en la nube del propio negocio; la plataforma no conserva los datos personales del firmante.</p>
+      <p class="caso-resumen">Cada firmante o consintiente verifica su identidad por correo y por SMS. Cuando la solicitud se completa, el PDF se sella con evidencia verificable y se guarda en la nube del propio negocio; la plataforma no conserva sus datos personales.</p>
       <dl class="caso-ficha">
         <div><dt>Estado</dt><dd>En producción · clientes de prueba</dd></div>
         <div><dt>Periodo</dt><dd>May 2026 – presente</dd></div>
@@ -57,7 +57,7 @@
 
     <section class="caso-seccion" aria-labelledby="titulo-que-es">
       <h2 id="titulo-que-es">Qué es</h2>
-      <p>Consentia permite que un negocio pequeño (un consultorio, un centro de estética o de tatuajes, una fundación, un colegio) pida a sus clientes un consentimiento informado o la firma de un documento, sin cambiar su software ni su nube. El negocio sube su propio PDF; cada firmante recibe un enlace personal y confirma su identidad con un código; al final, el documento sellado queda en el Google Drive u OneDrive del negocio, con un QR para que cualquiera verifique que no cambió.</p>
+      <p>Consentia permite que un negocio pequeño (un consultorio, un centro de estética o de tatuajes, una fundación, un colegio) pida a sus clientes un consentimiento informado o la firma de un documento, sin cambiar su software ni su nube. El negocio sube su propio PDF; cada firmante o consintiente recibe un enlace personal y confirma su identidad con un código; al final, el documento sellado queda en el Google Drive u OneDrive del negocio, con un QR para que cualquiera verifique que no cambió.</p>
     </section>
 
     <section class="caso-seccion" aria-labelledby="titulo-modos">
@@ -66,7 +66,7 @@
         <table class="tabla">
           <thead><tr><th scope="col">Modo</th><th scope="col">Para qué</th><th scope="col">Cómo</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Consentimiento</th><td>Que una persona acepte o rechace cláusulas</td><td>Un consintiente, un documento y cláusulas que se aceptan o rechazan una por una; las obligatorias deben aceptarse y ninguna casilla viene marcada</td></tr>
+            <tr><th scope="row">Consentimiento</th><td>Que una persona acepte o rechace cláusulas</td><td>Un consintiente (quien otorga el consentimiento), un documento y cláusulas que se aceptan o rechazan una por una; las obligatorias deben aceptarse y ninguna casilla viene marcada</td></tr>
             <tr><th scope="row">Firma electrónica</th><td>Que una o varias personas firmen un documento</td><td>Hasta 7 firmantes, en cualquier orden, con campos ubicados sobre el PDF: firma, fecha, iniciales, casilla y texto</td></tr>
           </tbody>
         </table>
@@ -76,19 +76,20 @@
     <section class="caso-seccion" aria-labelledby="titulo-roles">
       <h2 id="titulo-roles">Quién lo usa y qué ve cada uno</h2>
       <ul class="vinetas">
-        <li><strong>El negocio:</strong> ve solo sus solicitudes, plantillas e historial. Conecta su nube, crea solicitudes, reenvía o corrige los datos de un firmante que aún no firma y reintenta entregas.</li>
-        <li><strong>El firmante:</strong> no necesita cuenta. Entra con su enlace personal y ve solo sus propios datos, nunca los de los demás firmantes.</li>
-        <li><strong>Cualquier persona con el QR:</strong> comprueba la autenticidad del documento sin ver datos personales.</li>
-        <li><strong>Equipo de la plataforma:</strong> administración y analistas con permisos granulares (inscritos, auditoría, solicitudes, catálogos e indicadores). Nunca ve los datos personales de los firmantes.</li>
+        <li><strong>El negocio:</strong> ve solo sus solicitudes, plantillas e historial. Conecta su nube, crea solicitudes, reenvía o corrige los datos de un firmante o consintiente que aún no responde y reintenta entregas.</li>
+        <li><strong>El firmante</strong> (modo firma): no necesita cuenta. Entra con su enlace personal y ve solo sus propios datos, nunca los de los demás firmantes.</li>
+        <li><strong>El consintiente</strong> (modo consentimiento): tampoco necesita cuenta. Entra con su enlace personal y ve sus datos, el contexto, el documento y las cláusulas.</li>
+        <li><strong>Equipo de la plataforma:</strong> administración y analistas con permisos granulares (inscritos, auditoría, solicitudes, catálogos e indicadores). Nunca ve los datos personales de firmantes ni consintientes.</li>
       </ul>
     </section>
 
     <section class="caso-seccion" aria-labelledby="titulo-solicitud">
       <h2 id="titulo-solicitud">La solicitud</h2>
       <ul class="vinetas">
-        <li><strong>Contiene:</strong> los firmantes (una persona, una persona representada por su tutor o una empresa) con su documento de identidad validado; el documento o la plantilla; las cláusulas o los campos; el contexto, que es obligatorio y queda sellado; y el vencimiento.</li>
-        <li><strong>Estados:</strong> pendiente → abierta → faltan firmas → sellando → completada. También puede quedar vencida o cancelada, y se muestra «pausada» si la nube del negocio se desconecta.</li>
-        <li><strong>Lo que queda guardado:</strong> folios, huellas digitales y tiempos, sin datos personales. Los datos del firmante solo viven mientras dura la solicitud.</li>
+        <li><strong>Contiene:</strong> los firmantes o el consintiente (una persona, alguien que actúa por medio de su representante legal o una empresa a través de una persona autorizada) con su documento de identidad validado; el documento o la plantilla; las cláusulas o los campos; el contexto, que es obligatorio y queda sellado; y el vencimiento.</li>
+        <li><strong>Estados:</strong> pendiente → abierta → faltan firmas (solo en firma, con varias personas) → sellando → completada. También puede quedar vencida o cancelada, y se muestra «pausada» si la nube del negocio se desconecta.</li>
+        <li><strong>Lo que queda guardado:</strong> folios, huellas digitales y tiempos, sin datos personales. Los datos de firmantes y consintientes solo viven mientras dura la solicitud.</li>
+        <li><strong>Verificable:</strong> el PDF sellado de cualquiera de los dos modos lleva un QR que abre una página con la evidencia, sin datos personales. Si se arrastra el PDF, el navegador comprueba en el propio equipo, sin subirlo, que no cambió.</li>
       </ul>
     </section>
 
@@ -98,10 +99,15 @@
         <li><h3>Registro del negocio</h3><p>Datos de la persona o la empresa y las autorizaciones de tratamiento de datos, confirmados con un código al correo; la constancia queda registrada.</p></li>
         <li><h3>Conectar su nube</h3><p>Google o Microsoft, con el permiso mínimo: la app solo ve lo que ella misma creó. Se crean las carpetas de plantillas y del histórico.</p></li>
         <li><h3>Subir el PDF</h3><p>Va directo a la nube del negocio. Se rechazan los PDF cifrados o dañados.</p></li>
-        <li><h3>Crear la solicitud</h3><p>Firmantes, documento o plantilla, cláusulas o campos, contexto y vencimiento. El enlace sale desde el correo de la plataforma, a nombre del negocio, y nunca se le muestra al negocio.</p></li>
-        <li><h3>Firmar</h3><p>El firmante revisa el documento, completa sus campos o marca sus cláusulas, dibuja su firma y confirma con un código por SMS.</p></li>
-        <li><h3>Sellado, cuando firma el último</h3><p>Se arma el PDF con la evidencia y se guarda en la nube del negocio, se anota en su historial, se envía una copia a cada firmante desde el correo del propio negocio y se borran los datos personales temporales.</p></li>
-        <li><h3>Verificación pública</h3><p>El QR abre una página que muestra la evidencia sin datos personales. Si se arrastra el PDF, el navegador comprueba en el propio equipo, sin subirlo, que no cambió.</p></li>
+        <li><h3>Crear la solicitud</h3><p>Los firmantes o el consintiente, el documento o la plantilla, los campos (firma) o las cláusulas (consentimiento), el contexto y el vencimiento. El enlace sale desde el correo de la plataforma, a nombre del negocio, y nunca se le muestra al negocio.</p></li>
+        <li><h3>Firmar o consentir</h3>
+          <ul class="vinetas">
+            <li><strong>Firma:</strong> cada firmante revisa el documento, completa sus campos y dibuja su firma.</li>
+            <li><strong>Consentimiento:</strong> el consintiente lee el contexto y el documento y marca «Leí y acepto» en las cláusulas que acepta; el código solo se puede pedir cuando aceptó todas las obligatorias. No dibuja firma.</li>
+            <li><strong>En los dos casos</strong> confirma con un código por SMS.</li>
+          </ul>
+        </li>
+        <li><h3>Sellado, cuando la solicitud se completa</h3><p>Se arma el PDF con la evidencia y se guarda en la nube del negocio, se anota en su historial, se envía una copia a cada firmante o al consintiente desde el correo del propio negocio y se borran los datos personales temporales.</p></li>
       </ol>
       <h3>Lo que el sistema resuelve solo</h3>
       <ul class="vinetas">
@@ -133,7 +139,7 @@
             <tr><td>Un negocio acumula fallos de entrega, cobro o firma</td><td>Una alerta por negocio</td><td>Operador</td><td>Ayudarlo a reconectar su nube</td></tr>
             <tr><td>Primer sellado fallido o historial no escrito</td><td>Alerta por solicitud</td><td>Operador</td><td>Avisar al negocio</td></tr>
             <tr><td>Orden de compra nueva</td><td>Folio, negocio y cantidad</td><td>Operador</td><td>Confirmar el pago y activarla</td></tr>
-            <tr><td>Eventos de la solicitud</td><td>Invitación, código, confirmación de sellado o entrega pendiente, nube caída</td><td>Firmante o negocio</td><td>Saber qué pasó y qué falta</td></tr>
+            <tr><td>Eventos de la solicitud</td><td>Invitación, código, confirmación de sellado o entrega pendiente, nube caída</td><td>Firmante, consintiente o negocio</td><td>Saber qué pasó y qué falta</td></tr>
           </tbody>
         </table>
       </div>
@@ -148,11 +154,11 @@
       <h2 id="titulo-controles">Controles</h2>
       <ul class="vinetas">
         <li><strong>Acceso:</strong> cada negocio ve solo lo suyo, con reglas en la base de datos, y cada función del servidor vuelve a comprobar quién llama. Las tablas sensibles solo las toca el servidor.</li>
-        <li><strong>Minimización:</strong> los datos del firmante solo viven mientras dura la solicitud; los documentos nunca se guardan en Consentia; el historial con nombres vive en la nube del negocio; los códigos y la IP usada para limitar abusos se guardan cifrados, nunca en claro.</li>
+        <li><strong>Minimización:</strong> los datos de firmantes y consintientes solo viven mientras dura la solicitud; los documentos nunca se guardan en Consentia; el historial con nombres vive en la nube del negocio; los códigos y la IP usada para limitar abusos se guardan cifrados, nunca en claro.</li>
         <li><strong>Evidencia:</strong> una huella digital (SHA-256) por firmante o por cláusula y una huella global impresa en cada página; una hoja de evidencia con la identidad verificada por dos canales, los tiempos, la IP y el QR; y los datos exactos de cada huella adjuntos dentro del PDF, para recalcularla.</li>
-        <li><strong>No repudio:</strong> la invitación y el código salen por canales de la plataforma, no del negocio, que es quien se beneficia de la firma.</li>
+        <li><strong>No repudio:</strong> la invitación y el código salen por canales de la plataforma, no del negocio, que es quien se beneficia de la firma o del consentimiento.</li>
         <li><strong>Auditoría:</strong> un registro inmutable; el cliente solo lo lee.</li>
-        <li><strong>Base legal:</strong> la ley colombiana de protección de datos y de firma electrónica. Consentia es responsable de los datos de sus clientes y encargada de los de los firmantes.</li>
+        <li><strong>Base legal:</strong> la ley colombiana de protección de datos y de firma electrónica. Consentia es responsable de los datos de sus clientes y encargada de los de firmantes y consintientes.</li>
         <li><strong>Control de cambios:</strong> las mismas verificaciones en cada commit y en la integración continua, pruebas automáticas, arneses SQL que se deshacen solos y una comprobación de que el esquema publicado sigue siendo el de producción.</li>
       </ul>
     </section>
@@ -185,7 +191,7 @@
         </ul>
         <h3>Detalles de operación</h3>
         <ul class="vinetas">
-          <li><strong>Código SMS:</strong> 8 dígitos, válido 5 minutos y 5 intentos, con límites por firmante y por negocio.</li>
+          <li><strong>Código SMS:</strong> 8 dígitos, válido 5 minutos y 5 intentos, con límites por persona y por negocio.</li>
           <li><strong>Solicitud:</strong> vence entre 1 y 120 horas; de 1 a 50 cláusulas o de 1 a 100 campos.</li>
           <li><strong>Tareas programadas:</strong> vencimientos cada 15 minutos; accesos inactivos cada 5 minutos; monitor cada hora; exportación diaria de evidencia.</li>
           <li><strong>Sesión:</strong> se cierra tras 30 minutos de inactividad. <strong>Vigilante:</strong> 3 veces por hora. <strong>Verificación pública:</strong> limitada por minuto.</li>
