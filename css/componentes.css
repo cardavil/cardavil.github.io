@@ -263,7 +263,7 @@ img, svg { max-width: 100%; }
 .tabla thead th { background: var(--superficie-2); font-weight: 600; border-top: 0; white-space: nowrap; }
 .tabla tbody th { font-weight: 600; }
 .infra-cabecera { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--espacio-3); margin-bottom: var(--espacio-2); }
-.infra-cabecera h2 { margin-bottom: 0; }
+.apendice + .apendice { margin-top: var(--espacio-3); }
 .infra-nota { color: var(--texto-suave); font-size: var(--texto-sm); margin-bottom: var(--espacio-4); max-width: var(--ancho-texto); }
 .infra-marco {
   display: block; width: 100%; height: min(86vh, 960px); min-height: 560px;
