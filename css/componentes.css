@@ -177,6 +177,19 @@ img, svg { max-width: 100%; }
 .perfil-habilidades dd { margin: 2px 0 0; color: var(--texto-suave); }
 
 /* --- Página: Experiencia y habilidades (la misma hoja y la misma barra lateral que Perfil) --- */
+/* Casos dentro de un cargo: plegables, en formato situación → acción → resultado. */
+.cv-casos { margin-top: var(--espacio-3); border: 1px solid var(--borde); border-radius: var(--radio-sm); background: var(--superficie); max-width: 70ch; }
+.cv-casos > summary {
+  cursor: pointer; list-style: none; display: flex; align-items: center; gap: var(--espacio-2);
+  padding: var(--espacio-3) var(--espacio-4); font-weight: 600; font-size: var(--texto-sm);
+}
+.cv-casos > summary::-webkit-details-marker { display: none; }
+.cv-casos > summary::before { content: "▸"; color: var(--acento); transition: transform .15s; }
+.cv-casos[open] > summary::before { transform: rotate(90deg); }
+.cv-casos-lista { padding: 0 var(--espacio-4) var(--espacio-4); display: grid; gap: var(--espacio-5); }
+.cv-caso h5 { font-size: var(--texto-base); margin-bottom: var(--espacio-1); }
+.cv-caso p { color: var(--texto-suave); }
+.cv-caso p + p { margin-top: var(--espacio-1); }
 .cv-titulo { font-size: var(--texto-titulo); font-weight: 500; letter-spacing: -0.01em; }
 .cv-cargo { padding: var(--espacio-5) 0; border-top: 1px solid var(--borde); display: grid; gap: var(--espacio-2); }
 .cv-cargo:first-of-type { border-top: 0; padding-top: 0; }
