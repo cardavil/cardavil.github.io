@@ -172,11 +172,7 @@ img, svg { max-width: 100%; }
 .perfil-habilidades dt { font-weight: 600; }
 .perfil-habilidades dd { margin: 2px 0 0; color: var(--texto-suave); }
 
-/* --- Página: Experiencia y habilidades (la misma hoja, en una sola columna: la barra lateral vive en Perfil) --- */
-@media (min-width: 900px) {
-  .cv-hoja { grid-template-columns: minmax(0, 1fr); }
-  .cv-hoja .perfil-principal { grid-column: 1; }
-}
+/* --- Página: Experiencia y habilidades (la misma hoja y la misma barra lateral que Perfil) --- */
 .cv-titulo { font-size: var(--texto-titulo); font-weight: 500; letter-spacing: -0.01em; }
 .cv-cargo { padding: var(--espacio-5) 0; border-top: 1px solid var(--borde); display: grid; gap: var(--espacio-2); }
 .cv-cargo:first-of-type { border-top: 0; padding-top: 0; }
