@@ -101,11 +101,11 @@
       <ul class="vinetas">
         <li><strong>Identidad:</strong> nombre o razón social, documento con su formato validado, contacto y estado.</li>
         <li><strong>Consentimientos:</strong> las autorizaciones de tratamiento de datos que el titular da al registrarse, unas obligatorias y otras voluntarias, y, para contratistas y proveedores, la autorización de sus datos tributarios y financieros al vincularse. Cada una queda con su versión, un folio y una huella verificable.</li>
-        <li><strong>Debida diligencia:</strong> dirección, origen, identificación tributaria, perfil tributario (persona natural o jurídica), datos de pago, seguridad social y debida diligencia LA/FT. Son instrumentos versionados y cada envío lleva folio.</li>
+        <li><strong>Debida diligencia:</strong> dirección, datos tributarios y de pago, seguridad social y debida diligencia antilavado (AML/CTF). Son instrumentos versionados y cada envío lleva folio.</li>
         <li><strong>Caracterizaciones:</strong> empresarial, para aliados, y de condiciones, para beneficiarios.</li>
-        <li><strong>Documentos:</strong> documento de identidad, registro tributario, certificación bancaria, cámara de comercio, declaración de no obligado a facturar, cuenta de cobro, factura, planilla de seguridad social, soportes bancarios de ingreso y egreso, y constancias de consentimiento. El sistema calcula qué documento le falta a cada expediente y en qué estado está el último enviado.</li>
+        <li><strong>Documentos:</strong> documentos de identidad, tributarios, bancarios y de registro de la empresa, facturas, soportes de seguridad social, soportes bancarios de ingreso y egreso, y constancias de consentimiento. El sistema calcula qué documento le falta a cada expediente y en qué estado está el último enviado.</li>
         <li><strong>Tareas:</strong> formulario, documento, financiero, revisión, consentimiento y diagnóstico, con prioridad, plazo, dependencias y recurrencia.</li>
-        <li><strong>Cobros y pagos:</strong> facturas o cuentas de cobro con su cuenta contable, y los ingresos y egresos bancarios que las saldan.</li>
+        <li><strong>Cobros y pagos:</strong> facturas con su cuenta contable, y los ingresos y egresos bancarios que las saldan.</li>
         <li><strong>Historial:</strong> bitácora de actividad, versiones de cada respuesta, documentos reemplazados y cadenas de corrección. Nada se borra en silencio.</li>
       </ul>
     </section>
@@ -113,12 +113,12 @@
     <section class="caso-seccion" aria-labelledby="titulo-ciclo">
       <h2 id="titulo-ciclo">Cómo avanza un expediente</h2>
       <ol class="decisiones">
-        <li><h3>Registro</h3><p>Asistente de 3 pasos: tipo de expediente; datos de persona natural o jurídica; y política de datos con consentimientos, confirmados con un código enviado al correo. En una sola operación se crean el expediente (pendiente) y sus consentimientos; la constancia en PDF va a Drive y llega por correo, y el equipo recibe el aviso por Telegram.</p></li>
+        <li><h3>Registro</h3><p>Asistente de 3 pasos: tipo de expediente; datos de la persona o de la empresa; y política de datos con consentimientos, confirmados con un código enviado al correo. En una sola operación se crean el expediente (pendiente) y sus consentimientos; la constancia en PDF va a Drive y llega por correo, y el equipo recibe el aviso por Telegram.</p></li>
         <li><h3>Aprobación</h3><p>Quien tiene el permiso de accesos decide. Si aprueba, el expediente queda activo, se crea su carpeta en Drive, el titular recibe el correo y se crean las tareas de vinculación de su tipo. Si rechaza, el expediente queda inactivo y el titular recibe el correo.</p></li>
         <li><h3>Vinculación</h3><p>Cada tipo de expediente recibe su propio conjunto de tareas de vinculación (los formularios, documentos y pasos de debida diligencia que necesita), cada una con su plazo.</p></li>
         <li><h3>Formularios</h3><p>Al enviar uno, el sistema valida cada respuesta contra lo permitido, comprueba que los adjuntos sean de ese titular y de esa tarea, respeta las dependencias, impide el doble envío, asigna el folio, guarda la versión y cierra la tarea.</p></li>
-        <li><h3>Documentos</h3><p>Solo PDF, JPEG o PNG de hasta 10 MB; se verifica el contenido real del archivo y se rechazan los PDF con contraseña. El registro tributario tiene que estar expedido por la autoridad tributaria y tener menos de 30 días. Cada archivo espera en un almacenamiento temporal y se revisa desde una bandeja única. Si se aprueba, se archiva en la carpeta del expediente en Google Drive con nombre estándar. Si se rechaza, el motivo es obligatorio y el archivo se purga del almacenamiento temporal, así que nunca llega a Google Drive; la tarea vuelve al titular con 5 días de plazo y se le avisa por correo.</p></li>
-        <li><h3>Seguimiento</h3><p>Todos los días se marcan las tareas vencidas y se generan las recurrentes (mensual, trimestral, semestral, anual o cada N días). Los recordatorios por correo son como máximo 2 por requisito, agrupados en un solo correo por persona; después, el requisito queda como «Sin respuesta» para el equipo.</p></li>
+        <li><h3>Documentos</h3><p>Solo se aceptan tipos de archivo válidos, cada archivo se verifica por su contenido real y los documentos que vencen deben ser recientes. Cada archivo espera en un almacenamiento temporal y se revisa desde una bandeja única. Si se aprueba, se archiva en la carpeta del expediente en Google Drive con nombre estándar. Si se rechaza, el motivo es obligatorio y el archivo se purga del almacenamiento temporal, así que nunca llega a Google Drive; la tarea vuelve al titular con un plazo para responder y se le avisa por correo.</p></li>
+        <li><h3>Seguimiento</h3><p>Todos los días se marcan las tareas vencidas y se generan las recurrentes. Los recordatorios por correo son limitados y se agrupan en un solo correo por persona; después del último, el requisito queda como «Sin respuesta» para el equipo.</p></li>
       </ol>
       <h3>Estados</h3>
       <ul class="vinetas">
@@ -132,12 +132,12 @@
     <section class="caso-seccion" aria-labelledby="titulo-pagos">
       <h2 id="titulo-pagos">Pagos a contratistas y proveedores</h2>
       <ol class="decisiones">
-        <li><h3>El tercero sube su cobro</h3><p>Solo con la debida diligencia vigente. Sube factura si está obligado a facturar y cuenta de cobro si no; elige la cuenta contable, y el número sugerido sigue la serie del documento soporte en la contabilidad y no puede repetirse.</p></li>
+        <li><h3>El tercero sube su cobro</h3><p>Solo con la debida diligencia vigente. Sube su factura y elige la cuenta contable; el número sugerido sigue la serie del sistema contable y no puede repetirse.</p></li>
         <li><h3>Revisión financiera</h3><p>Si se aprueba, se archiva en la carpeta financiera del expediente. Si se rechaza, lleva motivo y abre un requisito de corrección enlazado al original.</p></li>
         <li><h3>Soporte del pago</h3><p>Un miembro del equipo lo reporta desde el bot de Telegram. Si tiene el permiso financiero, el cobro pasa a pagado.</p></li>
-        <li><h3>Cruce con la contabilidad</h3><p>Cada noche se leen del sistema contable los documentos soporte y los recibos de pago, sin escribir nada en él. Cada documento se empareja con su cobro; si un número coincide con dos cobros, no se asigna a ninguno.</p></li>
+        <li><h3>Cruce con la contabilidad</h3><p>Cada noche se leen del sistema contable los registros contables y los recibos de pago, sin escribir nada en él. Cada registro se empareja con su cobro, y las coincidencias ambiguas nunca se asignan solas.</p></li>
         <li><h3>Cierre automático</h3><p>El cobro pagado se cierra cuando el sistema contable deja de tenerlo como cuenta por pagar. El cierre se detiene si la información llegó incompleta.</p></li>
-        <li><h3>Conciliación a la vista</h3><p>Cada operación tiene 4 piezas: cuenta de cobro, soporte de pago, documento soporte y recibo de pago, y lleva un veredicto: completa, falta documento soporte, falta pago, falta recibo, descuadre, pago anterior a la cuenta, solo en contabilidad o sin expediente, entre otros. El reporte financiero cruza las cuentas por pagar del sistema contable con CONECTA y lista lo que falta causar. Solo informa; no bloquea pagos.</p></li>
+        <li><h3>Conciliación a la vista</h3><p>Cada operación se revisa en 4 piezas (la factura, el soporte de pago y los dos registros contables que le corresponden) y lleva un veredicto, como completa, falta una pieza o descuadre. El reporte financiero cruza las cuentas por pagar del sistema contable con CONECTA y lista lo que falta causar. Solo informa; no bloquea pagos.</p></li>
       </ol>
     </section>
 
@@ -145,8 +145,8 @@
       <h2 id="titulo-diversidad">Diagnóstico de diversidad (anónimo)</h2>
       <ol class="decisiones">
         <li><h3>Campaña</h3><p>El equipo abre una campaña para una empresa aliada o proveedora, que recibe la tarea de difundir un enlace público y declara cuando lo hizo.</p></li>
-        <li><h3>Respuestas sin identidad</h3><p>Las personas responden 40 preguntas sin cuenta. Solo se guardan la campaña y las respuestas: sin nombre, correo ni IP.</p></li>
-        <li><h3>Reporte agregado</h3><p>Se agrega por dimensión y oculta toda categoría con menos de 5 respuestas (k-anonimato), un umbral fijo en el servidor. Solo el equipo cierra la campaña, y la caracterización empresarial del aliado complementa el diagnóstico.</p></li>
+        <li><h3>Respuestas sin identidad</h3><p>Las personas responden un cuestionario breve sin cuenta. Solo se guardan la campaña y las respuestas: sin nombre, correo ni IP.</p></li>
+        <li><h3>Reporte agregado</h3><p>Se agrega por dimensión y oculta los grupos pequeños para que nadie pueda ser identificado (k-anonimato), con un umbral fijo en el servidor. Solo el equipo cierra la campaña, y la caracterización empresarial del aliado complementa el diagnóstico.</p></li>
       </ol>
     </section>
 
@@ -165,18 +165,18 @@
         <table class="tabla">
           <thead><tr><th scope="col">Disparador</th><th scope="col">Mensaje</th><th scope="col">Quién lo recibe</th><th scope="col">Para qué</th></tr></thead>
           <tbody>
-            <tr><td>Documento, cobro, registro o tarea de revisión nuevos</td><td>«Documento por revisar», «Cuenta de cobro por revisar», «Registro nuevo por aprobar» o «Tarea de revisión», con enlace directo</td><td>Bot de alertas, chat del equipo</td><td>Revisar o aprobar sin buscar</td></tr>
+            <tr><td>Documento, cobro, registro o tarea de revisión nuevos</td><td>Aviso de documento por revisar, cobro por revisar, registro nuevo por aprobar o tarea de revisión, con enlace directo</td><td>Bot de alertas, chat del equipo</td><td>Revisar o aprobar sin buscar</td></tr>
             <tr><td>Una cuenta abre sesión desde otra red mientras tiene otra abierta</td><td>«Sesión simultánea desde otra red», con dispositivo y navegador</td><td>Bot de alertas</td><td>Suspender la cuenta desde Accesos si no fue el titular</td></tr>
-            <tr><td>07:30 todos los días, si hay algo pendiente</td><td>Colas pendientes con la antigüedad del más viejo, personas sin respuesta, tareas programadas con problemas y servicios con fallas</td><td>Bot de alertas</td><td>Priorizar el día</td></tr>
-            <tr><td>Un miembro escribe al bot</td><td>Verificación con código al correo institucional (vence en 10 minutos, 5 intentos); luego el registro guiado del ingreso o egreso con su soporte</td><td>Bot de captura</td><td>Dejar el pago registrado con su soporte en Drive</td></tr>
+            <tr><td>Cada mañana, si hay algo pendiente</td><td>Colas pendientes con la antigüedad del más viejo, personas sin respuesta, tareas programadas con problemas y servicios con fallas</td><td>Bot de alertas</td><td>Priorizar el día</td></tr>
+            <tr><td>Un miembro escribe al bot</td><td>Verificación con un código de corta vigencia al correo institucional, con intentos limitados; luego el registro guiado del ingreso o egreso con su soporte</td><td>Bot de captura</td><td>Dejar el pago registrado con su soporte en Drive</td></tr>
             <tr><td>Aprobación, rechazo, documento devuelto, consentimiento otorgado o requisito pendiente</td><td>Correo con el resultado, el motivo y el plazo, la constancia en PDF o el recordatorio</td><td>Titular</td><td>Saber qué pasó y qué falta</td></tr>
           </tbody>
         </table>
       </div>
       <ul class="vinetas">
-        <li>Ningún aviso incluye cédula, NIT, correo ni IP.</li>
-        <li><strong>Tareas programadas</strong> (hora de Bogotá): vencimientos y tareas recurrentes (06:00); recordatorios (lunes a viernes, 08:00); lectura del sistema contable (01:20); cierre de cobros (02:00); resumen (07:30); vencimiento de sesiones (cada hora); limpieza de archivos de paso (domingos); y respaldo de la base, guardado 30 días (diario).</li>
-        <li><strong>Sonda cada 30 minutos:</strong> 12 pruebas sobre 7 servicios. Una entra con una cuenta de prueba sin permisos y verifica que solo vea su propio expediente.</li>
+        <li>Ningún aviso incluye números de identificación, correo ni IP.</li>
+        <li><strong>Tareas programadas:</strong> vencimientos y tareas recurrentes, recordatorios, la lectura nocturna del sistema contable y el cierre de cobros, el resumen diario, el vencimiento de sesiones, la limpieza de archivos de paso y el respaldo diario de la base.</li>
+        <li><strong>Sonda de salud:</strong> revisa con regularidad cada servicio externo y entra con una cuenta de prueba sin permisos para verificar que solo vea su propio expediente.</li>
         <li><strong>Rastro de las tareas programadas:</strong> el sistema avisa si una no corrió, falló o quedó sin vigilancia.</li>
       </ul>
     </section>
@@ -187,10 +187,10 @@
         <li><strong>Acceso:</strong> cada regla vive en la base de datos y las funciones del servidor repiten la misma regla. Las escrituras críticas (consentimientos, documentos, cobros, movimientos y bitácora) solo las hace el servidor.</li>
         <li><strong>Datos sensibles:</strong> los de salud, solo con asignación nominal; el diagnóstico de diversidad, anónimo; los avisos, sin identificadores; el reporte financiero, solo para el rol financiero.</li>
         <li><strong>Consentimientos:</strong> no se editan ni se borran; llevan folio consecutivo y una huella SHA-256 que un tercero puede recalcular. La constancia PDF lleva la huella en cada página y la política anexa. Qué es obligatorio lo decide el servidor, no el formulario.</li>
-        <li><strong>Trazabilidad:</strong> bitácora de actividad, versiones de cada respuesta, cadenas de reemplazo y de corrección, registro de inicios de sesión durante 90 días y un registro de cada cambio automático en un cobro.</li>
+        <li><strong>Trazabilidad:</strong> bitácora de actividad, versiones de cada respuesta, cadenas de reemplazo y de corrección, registro de inicios de sesión y un registro de cada cambio automático en un cobro.</li>
         <li><strong>Archivos:</strong> el navegador nunca toca el almacenamiento; cada archivo se valida por su contenido y espera en un almacenamiento temporal hasta su revisión; si se rechaza, se purga ahí y nunca llega a Google Drive, y cada semana se limpian las copias de paso que queden; solo se entrega después de verificar el permiso.</li>
-        <li><strong>Sesiones:</strong> se cierran tras 8 horas sin actividad.</li>
-        <li><strong>Control de cambios:</strong> 24 verificaciones automáticas en cada cambio, que también comparan la documentación, la matriz de acceso y el diagrama con el código; 156 pruebas de extremo a extremo con revisión de accesibilidad; un banco de unos 182 escenarios que compara cada función antes y después de un cambio contra servicios simulados; y todo entra por rama y revisión.</li>
+        <li><strong>Sesiones:</strong> se cierran tras un periodo sin actividad.</li>
+        <li><strong>Control de cambios:</strong> verificaciones automáticas en cada cambio, que también comparan la documentación, la matriz de acceso y el diagrama con el código; pruebas de extremo a extremo con revisión de accesibilidad; un banco que compara cada función antes y después de un cambio contra servicios simulados; y todo entra por rama y revisión.</li>
       </ul>
     </section>
 
@@ -207,7 +207,7 @@
     </section>
 
     <details class="apendice">
-      <summary>Para revisores técnicos: infraestructura, stack y cifras</summary>
+      <summary>Para revisores técnicos: infraestructura, stack, cifras y detalles de operación</summary>
       <div class="apendice-contenido">
         <div class="infra-cabecera">
           <h2>Infraestructura</h2>
@@ -222,6 +222,17 @@
           <li>37 tablas, todas con políticas de acceso (83 políticas); 52 funciones SQL y 24 triggers.</li>
           <li>16 Edge Functions con 22 módulos compartidos; 8 tareas programadas más el respaldo; 3 almacenes privados de paso.</li>
           <li>11 instrumentos versionados y 4 playbooks; 14 páginas.</li>
+        </ul>
+        <h3>Detalles de operación</h3>
+        <ul class="vinetas">
+          <li><strong>Archivos:</strong> PDF, JPEG o PNG de hasta 10 MB; se rechazan los PDF con contraseña; el registro tributario debe tener menos de 30 días.</li>
+          <li><strong>Plazos:</strong> un documento devuelto tiene 5 días para responder; como máximo 2 recordatorios por requisito; recurrencia mensual, trimestral, semestral, anual o cada N días.</li>
+          <li><strong>Tareas programadas</strong> (hora de Bogotá): vencimientos 06:00; recordatorios de lunes a viernes 08:00; lectura del sistema contable 01:20; cierre de cobros 02:00; resumen diario 07:30; vencimiento de sesiones cada hora; limpieza de archivos de paso los domingos; respaldo diario guardado 30 días.</li>
+          <li><strong>Bot de captura:</strong> código de 6 dígitos válido 10 minutos, 5 intentos y sesión de 12 horas.</li>
+          <li><strong>Sonda de salud:</strong> cada 30 minutos, 12 pruebas sobre 7 servicios.</li>
+          <li><strong>Diagnóstico de diversidad:</strong> 40 preguntas; se ocultan las categorías con menos de 5 respuestas.</li>
+          <li><strong>Sesiones:</strong> se cierran tras 8 horas sin actividad; los inicios de sesión se guardan 90 días.</li>
+          <li><strong>Control de cambios:</strong> 24 verificaciones automáticas, 156 pruebas de extremo a extremo y un banco de unos 182 escenarios.</li>
         </ul>
         <p class="apendice-nota">Cómo construyo: defino el problema, los requisitos, el modelo de datos y los controles; implemento con asistentes de IA (Claude Code) bajo mi dirección, y cada cambio pasa pruebas automáticas y mi revisión antes de publicarse.</p>
         <p class="apendice-nota">El código es privado porque contiene reglas de negocio y datos del cliente. Puedo recorrerlo en vivo: código, pruebas y despliegue.</p>

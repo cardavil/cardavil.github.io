@@ -101,9 +101,9 @@
       <ul class="vinetas">
         <li><strong>Identity:</strong> name or legal name, ID document with its format validated, contact details and status.</li>
         <li><strong>Consents:</strong> the data-processing authorizations the holder gives at sign-up, some required and some optional, and, for contractors and suppliers, the authorization for their tax and financial data at onboarding. Each one is stored with its version, a record number and a verifiable fingerprint.</li>
-        <li><strong>Due diligence:</strong> address, background, tax identification, tax profile (individual or company), payment details, social security and AML/CTF due diligence. The questionnaires are versioned and every submission gets a record number.</li>
+        <li><strong>Due diligence:</strong> address, tax and payment details, social security and AML/CTF due diligence. The questionnaires are versioned and every submission gets a record number.</li>
         <li><strong>Profiles:</strong> a company profile for partners and a conditions profile for beneficiaries.</li>
-        <li><strong>Documents:</strong> ID document, tax registration, bank certificate, chamber of commerce certificate, declaration of not being required to invoice, invoice or bill for services, social security contribution form, bank receipts for money in and out, and consent certificates. The system works out which document each case file is missing and the status of the last one submitted.</li>
+        <li><strong>Documents:</strong> identity, tax, banking and company-registration documents, invoices, social-security proof, bank receipts for money in and out, and consent certificates. The system works out which document each case file is missing and the status of the last one submitted.</li>
         <li><strong>Tasks:</strong> form, document, finance, review, consent and assessment, with priority, due date, dependencies and recurrence.</li>
         <li><strong>Invoices and payments:</strong> invoices or bills with their ledger account, and the bank inflows and outflows that settle them.</li>
         <li><strong>History:</strong> activity log, versions of every answer, replaced documents and correction chains. Nothing is deleted silently.</li>
@@ -117,8 +117,8 @@
         <li><h3>Approval</h3><p>A member with the access permission decides. If approved, the case file becomes active, its Drive folder is created, the holder gets an email and the onboarding tasks for its type are created. If rejected, the case file becomes inactive and the holder gets an email.</p></li>
         <li><h3>Onboarding</h3><p>Each type of case file gets its own set of onboarding tasks (the forms, documents and due-diligence steps it needs), each with a due date.</p></li>
         <li><h3>Forms</h3><p>When one is submitted, the system checks every answer against the allowed values, confirms that attachments belong to that holder and that task, enforces dependencies, prevents double submission, assigns the record number, stores the version and closes the task.</p></li>
-        <li><h3>Documents</h3><p>PDF, JPEG or PNG only, up to 10 MB; the actual file content is checked and password-protected PDFs are rejected. The tax registration must be issued by the tax authority and be less than 30 days old. Each upload waits in temporary storage and is reviewed from a single inbox. Approved, it is filed in the case file's Google Drive folder with a standard name. Rejected, a reason is required and the file is purged from temporary storage, so it never reaches Google Drive; the task goes back to the holder with 5 days to respond, and they are notified by email.</p></li>
-        <li><h3>Follow-up</h3><p>Every day overdue tasks are flagged and recurring ones are generated (monthly, quarterly, half-yearly, yearly or every N days). Email reminders are capped at 2 per requirement, grouped into a single email per person; after that, the requirement is marked "No response" for the team.</p></li>
+        <li><h3>Documents</h3><p>Only valid file types are accepted, every file is checked by its actual content, and time-sensitive documents must be recent. Each upload waits in temporary storage and is reviewed from a single inbox. Approved, it is filed in the case file's Google Drive folder with a standard name. Rejected, a reason is required and the file is purged from temporary storage, so it never reaches Google Drive; the task goes back to the holder with a deadline to respond, and they are notified by email.</p></li>
+        <li><h3>Follow-up</h3><p>Every day overdue tasks are flagged and recurring ones are generated. Email reminders are limited and grouped into a single email per person; after the last one, the requirement is marked "No response" for the team.</p></li>
       </ol>
       <h3>Statuses</h3>
       <ul class="vinetas">
@@ -132,12 +132,12 @@
     <section class="caso-seccion" aria-labelledby="titulo-pagos">
       <h2 id="titulo-pagos">Payments to contractors and suppliers</h2>
       <ol class="decisiones">
-        <li><h3>The third party uploads an invoice</h3><p>Only with current due diligence. They upload an invoice if they are required to invoice, and a bill for services if not; they choose the ledger account, and the suggested number follows the support-document series in the accounting system and cannot be repeated.</p></li>
+        <li><h3>The third party uploads an invoice</h3><p>Only with current due diligence. They upload their invoice and choose the ledger account; the suggested number follows the accounting system's series and cannot be repeated.</p></li>
         <li><h3>Finance review</h3><p>If approved, it is filed in the case file's finance folder. If rejected, it carries a reason and opens a correction requirement linked to the original.</p></li>
         <li><h3>Proof of payment</h3><p>A team member reports it from the Telegram bot. If they hold the finance permission, the invoice moves to paid.</p></li>
-        <li><h3>Matching with the accounting system</h3><p>Every night the support documents and payment receipts are read from the accounting system, without writing anything to it. Each document is matched to its invoice; if a number matches two invoices, it is assigned to neither.</p></li>
+        <li><h3>Matching with the accounting system</h3><p>Every night the accounting records and payment receipts are read from the accounting system, without writing anything to it. Each record is matched to its invoice, and ambiguous matches are never assigned automatically.</p></li>
         <li><h3>Automatic closing</h3><p>A paid invoice is closed when the accounting system no longer shows it as an account payable. Closing stops if the data arrived incomplete.</p></li>
-        <li><h3>Reconciliation in plain view</h3><p>Every transaction has 4 pieces: invoice, proof of payment, support document and payment receipt, and gets a verdict: complete, missing support document, missing payment, missing receipt, mismatch, payment before the invoice, only in the accounting system or no case file, among others. The financial report matches the accounting system's accounts payable against CONECTA and lists what still needs to be recorded. It only informs; it does not block payments.</p></li>
+        <li><h3>Reconciliation in plain view</h3><p>Every transaction is checked in 4 pieces (the invoice, the proof of payment and the two matching accounting records) and gets a verdict, such as complete, missing a piece or mismatch. The financial report matches the accounting system's accounts payable against CONECTA and lists what still needs to be recorded. It only informs; it does not block payments.</p></li>
       </ol>
     </section>
 
@@ -145,8 +145,8 @@
       <h2 id="titulo-diversidad">Diversity assessment (anonymous)</h2>
       <ol class="decisiones">
         <li><h3>Campaign</h3><p>The team opens a campaign for a partner or supplier company, which gets a task to share a public link and confirms when it has done so.</p></li>
-        <li><h3>Answers without identity</h3><p>People answer 40 questions without an account. Only the campaign and the answers are stored: no name, email or IP address.</p></li>
-        <li><h3>Aggregated report</h3><p>Results are aggregated by dimension and any category with fewer than 5 answers is hidden (k-anonymity), with the threshold fixed on the server. Only the team closes the campaign, and the partner's company profile complements the assessment.</p></li>
+        <li><h3>Answers without identity</h3><p>People answer a short questionnaire without an account. Only the campaign and the answers are stored: no name, email or IP address.</p></li>
+        <li><h3>Aggregated report</h3><p>Results are aggregated by dimension and small groups are hidden so that no one can be identified (k-anonymity), with the threshold fixed on the server. Only the team closes the campaign, and the partner's company profile complements the assessment.</p></li>
       </ol>
     </section>
 
@@ -167,16 +167,16 @@
           <tbody>
             <tr><td>New document, invoice, sign-up or review task</td><td>"Document to review", "Invoice to review", "New sign-up to approve" or "Review task", with a direct link</td><td>Alerts bot, team chat</td><td>Review or approve without searching</td></tr>
             <tr><td>An account signs in from another network while another session is open</td><td>"Simultaneous session from another network", with device and browser</td><td>Alerts bot</td><td>Suspend the account from Access if it was not the holder</td></tr>
-            <tr><td>07:30 every day, if anything is pending</td><td>Pending queues with the age of the oldest item, people with no response, scheduled jobs with problems and failing services</td><td>Alerts bot</td><td>Prioritize the day</td></tr>
-            <tr><td>A team member messages the bot</td><td>Verification with a code sent to their work email (expires in 10 minutes, 5 attempts); then a guided entry of the inflow or outflow with its proof</td><td>Capture bot</td><td>Record the payment with its proof in Drive</td></tr>
+            <tr><td>Every morning, if anything is pending</td><td>Pending queues with the age of the oldest item, people with no response, scheduled jobs with problems and failing services</td><td>Alerts bot</td><td>Prioritize the day</td></tr>
+            <tr><td>A team member messages the bot</td><td>Verification with a short-lived code sent to their work email, with limited attempts; then a guided entry of the inflow or outflow with its proof</td><td>Capture bot</td><td>Record the payment with its proof in Drive</td></tr>
             <tr><td>Approval, rejection, returned document, consent given or pending requirement</td><td>Email with the outcome, the reason and the deadline, the PDF certificate or the reminder</td><td>Holder</td><td>Know what happened and what is missing</td></tr>
           </tbody>
         </table>
       </div>
       <ul class="vinetas">
         <li>No notification includes an ID number, tax ID, email or IP address.</li>
-        <li><strong>Scheduled jobs</strong> (Bogotá time): due dates and recurring tasks (06:00); reminders (weekdays, 08:00); reading from the accounting system (01:20); invoice closing (02:00); daily summary (07:30); session expiry (hourly); cleanup of temporary files (Sundays); and a daily database backup kept for 30 days.</li>
-        <li><strong>Probe every 30 minutes:</strong> 12 checks across 7 services. One signs in with a test account that has no permissions and verifies it can see only its own case file.</li>
+        <li><strong>Scheduled jobs</strong> handle due dates and recurring tasks, reminders, the nightly accounting sync and invoice closing, the daily summary, session expiry, cleanup of temporary files and a daily database backup.</li>
+        <li><strong>Health probe:</strong> regularly checks every external service, and signs in with a test account that has no permissions to verify it can see only its own case file.</li>
         <li><strong>Scheduled-job trail:</strong> the system flags any job that did not run, failed or is not being watched.</li>
       </ul>
     </section>
@@ -187,10 +187,10 @@
         <li><strong>Access:</strong> every rule lives in the database and the server functions repeat the same rule. Critical writes (consents, documents, invoices, transactions and the log) are made only by the server.</li>
         <li><strong>Sensitive data:</strong> health data only with a named assignment; the diversity assessment is anonymous; notifications carry no identifiers; the financial report is for the finance role only.</li>
         <li><strong>Consents:</strong> cannot be edited or deleted; they carry a sequential record number and a SHA-256 fingerprint that a third party can recompute. The PDF certificate shows the fingerprint on every page with the policy attached. What is mandatory is decided by the server, not by the form.</li>
-        <li><strong>Traceability:</strong> activity log, versions of every answer, replacement and correction chains, sign-in records kept for 90 days, and a record of every automatic change to an invoice.</li>
+        <li><strong>Traceability:</strong> activity log, versions of every answer, replacement and correction chains, sign-in records, and a record of every automatic change to an invoice.</li>
         <li><strong>Files:</strong> the browser never touches storage; every file is validated by its content and waits in temporary storage until it is reviewed; a rejected file is purged there and never reaches Google Drive, and leftover temporary copies are cleaned weekly; files are served only after the permission is checked.</li>
-        <li><strong>Sessions:</strong> closed after 8 hours of inactivity.</li>
-        <li><strong>Change control:</strong> 24 automated checks on every change, which also compare the documentation, the access matrix and the diagram with the code; 156 end-to-end tests with accessibility checks; a bench of about 182 scenarios that compares every function before and after a change against simulated services; and everything goes in through a branch and a review.</li>
+        <li><strong>Sessions:</strong> closed after a period of inactivity.</li>
+        <li><strong>Change control:</strong> automated checks on every change, which also compare the documentation, the access matrix and the diagram with the code; end-to-end tests with accessibility checks; a bench that compares every function before and after a change against simulated services; and everything goes in through a branch and a review.</li>
       </ul>
     </section>
 
@@ -207,7 +207,7 @@
     </section>
 
     <details class="apendice">
-      <summary>For technical reviewers: infrastructure, stack and figures</summary>
+      <summary>For technical reviewers: infrastructure, stack, figures and operational details</summary>
       <div class="apendice-contenido">
         <div class="infra-cabecera">
           <h2>Infrastructure</h2>
@@ -222,6 +222,17 @@
           <li>37 tables, all with access policies (83 policies); 52 SQL functions and 24 triggers.</li>
           <li>16 Edge Functions with 22 shared modules; 8 scheduled jobs plus the backup; 3 private staging buckets.</li>
           <li>11 versioned questionnaires and 4 playbooks; 14 pages.</li>
+        </ul>
+        <h3>Operational details</h3>
+        <ul class="vinetas">
+          <li><strong>Files:</strong> PDF, JPEG or PNG up to 10 MB; password-protected PDFs are rejected; the tax registration must be less than 30 days old.</li>
+          <li><strong>Deadlines:</strong> a returned document has 5 days for a response; at most 2 reminders per requirement; recurrence monthly, quarterly, half-yearly, yearly or every N days.</li>
+          <li><strong>Scheduled jobs</strong> (Bogotá time): due dates 06:00; reminders weekdays 08:00; accounting sync 01:20; invoice closing 02:00; daily summary 07:30; session expiry hourly; temporary-file cleanup on Sundays; daily backup kept for 30 days.</li>
+          <li><strong>Capture bot:</strong> 6-digit code valid for 10 minutes, 5 attempts, 12-hour session.</li>
+          <li><strong>Health probe:</strong> every 30 minutes, 12 checks across 7 services.</li>
+          <li><strong>Diversity assessment:</strong> 40 questions; categories with fewer than 5 answers are hidden.</li>
+          <li><strong>Sessions:</strong> closed after 8 hours of inactivity; sign-in records kept for 90 days.</li>
+          <li><strong>Change control:</strong> 24 automated checks, 156 end-to-end tests and a bench of about 182 scenarios.</li>
         </ul>
         <p class="apendice-nota">How I build: I define the problem, the requirements, the data model and the controls; I implement with AI coding assistants (Claude Code) under my direction, and every change passes automated tests and my review before release.</p>
         <p class="apendice-nota">The source code is private because it contains the client’s business rules and data. I can walk through it live: code, tests and deployment.</p>
