@@ -135,9 +135,9 @@
         <li><h3>El tercero sube su cobro</h3><p>Solo con la debida diligencia vigente. Sube factura si está obligado a facturar y cuenta de cobro si no; elige la cuenta contable, y el número sugerido sigue la serie del documento soporte en la contabilidad y no puede repetirse.</p></li>
         <li><h3>Revisión financiera</h3><p>Si se aprueba, se archiva en la carpeta financiera del expediente. Si se rechaza, lleva motivo y abre un requisito de corrección enlazado al original.</p></li>
         <li><h3>Soporte del pago</h3><p>Un miembro del equipo lo reporta desde el bot de Telegram. Si tiene el permiso financiero, el cobro pasa a pagado.</p></li>
-        <li><h3>Cruce con la contabilidad</h3><p>Cada noche se leen de Siigo los documentos soporte y los recibos de pago, sin escribir nada en Siigo. Cada documento se empareja con su cobro; si un número coincide con dos cobros, no se asigna a ninguno.</p></li>
-        <li><h3>Cierre automático</h3><p>El cobro pagado se cierra cuando Siigo deja de tenerlo como cuenta por pagar. El cierre se detiene si la información llegó incompleta.</p></li>
-        <li><h3>Conciliación a la vista</h3><p>Cada operación tiene 4 piezas: cuenta de cobro, soporte de pago, documento soporte y recibo de pago, y lleva un veredicto: completa, falta documento soporte, falta pago, falta recibo, descuadre, pago anterior a la cuenta, solo en Siigo o sin expediente, entre otros. El reporte financiero cruza las cuentas por pagar de Siigo con CONECTA y lista lo que falta causar. Solo informa; no bloquea pagos.</p></li>
+        <li><h3>Cruce con la contabilidad</h3><p>Cada noche se leen del sistema contable los documentos soporte y los recibos de pago, sin escribir nada en él. Cada documento se empareja con su cobro; si un número coincide con dos cobros, no se asigna a ninguno.</p></li>
+        <li><h3>Cierre automático</h3><p>El cobro pagado se cierra cuando el sistema contable deja de tenerlo como cuenta por pagar. El cierre se detiene si la información llegó incompleta.</p></li>
+        <li><h3>Conciliación a la vista</h3><p>Cada operación tiene 4 piezas: cuenta de cobro, soporte de pago, documento soporte y recibo de pago, y lleva un veredicto: completa, falta documento soporte, falta pago, falta recibo, descuadre, pago anterior a la cuenta, solo en contabilidad o sin expediente, entre otros. El reporte financiero cruza las cuentas por pagar del sistema contable con CONECTA y lista lo que falta causar. Solo informa; no bloquea pagos.</p></li>
       </ol>
     </section>
 
@@ -175,7 +175,7 @@
       </div>
       <ul class="vinetas">
         <li>Ningún aviso incluye cédula, NIT, correo ni IP.</li>
-        <li><strong>Tareas programadas</strong> (hora de Bogotá): vencimientos y tareas recurrentes (06:00); recordatorios (lunes a viernes, 08:00); lectura de Siigo (01:20); cierre de cobros (02:00); resumen (07:30); vencimiento de sesiones (cada hora); limpieza de archivos de paso (domingos); y respaldo de la base, guardado 30 días (diario).</li>
+        <li><strong>Tareas programadas</strong> (hora de Bogotá): vencimientos y tareas recurrentes (06:00); recordatorios (lunes a viernes, 08:00); lectura del sistema contable (01:20); cierre de cobros (02:00); resumen (07:30); vencimiento de sesiones (cada hora); limpieza de archivos de paso (domingos); y respaldo de la base, guardado 30 días (diario).</li>
         <li><strong>Sonda cada 30 minutos:</strong> 12 pruebas sobre 7 servicios. Una entra con una cuenta de prueba sin permisos y verifica que solo vea su propio expediente.</li>
         <li><strong>Rastro de las tareas programadas:</strong> el sistema avisa si una no corrió, falló o quedó sin vigilancia.</li>
       </ul>
@@ -199,7 +199,7 @@
       <ul class="vinetas">
         <li><strong>Google Drive:</strong> carpetas de expediente, constancias, archivo y soportes.</li>
         <li><strong>Google Docs:</strong> política de datos y consentimiento integral.</li>
-        <li><strong>Siigo:</strong> contabilidad, solo lectura.</li>
+        <li><strong>Sistema contable:</strong> solo lectura.</li>
         <li><strong>Resend:</strong> correos. <strong>Google Workspace:</strong> códigos de acceso.</li>
         <li><strong>Telegram:</strong> los 2 bots.</li>
         <li><strong>Cloudflare Pages:</strong> sitio. <strong>GitHub Actions:</strong> controles automáticos y respaldo.</li>
@@ -216,7 +216,7 @@
         <p class="infra-nota">Diagrama interactivo generado a partir del código del proyecto. Toca un nodo para ver su detalle y sus conexiones.</p>
         <iframe class="infra-marco" src="../../../archivos/conecta/infra.html" title="Infraestructura de CONECTA" loading="lazy" sandbox="allow-scripts"></iframe>
         <h3>Stack</h3>
-        <ul class="etiquetas"><li class="etiqueta">HTML/CSS/JavaScript sin framework</li><li class="etiqueta">Supabase (PostgreSQL, Auth, Storage)</li><li class="etiqueta">pg_cron + pg_net</li><li class="etiqueta">Edge Functions (Deno/TypeScript)</li><li class="etiqueta">pdf-lib</li><li class="etiqueta">Google Drive API</li><li class="etiqueta">Siigo API (lectura)</li><li class="etiqueta">Resend</li><li class="etiqueta">Telegram Bot API</li><li class="etiqueta">Cloudflare Pages</li><li class="etiqueta">Playwright + axe</li><li class="etiqueta">GitHub Actions</li></ul>
+        <ul class="etiquetas"><li class="etiqueta">HTML/CSS/JavaScript sin framework</li><li class="etiqueta">Supabase (PostgreSQL, Auth, Storage)</li><li class="etiqueta">pg_cron + pg_net</li><li class="etiqueta">Edge Functions (Deno/TypeScript)</li><li class="etiqueta">pdf-lib</li><li class="etiqueta">Google Drive API</li><li class="etiqueta">API del sistema contable (lectura)</li><li class="etiqueta">Resend</li><li class="etiqueta">Telegram Bot API</li><li class="etiqueta">Cloudflare Pages</li><li class="etiqueta">Playwright + axe</li><li class="etiqueta">GitHub Actions</li></ul>
         <h3>Cifras</h3>
         <ul class="vinetas">
           <li>37 tablas, todas con políticas de acceso (83 políticas); 52 funciones SQL y 24 triggers.</li>

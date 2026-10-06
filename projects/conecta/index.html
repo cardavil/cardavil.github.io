@@ -135,9 +135,9 @@
         <li><h3>The third party uploads an invoice</h3><p>Only with current due diligence. They upload an invoice if they are required to invoice, and a bill for services if not; they choose the ledger account, and the suggested number follows the support-document series in the accounting system and cannot be repeated.</p></li>
         <li><h3>Finance review</h3><p>If approved, it is filed in the case file's finance folder. If rejected, it carries a reason and opens a correction requirement linked to the original.</p></li>
         <li><h3>Proof of payment</h3><p>A team member reports it from the Telegram bot. If they hold the finance permission, the invoice moves to paid.</p></li>
-        <li><h3>Matching with the accounting system</h3><p>Every night the support documents and payment receipts are read from Siigo, without writing anything to Siigo. Each document is matched to its invoice; if a number matches two invoices, it is assigned to neither.</p></li>
-        <li><h3>Automatic closing</h3><p>A paid invoice is closed when Siigo no longer shows it as an account payable. Closing stops if the data arrived incomplete.</p></li>
-        <li><h3>Reconciliation in plain view</h3><p>Every transaction has 4 pieces: invoice, proof of payment, support document and payment receipt, and gets a verdict: complete, missing support document, missing payment, missing receipt, mismatch, payment before the invoice, only in Siigo or no case file, among others. The financial report matches Siigo's accounts payable against CONECTA and lists what still needs to be recorded. It only informs; it does not block payments.</p></li>
+        <li><h3>Matching with the accounting system</h3><p>Every night the support documents and payment receipts are read from the accounting system, without writing anything to it. Each document is matched to its invoice; if a number matches two invoices, it is assigned to neither.</p></li>
+        <li><h3>Automatic closing</h3><p>A paid invoice is closed when the accounting system no longer shows it as an account payable. Closing stops if the data arrived incomplete.</p></li>
+        <li><h3>Reconciliation in plain view</h3><p>Every transaction has 4 pieces: invoice, proof of payment, support document and payment receipt, and gets a verdict: complete, missing support document, missing payment, missing receipt, mismatch, payment before the invoice, only in the accounting system or no case file, among others. The financial report matches the accounting system's accounts payable against CONECTA and lists what still needs to be recorded. It only informs; it does not block payments.</p></li>
       </ol>
     </section>
 
@@ -175,7 +175,7 @@
       </div>
       <ul class="vinetas">
         <li>No notification includes an ID number, tax ID, email or IP address.</li>
-        <li><strong>Scheduled jobs</strong> (Bogotá time): due dates and recurring tasks (06:00); reminders (weekdays, 08:00); reading from Siigo (01:20); invoice closing (02:00); daily summary (07:30); session expiry (hourly); cleanup of temporary files (Sundays); and a daily database backup kept for 30 days.</li>
+        <li><strong>Scheduled jobs</strong> (Bogotá time): due dates and recurring tasks (06:00); reminders (weekdays, 08:00); reading from the accounting system (01:20); invoice closing (02:00); daily summary (07:30); session expiry (hourly); cleanup of temporary files (Sundays); and a daily database backup kept for 30 days.</li>
         <li><strong>Probe every 30 minutes:</strong> 12 checks across 7 services. One signs in with a test account that has no permissions and verifies it can see only its own case file.</li>
         <li><strong>Scheduled-job trail:</strong> the system flags any job that did not run, failed or is not being watched.</li>
       </ul>
@@ -199,7 +199,7 @@
       <ul class="vinetas">
         <li><strong>Google Drive:</strong> case-file folders, certificates, archive and proofs.</li>
         <li><strong>Google Docs:</strong> data policy and combined consent.</li>
-        <li><strong>Siigo:</strong> accounting, read-only.</li>
+        <li><strong>Accounting system:</strong> read-only.</li>
         <li><strong>Resend:</strong> emails. <strong>Google Workspace:</strong> sign-in codes.</li>
         <li><strong>Telegram:</strong> the 2 bots.</li>
         <li><strong>Cloudflare Pages:</strong> website. <strong>GitHub Actions:</strong> automated checks and backup.</li>
@@ -216,7 +216,7 @@
         <p class="infra-nota">Interactive diagram generated from the project’s code. Tap a node to see its details and connections.</p>
         <iframe class="infra-marco" src="../../archivos/conecta/infra.en.html" title="CONECTA infrastructure" loading="lazy" sandbox="allow-scripts"></iframe>
         <h3>Stack</h3>
-        <ul class="etiquetas"><li class="etiqueta">HTML/CSS/JavaScript, no framework</li><li class="etiqueta">Supabase (PostgreSQL, Auth, Storage)</li><li class="etiqueta">pg_cron + pg_net</li><li class="etiqueta">Edge Functions (Deno/TypeScript)</li><li class="etiqueta">pdf-lib</li><li class="etiqueta">Google Drive API</li><li class="etiqueta">Siigo API (read-only)</li><li class="etiqueta">Resend</li><li class="etiqueta">Telegram Bot API</li><li class="etiqueta">Cloudflare Pages</li><li class="etiqueta">Playwright + axe</li><li class="etiqueta">GitHub Actions</li></ul>
+        <ul class="etiquetas"><li class="etiqueta">HTML/CSS/JavaScript, no framework</li><li class="etiqueta">Supabase (PostgreSQL, Auth, Storage)</li><li class="etiqueta">pg_cron + pg_net</li><li class="etiqueta">Edge Functions (Deno/TypeScript)</li><li class="etiqueta">pdf-lib</li><li class="etiqueta">Google Drive API</li><li class="etiqueta">Accounting system API (read-only)</li><li class="etiqueta">Resend</li><li class="etiqueta">Telegram Bot API</li><li class="etiqueta">Cloudflare Pages</li><li class="etiqueta">Playwright + axe</li><li class="etiqueta">GitHub Actions</li></ul>
         <h3>Figures</h3>
         <ul class="vinetas">
           <li>37 tables, all with access policies (83 policies); 52 SQL functions and 24 triggers.</li>
