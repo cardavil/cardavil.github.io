@@ -96,6 +96,10 @@ img, svg { max-width: 100%; }
 .boton-principal:hover { background: var(--p-boton-hover); border-color: var(--p-boton-hover); }
 .boton svg { width: 16px; height: 16px; flex: none; }
 .acciones { display: flex; flex-wrap: wrap; gap: 10px; }
+/* En teléfono pequeño un botón con etiqueta larga parte su texto en vez de desplazar la página. */
+@media (max-width: 420px) {
+  .boton { max-width: 100%; white-space: normal; line-height: 1.3; padding-block: var(--espacio-2); }
+}
 
 /* --- Tarjetas --- */
 .tarjeta {
@@ -229,6 +233,9 @@ img, svg { max-width: 100%; }
 .decisiones h3 { font-size: var(--texto-base); margin-bottom: var(--espacio-1); }
 .decisiones p { color: var(--texto-suave); }
 .decisiones .vinetas { margin-top: var(--espacio-2); }
+
+/* Página de proyectos académicos: índice de anclas al inicio. */
+.academicos-indice { margin-top: var(--espacio-4); }
 
 /* Subtítulos, listas anidadas y tablas dentro de una sección de caso (páginas "en qué consiste el proyecto"). */
 .caso-seccion h3 { font-size: var(--texto-lg); margin: var(--espacio-5) 0 var(--espacio-2); }

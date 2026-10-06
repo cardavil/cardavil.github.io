@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Academic projects — Carlos Davila</title>
-  <meta name="description" content="ChequeGuardAI · Reconciliation · Fraud Exploration · Sentinel · BeaconIQ">
+  <meta name="description" content="ChequeGuardAI, Reconciliation, Fraud Exploration, Sentinel and BeaconIQ: what each project consists of, according to its code.">
   <link rel="canonical" href="https://cardavil.github.io/projects/academic/">
   <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/proyectos/academicos/">
   <link rel="alternate" hreflang="en" href="https://cardavil.github.io/projects/academic/">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Carlos Davila">
   <meta property="og:title" content="Academic projects — Carlos Davila">
-  <meta property="og:description" content="ChequeGuardAI · Reconciliation · Fraud Exploration · Sentinel · BeaconIQ">
+  <meta property="og:description" content="ChequeGuardAI, Reconciliation, Fraud Exploration, Sentinel and BeaconIQ: what each project consists of, according to its code.">
   <meta property="og:url" content="https://cardavil.github.io/projects/academic/">
   <meta property="og:locale" content="en_CA">
   <meta property="og:locale:alternate" content="es_CO">
@@ -45,78 +45,86 @@
     <header class="proyectos-cabecera">
       <h1>Academic projects</h1>
     </header>
+    <nav class="academicos-indice" aria-label="On this page">
+      <ul class="etiquetas"><li class="etiqueta"><a href="#chequeguard">ChequeGuardAI</a></li><li class="etiqueta"><a href="#conciliacion">Reconciliation</a></li><li class="etiqueta"><a href="#fraud-exploration">Fraud Exploration</a></li><li class="etiqueta"><a href="#sentinel">Sentinel</a></li><li class="etiqueta"><a href="#beaconiq">BeaconIQ</a></li></ul>
+    </nav>
 
-    <div class="rejilla-2">
-        <article class="tarjeta academico" id="chequeguard">
-          <div>
-            <h2>ChequeGuardAI</h2>
-            <p class="academico-subtitulo">Intelligent Cheque Deposit System</p>
-          </div>
-          <ul class="vinetas">
-        <li>Built a compliance-oriented cheque processing engine aligned with Payments Canada Rules A4/A10: a deterministic decision pipeline covering validation, duplicate detection, fraud scoring, hold calculation and ledger posting, with an 18-case evaluation suite.</li>
-        <li>Added a 3-agent Gemini LLM pipeline that generates explanations for both the customer and the operations team; the LLMs narrate and advise, but never override the compliance rules.</li>
-        <li>Every run is logged to a Google Sheets tab with a trace ID and the details of each step (input, output, duration and outcome).</li>
-        <li>Each outcome is formatted as ISO 20022-structured messages (pacs.002, pacs.004 and camt.054, as applicable), with A4 codes mapped to ISO return reasons; the delivery channel is simulated.</li>
+    <section class="caso-seccion" id="chequeguard" aria-labelledby="titulo-chequeguard">
+      <h2 id="titulo-chequeguard">ChequeGuardAI</h2>
+      <p><strong>A decision engine for Canadian cheque deposits.</strong> For each cheque it decides whether to accept, hold or return it, works out how much is available and how much is held, and issues the matching ISO 20022 messages, with a simulated delivery channel.</p>
+      <ul class="vinetas">
+        <li><strong>Input:</strong> the cheque form (transit, institution, account, number, amount in figures and in words, date, currency, payee and drawer) or a photo of the front, read with Gemini Vision. In teller mode, the teller confirms or corrects the signature, forgery, image-quality and MICR flags.</li>
+        <li><strong>Process, with fixed rules:</strong> normalizes the cheque; checks for duplicates with a fingerprint (transit, institution, account, serial, date, amount and currency); checks the drawer's account (non-existent, closed, frozen, inactive or insufficient funds, counting the overdraft) and the depositor's account; validates the dates (post-dated, or stale after 182 days) and the amount in words against the amount in figures; assigns a risk tier and decides the ledger entry.</li>
+        <li><strong>Rules:</strong> 11 return reasons labelled as Payments Canada Rule A4, in a fixed priority (forgery and signature, unusable image under Rule A10, MICR, stale-dated, duplicate, account status and funds). Amounts of 10,000 or more are held for 5 business days, and what is available immediately never exceeds the account's limit. There is no way to force a deposit that has an A4 reason.</li>
+        <li><strong>Output:</strong> accepted, held or returned, with the available amount, the held amount and the release date. Always a pacs.002; a pacs.004 when returned and a camt.054 when not; each A4 reason maps to its ISO code (AM04, AM05, DT01, AC01, AC04, AC06, RR04 or FRAD).</li>
+        <li><strong>AI:</strong> 3 Gemini agents in sequence write the explanation for the customer and for operations from the decision already made. They are told never to invent rules or suggest overriding an A4 reason, and they do not touch the decision or the ledger entry.</li>
+        <li><strong>Use:</strong> an Apps Script web app with 3 tabs: Deposit, Teller and Operations (the last 50 runs, filters and the ISO XML). Every run is stored in Google Sheets with its trace and the duration of each step. 18 test cases cover validation, risk and the ledger entry.</li>
       </ul>
-          <ul class="etiquetas"><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Gemini API</li><li class="etiqueta">Google Sheets</li></ul>
-          
-        </article>
-        <article class="tarjeta academico" id="conciliacion">
-          <div>
-            <h2>Reconciliation</h2>
-            <p class="academico-subtitulo">Payroll Reconciliation Engine</p>
-          </div>
-          <ul class="vinetas">
-        <li>Built a reconciliation tool for payroll-deducted loan and savings payments: it matches expected against actual amounts by member and product, flags differences, detects changes relative to previous periods and generates Excel reports with audit trails.</li>
-        <li>Runs entirely in the browser through Pyodide (client-side Python/pandas), with no backend, in a single HTML file that works offline, designed for non-technical payroll analysts.</li>
-        <li>Exceptions are resolved in 4 queues, individually or in bulk, and each analyst decision is recorded in the audit trail with a timestamp, the action and the applied value.</li>
-        <li>Reference capacity: about 200,000 total rows with 8 GB of RAM; files are processed locally and never leave the computer.</li>
+      <ul class="etiquetas"><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Gemini API (text and vision)</li><li class="etiqueta">Google Sheets</li><li class="etiqueta">ISO 20022</li></ul>
+    </section>
+
+    <section class="caso-seccion" id="conciliacion" aria-labelledby="titulo-conciliacion">
+      <h2 id="titulo-conciliacion">Reconciliation</h2>
+      <p><strong>Fortnightly reconciliation of payroll deductions.</strong> It matches what an employee fund or cooperative expected to collect through payroll deduction against what the employer actually deducted, by member and by concept; the analyst resolves every difference and every decision is recorded. It is a joint project.</p>
+      <ul class="vinetas">
+        <li><strong>Input:</strong> a local folder with Excel, CSV or TXT files: the previous and the current billing statement and, optionally, active members, withdrawals, loan disbursements and savings.</li>
+        <li><strong>Stage 1, environment:</strong> detects each file's encoding and delimiter and checks that they are consistent.</li>
+        <li><strong>Stage 2, data profile:</strong> for each column, the type, blanks, invalid values (with their row) and distinct values; proposes the matching key.</li>
+        <li><strong>Stage 3, reconciliation:</strong> each member and concept is reconciled (difference below 0.01), over-deducted or under-deducted. Against the member master it flags keys that do not match, members with no activity, non-members, blank keys and duplicates, and computes coverage. It also detects the period's changes (new members and withdrawals) and the loan context (new, first instalment with estimated interest, paid off) and savings context.</li>
+        <li><strong>Stage 4, exceptions:</strong> they go to 4 queues (withdrawn members, outside the threshold, within the threshold to resolve in bulk, and others). The analyst applies the previous value, the current one or another, or removes a withdrawn member; every individual action requires a comment, and every decision enters the audit trail with date and time, key, concept, action, comment and value. Reports stay locked while any exception is open.</li>
+        <li><strong>Output:</strong> an Excel workbook (reconciliation, summary, changes and audit trail) and the period's deduction file by member, or one per employer.</li>
+        <li><strong>How it runs:</strong> in the browser, with Python and pandas client-side (Pyodide) and no data server: files are processed on the user's computer. It ships as a single HTML file opened through a bundled local server, in Edge or Chrome, and needs internet access to load Pyodide. It uses no AI.</li>
       </ul>
-          <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">Pandas</li><li class="etiqueta">Pyodide</li><li class="etiqueta">GitHub Pages</li></ul>
-          
-        </article>
-        <article class="tarjeta academico" id="fraud-exploration">
-          <div>
-            <h2>Fraud Exploration</h2>
-            <p class="academico-subtitulo">Fraud Exploration Board</p>
-          </div>
+      <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">pandas</li><li class="etiqueta">openpyxl</li><li class="etiqueta">Pyodide</li><li class="etiqueta">JavaScript</li></ul>
+    </section>
+
+    <section class="caso-seccion" id="fraud-exploration" aria-labelledby="titulo-fraud">
+      <h2 id="titulo-fraud">Fraud Exploration</h2>
+      <p><strong>An AML and fraud exploration dashboard.</strong> Built on a fictitious, messy risk-and-compliance dataset: an audited cleaning step, anomaly detection at three levels (transaction, account and customer), a read-only serving layer and an AI reviewer that gives a verdict per customer.</p>
+      <ul class="vinetas">
+        <li><strong>Data:</strong> 6 tables (customers, accounts, transactions, alerts, sanctions screening and chargebacks); scored: 1,600 transactions, 105 accounts and 59 customers.</li>
+        <li><strong>Cleaning:</strong> every treatment is logged: a blank PEP flag becomes "Unknown", a missing country is flagged as a risk, duplicates are removed, negative balances and alerts with no analyst are flagged.</li>
+        <li><strong>Models:</strong> Isolation Forest at three levels.
           <ul class="vinetas">
-        <li>Built an AML/fraud analytics engine on a risk and compliance dataset with dirty data: an audited cleaning pipeline that feeds a three-tier Isolation Forest anomaly-detection model (transaction, account and customer), able to identify transaction splitting (structuring), unresolved sanctions-list matches and account control failures.</li>
-        <li>Added a 5-agent Gemini pipeline (Compliance Sentinel) that interprets the scores and turns them into a risk verdict and a single action within a fixed six-level ladder. Evidence strength is computed in code and caps the action's severity, so the LLMs advise but never decide.</li>
-        <li>The serving layer is Postgres (Supabase) with row-level security: the public key allows reads only (SELECT) and write privileges are revoked.</li>
-        <li>The account-level model is exported to JSON and recomputed in the browser, without libraries, to verify the served scores.</li>
+            <li><strong>Transaction:</strong> 12 features, including amount relative to the account, the 9,000–9,999 band, sanctioned or offshore country, cash, inactive account, velocity and new counterparty.</li>
+            <li><strong>Account:</strong> 16 behavioural features.</li>
+            <li><strong>Customer:</strong> structuring across their own accounts, value sent to sanctioned countries, KYC risk, PEP status, never screened, and activity after a confirmed watch-list match.</li>
+          </ul>
+        </li>
+        <li><strong>Validation:</strong> transactions: 80 anomalies, 84% stable across 100 resamples; 63 match the rules and 17 are found only by the model. Accounts: 9 of 105, with a mean overlap of 0.80 across 50 seeds. Customers: 5, identical across seeds.</li>
+        <li><strong>Serving:</strong> Supabase with read-only policies on the 10 served tables. The account model is exported to JSON and recomputed in the browser to check every served score.</li>
+        <li><strong>AI (Compliance Sentinel):</strong> 5 Gemini agents in sequence (profile, behaviour, anomalies, synthesis and quality review) that only see the output of 7 read-only tools and never the customer's name or date of birth. They recommend one action on a fixed 6-step scale, from closing as a false positive to escalating to compliance. Evidence strength is computed in code from 7 signal families and replaces the model's own; the cap on the action by evidence level is given to the model in its instructions. The action is a recommendation: nothing is executed.</li>
+        <li><strong>Dashboard:</strong> 7 tabs: Power BI, EDA, ETL, DSS, findings, model and AI engine.</li>
       </ul>
-          <ul class="etiquetas"><li class="etiqueta">PostgreSQL</li><li class="etiqueta">Python</li><li class="etiqueta">Power BI</li><li class="etiqueta">ML</li><li class="etiqueta">LLM</li></ul>
-          <div class="acciones"><a class="boton" href="https://fraud-exploration.pages.dev" rel="noopener" target="_blank">View demo ↗</a></div>
-        </article>
-        <article class="tarjeta academico" id="sentinel">
-          <div>
-            <h2>Sentinel</h2>
-            <p class="academico-subtitulo">Card Fraud Detector</p>
-          </div>
-          <ul class="vinetas">
-        <li>Card-fraud detector on the public IEEE-CIS dataset (590,540 transactions × 434 columns, 3.5% fraud): XGBoost with customer-level features fitted on training data only, evaluated with a time-based split and PR-AUC as the headline metric.</li>
-        <li>On validation: PR-AUC 0.589 vs. a 0.547 baseline, precision 0.74 and recall 0.49 at a tuned 0.66 threshold (ROC-AUC 0.90). The ~0.94 commonly seen on Kaggle is deliberately rejected, since much of it comes from customers repeated across train and test; a level with union-find graph features and an ensemble did not improve PR-AUC and was not promoted to production.</li>
-        <li>FastAPI inference service (/predict and /explain, with the top SHAP contributions per transaction) and a Google Apps Script dashboard with Plotly charts and a playground of examples with precomputed SHAP.</li>
+      <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">scikit-learn</li><li class="etiqueta">SQLite</li><li class="etiqueta">Supabase</li><li class="etiqueta">Gemini API</li><li class="etiqueta">Power BI</li></ul>
+      <div class="acciones"><a class="boton" href="https://fraud-exploration.pages.dev" rel="noopener" target="_blank">Open the Fraud Exploration dashboard ↗</a></div>
+    </section>
+
+    <section class="caso-seccion" id="sentinel" aria-labelledby="titulo-sentinel">
+      <h2 id="titulo-sentinel">Sentinel</h2>
+      <p><strong>A card-fraud detector.</strong> A per-transaction classifier on the public IEEE-CIS dataset (590,540 transactions, 434 columns and 3.5% fraud), evaluated with a time-based split and PR-AUC as the main metric.</p>
+      <ul class="vinetas">
+        <li><strong>Features:</strong> a customer identity (card, address and card start date), backward-looking velocity, frequencies, amount deviation from the customer's norm, device and email diversity, and the amount's cents; all fitted on training data only.</li>
+        <li><strong>Model:</strong> XGBoost (2,000 trees, depth 6, class weighting and early stopping on PR-AUC), with the threshold that maximizes F1.</li>
+        <li><strong>Validation results</strong> (118,108 transactions): PR-AUC 0.589 against a 0.547 baseline; ROC-AUC 0.90; precision 0.74 and recall 0.49 at a 0.66 threshold. A cost table compares 11 thresholds: missed fraud against false alarms.</li>
+        <li><strong>Experiment that did not go to production:</strong> a level with graph features (union-find) and an XGBoost, LightGBM and CatBoost ensemble, which did not improve PR-AUC (0.568).</li>
+        <li><strong>Serving:</strong> a FastAPI API (/health, /predict and /explain, with the top 8 SHAP contributions) and an Apps Script dashboard with Plotly charts and examples with precomputed SHAP. It uses no generative AI.</li>
       </ul>
-          <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">XGBoost</li><li class="etiqueta">SHAP</li><li class="etiqueta">FastAPI</li><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Plotly</li></ul>
-          
-        </article>
-        <article class="tarjeta academico" id="beaconiq">
-          <div>
-            <h2>BeaconIQ</h2>
-            <p class="academico-subtitulo">BLE Indoor Positioning System</p>
-          </div>
-          <ul class="vinetas">
-        <li>Developed an Android indoor positioning app based on BLE beacon signals: RSSI-to-distance conversion, Kalman filtering, a trilateration solver and real-time 2D visualization with configurable parameters.</li>
-        <li>Two-phase testing architecture with a GAS backend that records each session's data in Google Sheets for model calibration and analysis.</li>
-        <li>Signalion test lab (own code): a pure-Java positioning core with no Android dependencies, 1D/2D Kalman filters and Levenberg–Marquardt trilateration, covered by 161 automated tests (136 core, 25 app).</li>
-        <li>On-device testing found that on Android 12+, declaring the BLE scan permission with neverForLocation causes the system to silently drop iBeacon advertisements; the app requests precise location on all versions.</li>
+      <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">XGBoost</li><li class="etiqueta">SHAP</li><li class="etiqueta">FastAPI</li><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Plotly</li></ul>
+    </section>
+
+    <section class="caso-seccion" id="beaconiq" aria-labelledby="titulo-beaconiq">
+      <h2 id="titulo-beaconiq">BeaconIQ</h2>
+      <p><strong>Indoor positioning with BLE beacons (the Signalion lab).</strong> An Android app turns iBeacon signals into distance, smooths it and trilaterates an (x, y) position inside a room; it records test sessions and sends them to a backend that analyzes them.</p>
+      <ul class="vinetas">
+        <li><strong>Reading:</strong> iBeacon advertisements with an in-house parser (UUID, major, minor and transmit power), plus the phone's sensors (compass, Wi-Fi, barometer, accelerometer, step counter and GPS).</li>
+        <li><strong>Positioning core, in pure Java:</strong> distance from a log-distance path-loss model; a 1D Kalman filter per beacon; drops beacons silent for 4 s and requires at least 3; rejects near-collinear geometry; trilaterates with Levenberg–Marquardt and smooths the position with a 2D Kalman filter. It also locates uncalibrated beacons by reverse trilateration.</li>
+        <li><strong>Apps Script backend:</strong> stores sessions in Google Sheets, and 5 Gemini agents analyze a statistical summary computed in code (without the analyst's name) and recommend parameters, which the app does not apply on its own.</li>
+        <li><strong>Use:</strong> the app has 3 tabs (Scan, Record and Settings) and a web console (Sessions and Analysis). It scans with precise location on every Android version.</li>
+        <li><strong>Tests:</strong> 161 automated: 136 for the core and 25 for the app.</li>
       </ul>
-          <ul class="etiquetas"><li class="etiqueta">Android/Java</li><li class="etiqueta">AltBeacon</li><li class="etiqueta">Google Apps Script (GAS)</li></ul>
-          
-        </article>
-    </div>
+      <ul class="etiquetas"><li class="etiqueta">Android/Java</li><li class="etiqueta">Apache Commons Math</li><li class="etiqueta">JUnit</li><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Gemini API</li><li class="etiqueta">Google Sheets</li></ul>
+    </section>
   </main>
 
   <!-- pie:inicio -->

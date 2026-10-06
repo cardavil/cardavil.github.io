@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Proyectos académicos — Carlos Davila</title>
-  <meta name="description" content="ChequeGuardAI · Reconciliation · Fraud Exploration · Sentinel · BeaconIQ">
+  <meta name="description" content="ChequeGuardAI, Reconciliation, Fraud Exploration, Sentinel y BeaconIQ: en qué consiste cada proyecto, según su código.">
   <link rel="canonical" href="https://cardavil.github.io/es/proyectos/academicos/">
   <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/proyectos/academicos/">
   <link rel="alternate" hreflang="en" href="https://cardavil.github.io/projects/academic/">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Carlos Davila">
   <meta property="og:title" content="Proyectos académicos — Carlos Davila">
-  <meta property="og:description" content="ChequeGuardAI · Reconciliation · Fraud Exploration · Sentinel · BeaconIQ">
+  <meta property="og:description" content="ChequeGuardAI, Reconciliation, Fraud Exploration, Sentinel y BeaconIQ: en qué consiste cada proyecto, según su código.">
   <meta property="og:url" content="https://cardavil.github.io/es/proyectos/academicos/">
   <meta property="og:locale" content="es_CO">
   <meta property="og:locale:alternate" content="en_CA">
@@ -45,78 +45,86 @@
     <header class="proyectos-cabecera">
       <h1>Proyectos académicos</h1>
     </header>
+    <nav class="academicos-indice" aria-label="En esta página">
+      <ul class="etiquetas"><li class="etiqueta"><a href="#chequeguard">ChequeGuardAI</a></li><li class="etiqueta"><a href="#conciliacion">Reconciliation</a></li><li class="etiqueta"><a href="#fraud-exploration">Fraud Exploration</a></li><li class="etiqueta"><a href="#sentinel">Sentinel</a></li><li class="etiqueta"><a href="#beaconiq">BeaconIQ</a></li></ul>
+    </nav>
 
-    <div class="rejilla-2">
-        <article class="tarjeta academico" id="chequeguard">
-          <div>
-            <h2>ChequeGuardAI</h2>
-            <p class="academico-subtitulo">Sistema Inteligente de Depósito de Cheques</p>
-          </div>
-          <ul class="vinetas">
-        <li>Construí un motor de procesamiento de cheques orientado al cumplimiento normativo, alineado con las Reglas A4/A10 de Payments Canada: pipeline de decisión determinístico que abarca validación, detección de duplicados, puntuación de fraude, cálculo de retenciones (holds) y registro contable, con una suite de evaluación de 18 casos.</li>
-        <li>Incorporé un pipeline de 3 agentes con Gemini LLM que genera explicaciones dirigidas tanto al cliente como al equipo de operaciones; los LLM narran y asesoran, pero nunca anulan las reglas de cumplimiento.</li>
-        <li>Cada ejecución queda registrada con un identificador de traza y el detalle de cada paso (entrada, salida, duración y resultado) en una hoja de Google Sheets.</li>
-        <li>Cada resultado se formatea como mensajes con estructura ISO 20022 (pacs.002, pacs.004 y camt.054, según el caso), con los códigos A4 mapeados a motivos de devolución ISO; el canal de envío es simulado.</li>
+    <section class="caso-seccion" id="chequeguard" aria-labelledby="titulo-chequeguard">
+      <h2 id="titulo-chequeguard">ChequeGuardAI</h2>
+      <p><strong>Motor de decisión para depósitos de cheques canadienses.</strong> Por cada cheque decide si se acepta, se retiene o se devuelve, calcula cuánto queda disponible y cuánto retenido, y emite los mensajes ISO 20022 correspondientes, con el canal de envío simulado.</p>
+      <ul class="vinetas">
+        <li><strong>Entrada:</strong> el formulario del cheque (tránsito, institución, cuenta, número, monto en números y en letras, fecha, moneda, beneficiario y girador) o la foto del anverso, leída con Gemini Vision. En el modo cajero, el cajero confirma o corrige las marcas de firma, falsificación, calidad de imagen y MICR.</li>
+        <li><strong>Proceso, con reglas fijas:</strong> normaliza el cheque; busca duplicados con una huella (tránsito, institución, cuenta, serie, fecha, monto y moneda); revisa la cuenta del girador (inexistente, cerrada, congelada, inactiva o sin fondos, contando el sobregiro) y la del depositante; valida las fechas (posfechado, o vencido a más de 182 días) y el monto en letras contra el monto en números; clasifica el riesgo en niveles y decide el asiento.</li>
+        <li><strong>Reglas:</strong> 11 motivos de devolución rotulados como Payments Canada Rule A4, con una prioridad fija (falsificación y firma, imagen no utilizable según la Rule A10, MICR, vencido, duplicado, estado de la cuenta y fondos). Los montos de 10 000 o más se retienen 5 días hábiles, y lo disponible de inmediato no supera el límite de la cuenta. No hay forma de forzar un depósito que tenga un motivo A4.</li>
+        <li><strong>Salida:</strong> aceptado, retenido o devuelto, con lo disponible, lo retenido y la fecha de liberación. Siempre un pacs.002; un pacs.004 si se devuelve y un camt.054 si no; cada motivo A4 se traduce a su código ISO (AM04, AM05, DT01, AC01, AC04, AC06, RR04 o FRAD).</li>
+        <li><strong>IA:</strong> 3 agentes Gemini en secuencia redactan la explicación para el cliente y para operaciones a partir de la decisión ya tomada. Tienen prohibido inventar reglas o sugerir anular un motivo A4, y no tocan la decisión ni el asiento.</li>
+        <li><strong>Uso:</strong> una web app de Apps Script con 3 pestañas: Depósito, Cajero y Operaciones (las últimas 50 corridas, filtros y el XML ISO). Cada corrida queda en Google Sheets con su traza y la duración de cada paso. Hay 18 casos de prueba de la validación, el riesgo y el asiento.</li>
       </ul>
-          <ul class="etiquetas"><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Gemini API</li><li class="etiqueta">Google Sheets</li></ul>
-          
-        </article>
-        <article class="tarjeta academico" id="conciliacion">
-          <div>
-            <h2>Reconciliation</h2>
-            <p class="academico-subtitulo">Motor de Conciliación de Nómina</p>
-          </div>
-          <ul class="vinetas">
-        <li>Construí una herramienta de conciliación para pagos de créditos y ahorros descontados por nómina: cruza los valores esperados frente a los reales por asociado y producto, señala diferencias, detecta novedades frente a periodos anteriores y genera reportes en Excel con pistas de auditoría.</li>
-        <li>Se ejecuta completamente en el navegador mediante Pyodide (Python/pandas del lado del cliente), sin backend, en un único archivo HTML que funciona sin conexión, pensado para analistas de nómina sin perfil técnico.</li>
-        <li>Las excepciones se resuelven en 4 colas, de forma individual o masiva, y cada decisión del analista queda en la pista de auditoría con fecha y hora, acción y valor aplicado.</li>
-        <li>Capacidad de referencia: unas 200.000 filas en total con 8 GB de RAM; los archivos se procesan localmente y no salen del equipo.</li>
+      <ul class="etiquetas"><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Gemini API (texto y visión)</li><li class="etiqueta">Google Sheets</li><li class="etiqueta">ISO 20022</li></ul>
+    </section>
+
+    <section class="caso-seccion" id="conciliacion" aria-labelledby="titulo-conciliacion">
+      <h2 id="titulo-conciliacion">Reconciliation</h2>
+      <p><strong>Conciliación quincenal de los descuentos de nómina.</strong> Cruza lo que un fondo de empleados o una cooperativa esperaba recaudar por libranza con lo que la empresa descontó, por asociado y por concepto; el analista resuelve cada diferencia y cada decisión queda registrada. Es un proyecto conjunto.</p>
+      <ul class="vinetas">
+        <li><strong>Entrada:</strong> una carpeta local con archivos Excel, CSV o TXT: la cuenta de cobro anterior y la actual y, de forma opcional, los asociados activos, los retiros, las colocaciones de crédito y los ahorros.</li>
+        <li><strong>Etapa 1, entorno:</strong> detecta la codificación y el separador de cada archivo y comprueba que sean consistentes.</li>
+        <li><strong>Etapa 2, perfil de datos:</strong> por cada columna, el tipo, los vacíos, los valores inválidos (con su fila) y los únicos; propone la llave de cruce.</li>
+        <li><strong>Etapa 3, conciliación:</strong> cada asociado y concepto queda conciliado (diferencia menor que 0,01), con excedente o con faltante. Contra el maestro de asociados marca los que no cruzan, los que no tienen actividad, los que no son asociados, las llaves vacías y las duplicadas, y calcula la cobertura. También detecta las novedades de la quincena (ingresos y retiros) y el contexto de créditos (nuevo, primera cuota con interés estimado, terminado) y de ahorros.</li>
+        <li><strong>Etapa 4, excepciones:</strong> van a 4 colas (retirados, fuera del umbral, dentro del umbral para resolver en bloque, y otras). El analista aplica el valor anterior, el actual u otro, o elimina a un retirado; toda acción individual exige un comentario, y cada decisión entra en la pista de auditoría con fecha y hora, llave, concepto, acción, comentario y valor. Los reportes se bloquean mientras haya excepciones abiertas.</li>
+        <li><strong>Salida:</strong> una hoja de trabajo en Excel (conciliación, resumen, novedades y pista de auditoría) y el archivo de descuentos de la quincena por asociado, o uno por empresa.</li>
+        <li><strong>Cómo corre:</strong> en el navegador, con Python y pandas del lado del cliente (Pyodide), sin servidor de datos: los archivos se procesan en el equipo. Se entrega como un único archivo HTML que se abre con un servidor local incluido, en Edge o Chrome, y necesita internet para cargar Pyodide. No usa IA.</li>
       </ul>
-          <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">Pandas</li><li class="etiqueta">Pyodide</li><li class="etiqueta">GitHub Pages</li></ul>
-          
-        </article>
-        <article class="tarjeta academico" id="fraud-exploration">
-          <div>
-            <h2>Fraud Exploration</h2>
-            <p class="academico-subtitulo">Tablero de Exploración de Fraude</p>
-          </div>
+      <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">pandas</li><li class="etiqueta">openpyxl</li><li class="etiqueta">Pyodide</li><li class="etiqueta">JavaScript</li></ul>
+    </section>
+
+    <section class="caso-seccion" id="fraud-exploration" aria-labelledby="titulo-fraud">
+      <h2 id="titulo-fraud">Fraud Exploration</h2>
+      <p><strong>Tablero de exploración de AML y fraude.</strong> Sobre un dataset ficticio de riesgo y cumplimiento con datos sucios: una limpieza auditada, detección de anomalías en tres niveles (transacción, cuenta y cliente), una capa de servicio de solo lectura y un revisor con IA que da un dictamen por cliente.</p>
+      <ul class="vinetas">
+        <li><strong>Datos:</strong> 6 tablas (clientes, cuentas, transacciones, alertas, revisión contra listas de sanciones y contracargos); con puntaje, 1600 transacciones, 105 cuentas y 59 clientes.</li>
+        <li><strong>Limpieza:</strong> cada tratamiento queda en un registro: PEP vacío pasa a «Unknown», el país faltante se marca como riesgo, se eliminan duplicados, se marcan saldos negativos y alertas sin analista.</li>
+        <li><strong>Modelos:</strong> Isolation Forest en tres niveles.
           <ul class="vinetas">
-        <li>Construí un motor de analítica AML/fraude sobre un dataset de riesgo y cumplimiento con datos sucios: un pipeline de limpieza auditado que alimenta un modelo de detección de anomalías Isolation Forest en tres niveles (transacción, cuenta y cliente), capaz de identificar fraccionamiento de operaciones (structuring), coincidencias no resueltas con listas de sanciones y fallas de control en cuentas.</li>
-        <li>Incorporé un pipeline de 5 agentes con Gemini (Compliance Sentinel) que interpreta los puntajes y los convierte en un dictamen de riesgo y una única acción dentro de una escalera fija de seis niveles. La solidez de la evidencia se calcula en código y limita la severidad de la acción, de modo que los LLM asesoran pero nunca deciden.</li>
-        <li>La capa de servicio es Postgres (Supabase) con seguridad a nivel de fila: la clave pública solo permite lectura (SELECT) y los privilegios de escritura están revocados.</li>
-        <li>El modelo a nivel de cuenta se exporta a JSON y se recalcula en el navegador, sin librerías, para verificar los puntajes servidos.</li>
+            <li><strong>Transacción:</strong> 12 variables, entre ellas el monto relativo a la cuenta, la banda de 9000 a 9999, el país sancionado u offshore, el efectivo, la cuenta inactiva, la velocidad y la contraparte nueva.</li>
+            <li><strong>Cuenta:</strong> 16 variables de comportamiento.</li>
+            <li><strong>Cliente:</strong> fraccionamiento entre sus propias cuentas, valor hacia países sancionados, riesgo KYC, PEP, falta de revisión contra listas y movimientos después de una coincidencia.</li>
+          </ul>
+        </li>
+        <li><strong>Validación:</strong> en transacciones, 80 anómalas, el 84 % estables en 100 remuestreos; 63 coinciden con las reglas y 17 solo las encuentra el modelo. En cuentas, 9 de 105, con una coincidencia media de 0,80 entre 50 semillas. En clientes, 5, idénticos entre semillas.</li>
+        <li><strong>Servicio:</strong> Supabase con políticas de solo lectura en las 10 tablas servidas. El modelo de cuentas se exporta a JSON y se recalcula en el navegador, comparando cada puntaje servido.</li>
+        <li><strong>IA (Compliance Sentinel):</strong> 5 agentes Gemini en secuencia (perfil, comportamiento, anomalías, síntesis y control de calidad), que solo ven la salida de 7 herramientas de solo lectura y nunca el nombre ni la fecha de nacimiento del cliente. Recomiendan una acción dentro de una escala fija de 6, desde cerrar como falso positivo hasta escalar a cumplimiento. La fuerza de la evidencia la calcula el código a partir de 7 familias de señales y reemplaza la del modelo; el tope de la acción según la evidencia se le indica al modelo en sus instrucciones. La acción es una recomendación: nada se ejecuta.</li>
+        <li><strong>Tablero:</strong> 7 pestañas: Power BI, EDA, ETL, DSS, hallazgos, modelo y motor de IA.</li>
       </ul>
-          <ul class="etiquetas"><li class="etiqueta">PostgreSQL</li><li class="etiqueta">Python</li><li class="etiqueta">Power BI</li><li class="etiqueta">ML</li><li class="etiqueta">LLM</li></ul>
-          <div class="acciones"><a class="boton" href="https://fraud-exploration.pages.dev" rel="noopener" target="_blank">Ver demo ↗</a></div>
-        </article>
-        <article class="tarjeta academico" id="sentinel">
-          <div>
-            <h2>Sentinel</h2>
-            <p class="academico-subtitulo">Detector de Fraude con Tarjeta</p>
-          </div>
-          <ul class="vinetas">
-        <li>Detector de fraude con tarjeta sobre el dataset público IEEE-CIS (590.540 transacciones × 434 columnas, 3,5 % de fraude): XGBoost con features por cliente ajustadas solo con datos de entrenamiento, evaluado con un split temporal y con PR-AUC como métrica principal.</li>
-        <li>En validación: PR-AUC 0,589 frente a 0,547 de la línea base, precisión 0,74 y recall 0,49 con un umbral afinado de 0,66 (ROC-AUC 0,90). Se descarta a propósito el ~0,94 habitual en Kaggle, que en buena parte se debe a clientes repetidos entre entrenamiento y prueba; un nivel con features de grafo (union-find) y ensemble no mejoró el PR-AUC y no pasó a producción.</li>
-        <li>API de inferencia en FastAPI (/predict y /explain, con los principales aportes SHAP por transacción) y dashboard en Google Apps Script con gráficas Plotly y un playground de ejemplos con SHAP precalculado.</li>
+      <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">scikit-learn</li><li class="etiqueta">SQLite</li><li class="etiqueta">Supabase</li><li class="etiqueta">Gemini API</li><li class="etiqueta">Power BI</li></ul>
+      <div class="acciones"><a class="boton" href="https://fraud-exploration.pages.dev" rel="noopener" target="_blank">Ver el tablero de Fraud Exploration ↗</a></div>
+    </section>
+
+    <section class="caso-seccion" id="sentinel" aria-labelledby="titulo-sentinel">
+      <h2 id="titulo-sentinel">Sentinel</h2>
+      <p><strong>Detector de fraude con tarjeta.</strong> Un clasificador por transacción sobre el dataset público IEEE-CIS (590 540 transacciones, 434 columnas y 3,5 % de fraude), evaluado con una partición temporal y con PR-AUC como métrica principal.</p>
+      <ul class="vinetas">
+        <li><strong>Variables:</strong> una identidad de cliente (tarjeta, dirección y fecha de inicio de la tarjeta), velocidad mirando solo hacia atrás, frecuencias, desvío del monto frente al cliente, diversidad de dispositivos y correos, y centavos del monto; todas ajustadas solo con los datos de entrenamiento.</li>
+        <li><strong>Modelo:</strong> XGBoost (2000 árboles, profundidad 6, peso por clase y parada temprana sobre PR-AUC), con el umbral que maximiza F1.</li>
+        <li><strong>Resultados en validación</strong> (118 108 transacciones): PR-AUC 0,589 frente a 0,547 de la línea base; ROC-AUC 0,90; precisión 0,74 y recall 0,49 con umbral 0,66. Una tabla de costos compara 11 umbrales: fraude perdido frente a falsas alarmas.</li>
+        <li><strong>Experimento que no pasó a producción:</strong> un nivel con variables de grafo (union-find) y un ensamble de XGBoost, LightGBM y CatBoost, que no mejoró el PR-AUC (0,568).</li>
+        <li><strong>Servicio:</strong> una API en FastAPI (/health, /predict y /explain, con las 8 contribuciones SHAP principales) y un tablero en Apps Script con gráficas Plotly y ejemplos con SHAP precalculado. No usa IA generativa.</li>
       </ul>
-          <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">XGBoost</li><li class="etiqueta">SHAP</li><li class="etiqueta">FastAPI</li><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Plotly</li></ul>
-          
-        </article>
-        <article class="tarjeta academico" id="beaconiq">
-          <div>
-            <h2>BeaconIQ</h2>
-            <p class="academico-subtitulo">Sistema de Posicionamiento en Interiores BLE</p>
-          </div>
-          <ul class="vinetas">
-        <li>Desarrollé una aplicación Android de posicionamiento en interiores basada en señales de beacons BLE: conversión de RSSI a distancia, filtrado de Kalman, solucionador de trilateración y visualización 2D en tiempo real con parámetros configurables.</li>
-        <li>Arquitectura de pruebas en dos fases con un backend en GAS que registra los datos de cada sesión en Google Sheets para la calibración y el análisis del modelo.</li>
-        <li>Laboratorio de pruebas Signalion (código propio): núcleo de posicionamiento en Java puro, sin dependencias de Android, con filtros de Kalman 1D/2D y trilateración por Levenberg–Marquardt, cubierto por 161 pruebas automatizadas (136 del núcleo y 25 de la app).</li>
-        <li>En pruebas en dispositivo se encontró que, en Android 12+, declarar el permiso de escaneo BLE con neverForLocation hace que el sistema descarte en silencio los anuncios iBeacon; la app solicita ubicación precisa en todas las versiones.</li>
+      <ul class="etiquetas"><li class="etiqueta">Python</li><li class="etiqueta">XGBoost</li><li class="etiqueta">SHAP</li><li class="etiqueta">FastAPI</li><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Plotly</li></ul>
+    </section>
+
+    <section class="caso-seccion" id="beaconiq" aria-labelledby="titulo-beaconiq">
+      <h2 id="titulo-beaconiq">BeaconIQ</h2>
+      <p><strong>Posicionamiento en interiores con beacons BLE (laboratorio Signalion).</strong> Una app Android convierte la señal de beacons iBeacon en distancia, la suaviza y trilatera una posición (x, y) dentro de una sala; graba sesiones de prueba y las envía a un backend que las analiza.</p>
+      <ul class="vinetas">
+        <li><strong>Lectura:</strong> anuncios iBeacon con un lector propio (UUID, major, minor y potencia de transmisión), y sensores del teléfono (brújula, Wi-Fi, barómetro, acelerómetro, pasos y GPS).</li>
+        <li><strong>Núcleo de posicionamiento, en Java puro:</strong> distancia por un modelo de pérdida log-distancia; filtro de Kalman 1D por beacon; descarta los beacons sin señal en 4 s y exige al menos 3; rechaza geometrías casi colineales; trilatera con Levenberg–Marquardt y suaviza la posición con un filtro de Kalman 2D. También ubica beacons no calibrados por trilateración inversa.</li>
+        <li><strong>Backend en Apps Script:</strong> guarda las sesiones en Google Sheets, y 5 agentes Gemini analizan un resumen estadístico calculado en código (sin el nombre del analista) y recomiendan parámetros, que la app no aplica sola.</li>
+        <li><strong>Uso:</strong> la app tiene 3 pestañas (Escanear, Grabar y Ajustes) y una consola web (Sesiones y Análisis). Escanea con ubicación precisa en todas las versiones de Android.</li>
+        <li><strong>Pruebas:</strong> 161 automatizadas: 136 del núcleo y 25 de la app.</li>
       </ul>
-          <ul class="etiquetas"><li class="etiqueta">Android/Java</li><li class="etiqueta">AltBeacon</li><li class="etiqueta">Google Apps Script (GAS)</li></ul>
-          
-        </article>
-    </div>
+      <ul class="etiquetas"><li class="etiqueta">Android/Java</li><li class="etiqueta">Apache Commons Math</li><li class="etiqueta">JUnit</li><li class="etiqueta">Google Apps Script</li><li class="etiqueta">Gemini API</li><li class="etiqueta">Google Sheets</li></ul>
+    </section>
   </main>
 
   <!-- pie:inicio -->
