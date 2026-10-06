@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tanteo — Carlos Davila</title>
-  <meta name="description" content="Punto de venta y back-office para micronegocios colombianos.">
+  <meta name="description" content="Ventas, caja y gastos para micronegocios que todavía no están obligados a facturar electrónicamente.">
   <link rel="canonical" href="https://cardavil.github.io/es/proyectos/tanteo/">
   <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/proyectos/tanteo/">
   <link rel="alternate" hreflang="en" href="https://cardavil.github.io/projects/tanteo/">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Carlos Davila">
   <meta property="og:title" content="Tanteo — Carlos Davila">
-  <meta property="og:description" content="Punto de venta y back-office para micronegocios colombianos.">
+  <meta property="og:description" content="Ventas, caja y gastos para micronegocios que todavía no están obligados a facturar electrónicamente.">
   <meta property="og:url" content="https://cardavil.github.io/es/proyectos/tanteo/">
   <meta property="og:locale" content="es_CO">
   <meta property="og:locale:alternate" content="en_CA">
@@ -45,70 +45,119 @@
 
     <header class="tarjeta caso-cabecera" data-proyecto="tanteo">
       <h1>Tanteo</h1>
-      <p class="caso-lema">Punto de venta y back-office para micronegocios colombianos.</p>
-      <p class="caso-resumen">App web instalable (PWA) para negocios que aún no están obligados a facturar electrónicamente: caja, cuadre, gastos y reportes, con el aislamiento entre negocios en la base de datos.</p>
+      <p class="caso-lema">Ventas, caja y gastos para micronegocios que todavía no están obligados a facturar electrónicamente.</p>
+      <p class="caso-resumen">Registra cada venta en el mostrador con un comprobante interno, cierra la caja del día con arqueo, registra los gastos leyendo el código QR de las facturas electrónicas de los proveedores y avisa cuándo el negocio se acerca al umbral que lo obligaría a facturar.</p>
       <dl class="caso-ficha">
         <div><dt>Estado</dt><dd>En producción · negocio piloto</dd></div>
         <div><dt>Periodo</dt><dd>Ago 2026 – presente</dd></div>
-        <div><dt>Rol</dt><dd>Proyecto independiente: diseño, desarrollo y operación</dd></div>
+        <div><dt>Rol</dt><dd>Proyecto independiente, hecho para negocios de amigos</dd></div>
       </dl>
     </header>
 
-    <section class="caso-seccion caso-seccion-ancha" aria-label="En cifras">
-      <div class="metricas"><div class="metrica"><b>672</b><span>aserciones pgTAP en CI</span></div><div class="metrica"><b>39</b><span>tablas, todas con RLS (52 políticas)</span></div><div class="metrica"><b>91</b><span>funciones SECURITY DEFINER</span></div><div class="metrica"><b>22</b><span>reglas en el gate único</span></div><div class="metrica"><b>149</b><span>parches SQL aplicados a producción</span></div><div class="metrica"><b>22</b><span>decisiones de arquitectura (ADR)</span></div></div>
-    </section>
-
-    <section class="caso-seccion" aria-labelledby="titulo-contexto">
-      <h2 id="titulo-contexto">Contexto y problema</h2>
-      <p>En Colombia, muchos micronegocios —tiendas de barrio y negocios de mostrador— no están obligados a expedir factura ni documento equivalente, y llevan ventas y caja en una libreta o una hoja de cálculo. Para ellos, emitir una «factura» por voluntad propia no es inocuo: la DIAN entiende que quien la expide asume el régimen completo de facturador electrónico. Por eso Tanteo emite un «comprobante de venta» y la palabra «factura» no aparece en pantallas, impresos ni código. Aun así, los datos se guardan con los códigos DIAN (tipo de documento, medio de pago, municipio) para que la facturación electrónica pueda activarse con un proveedor tecnológico el día en que el negocio quede obligado.</p>
-      <p>El día del negocio cabe en cuatro gestos. En el mostrador, cada lectura del lector de códigos suma una unidad, sin preguntas extra al cajero. Al cierre, el cuadre cuenta el efectivo por denominación y concilia cada cuenta de dinero (efectivo, billeteras, banco, datáfono) contra lo vendido. Los gastos se registran leyendo el QR de la factura electrónica del proveedor —con el lector 2D, la cámara o un PDF o imagen—, y el QR se interpreta en el propio dispositivo, sin depender del portal de la DIAN. El semáforo de formalización compara las ventas del año contra 3.500 UVT (amarillo pasado el 70 %, rojo pasado el 90 %) para que el dueño vea venir la obligación. El contador descarga CSV con la estructura de las plantillas de importación del software contable y el dueño recibe el cierre del día por Telegram.</p>
-    </section>
-
-    <section class="caso-seccion" aria-labelledby="titulo-rol">
-      <h2 id="titulo-rol">Mi rol y restricciones</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-que-es">
+      <h2 id="titulo-que-es">Qué es</h2>
+      <p>Tanteo reemplaza la hoja de cálculo de un negocio de barrio (una tienda, una cafetería, un pequeño comercio) cuyo dueño es una persona que todavía no tiene que facturar electrónicamente.</p>
       <ul class="vinetas">
-        <li>Proyecto independiente, construido en solitario para negocios de amigos (de ahí su negocio piloto): definición del producto, arquitectura, esquema y políticas de la base, las dos apps web, el worker y la operación (despliegues, respaldos y vigilancia).</li>
-        <li>Desarrollo asistido por IA con Claude Code bajo un protocolo escrito: auditar → diagnosticar → planear → pedir autorización → implementar solo lo aprobado → verificar. Ningún cambio puede degradar lo que existe; si un plan resulta equivocado a mitad de camino, se revierte en lugar de resolverse sobre la marcha.</li>
-        <li>El agente de IA es un actor del modelo de amenazas: hooks PreToolUse vetan los comandos y archivos capaces de imprimir un secreto, y todo script que escribe en producción (SQL, despliegues, secretos) se detiene hasta el OK del propietario. Una regla del gate prueba esos hooks.</li>
-        <li>Restricciones: el negocio piloto es de solo lectura para el desarrollo (las pantallas se verifican en un tenant sintético); con el producto desplegado, ningún cambio a las vistas ni a la operación del mostrador o del cuadre sin OK explícito; y la regla legal de vocabulario: comprobante, nunca factura.</li>
+        <li>El mostrador vende con un lector de código de barras y emite un <strong>comprobante interno de venta, que no es factura</strong>.</li>
+        <li>Cada noche se cierra la caja.</li>
+        <li>Los gastos entran leyendo el código QR de la factura del proveedor.</li>
+        <li>El dueño ve el resultado del mes y su contador descarga lo que necesita.</li>
+        <li>Una misma plataforma atiende a varios negocios, cada uno con sus datos aislados.</li>
       </ul>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-arquitectura">
-      <h2 id="titulo-arquitectura">Arquitectura y decisiones</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-roles">
+      <h2 id="titulo-roles">Quién lo usa y qué ve cada uno</h2>
+      <ul class="vinetas">
+        <li><strong>Propietario:</strong> ve todo su negocio. Es el único que anula comprobantes, reabre un día cerrado, corrige o anula gastos, edita el catálogo, invita a su equipo y vincula el bot.</li>
+        <li><strong>Cajero:</strong> vende, abre y cierra la caja y registra clientes. Solo ve los comprobantes y gastos del día, y no anula ni reabre.</li>
+        <li><strong>Contador:</strong> solo lectura de comprobantes, gastos, reportes y exportes, de cualquier fecha.</li>
+        <li><strong>Cliente final:</strong> no necesita cuenta; se registra con un QR impreso en el mostrador y recibe su comprobante impreso o por correo.</li>
+        <li><strong>Equipo de la plataforma:</strong> no ve los datos de un negocio real, solo su identidad y su estado, nunca montos, clientes ni ventas. Solo puede entrar a negocios de prueba, y cada consulta queda auditada.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-registra">
+      <h2 id="titulo-registra">Qué registra</h2>
+      <ul class="vinetas">
+        <li><strong>Comprobante de venta:</strong> consecutivo sin huecos, cajero, cliente (por defecto, consumidor final), líneas, impuestos, descuentos y uno o varios pagos. Precios e impuestos se congelan al vender. Estados: emitido → anulado, solo por el propietario, con motivo y con el día abierto. Nunca se borra.</li>
+        <li><strong>Cierre del día:</strong> saldo inicial por cuenta, conteo del efectivo billete por billete, traslados a la caja general, retiros, esperado frente a contado y la diferencia. Estados: abierto → cerrado; solo el propietario lo reabre, con motivo.</li>
+        <li><strong>Gasto:</strong> proveedor, fecha, de qué cuenta salió el dinero, categoría (insumos, fijos, servicios, nómina u otros) e impuestos. Se corrige o se anula solo con el día abierto.</li>
+        <li><strong>Catálogo:</strong> productos con código de barras, impuestos y descuentos (porcentaje, monto, libre o «lleva X, paga Y»), promociones automáticas por días o fechas, e insumos y recetas: cada venta descuenta el inventario.</li>
+        <li><strong>Clientes y proveedores:</strong> identificación validada, contacto y consentimiento de datos. Suprimir a alguien lo anonimiza.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-flujo">
+      <h2 id="titulo-flujo">Cómo funciona</h2>
       <ol class="decisiones">
-        <li><h3>RLS como frontera entre negocios</h3><p>Una sola base y un solo esquema: cada tabla de negocio lleva el id del negocio y políticas RLS basadas en membresías, y un contador puede ser miembro de varios negocios. La seguridad se aplica en la base aunque el código de la app tenga errores; a cambio, no hay esquema por negocio y una tabla nueva sin RLS es un incidente, así que la suite pgTAP falla si alguna tabla queda sin RLS.</p></li>
-        <li><h3>La plataforma no ve datos de un negocio real sin invitación</h3><p>El superadmin vive fuera de las membresías y ninguna política de datos lo menciona: ve identidad y estado de los negocios, nunca montos, clientes ni detalle de ventas. Solo puede entrar con membresía a entornos sintéticos (la función rechaza un negocio real) y cada acción queda en la auditoría del negocio afectado. Se descartó añadir una excepción de superadmin a las políticas porque concentraba en una sola cuenta el acceso a todos los negocios.</p></li>
-        <li><h3>Modelo de llaves y revocación del secreto legacy</h3><p>Todo el stack pasó a las llaves opacas de Supabase (publicable en el cliente, secreta en el servidor) y se revocó el secreto JWT legacy. Se verificó que deshabilitar las llaves legacy no bastaba: un JWT de servicio legacy seguía saltando RLS hasta revocar su llave de firma. El costo fue cerrar las sesiones emitidas antes de la rotación, aceptable en el piloto.</p></li>
-        <li><h3>La sonda entra como el rol con menos permisos</h3><p>Cada 5 minutos en horario comercial (cada 30 de madrugada), el worker abre sesión como cajero de un negocio canario, vende por el mismo RPC del mostrador y relee la venta con esa sesión. Con la llave secreta la sonda saltaría RLS y no vería una política rota; el cajero es el rol más restringido y el primero en romperse. A cambio, la limpieza de la venta de prueba sí usa la llave secreta, porque un cajero no puede borrar comprobantes.</p></li>
-        <li><h3>Ficha de instalación única y despliegues manuales por script</h3><p>Nombres, direcciones y recursos externos viven en un solo archivo de instalación que leen las apps, el worker, los scripts y los workflows; nada se escribe a mano. Ningún workflow despliega: todo sale por scripts del repo, con wrangler en versión exacta, la cuenta de Cloudflare confirmada antes de escribir y un hook que detiene el despliegue hasta el OK del propietario. El costo: las Edge Functions no pueden leer la ficha, así que sus valores se inyectan al subirlas y un marcador sin valor detiene la subida.</p></li>
+        <li><h3>Venta en el mostrador</h3><p>Se elige el cliente, se escanean los productos (o se usan botones rápidos), se aplican los descuentos y se cobra en una cuenta o con un pago mixto, con calculadora de cambio. El servidor toma precios e impuestos del catálogo, no de la pantalla, así que nadie los altera. Los pedidos abiertos permiten llevar varias ventas a la vez para clientes que siguen en el local.</p></li>
+        <li><h3>Sin conexión</h3><p>Cada venta se guarda primero en el equipo y se envía en orden cuando vuelve la red, sin duplicarse; el cierre del día espera a que todo suba.</p></li>
+        <li><h3>Cierre del día</h3><p>Abrir la caja, revisar ventas por cuenta, contar el efectivo, registrar traslados y gastos, y cerrar. Con el día cerrado no entran ventas, gastos ni anulaciones.</p></li>
+        <li><h3>Gastos</h3><p>Se escanea el QR de la factura electrónica del proveedor, se sube su archivo o se escribe a mano. El proveedor se crea solo si no existe, y una factura ya registrada se rechaza.</p></li>
+        <li><h3>Catálogo</h3><p>Se edita en pantalla o se importa de una hoja de cálculo en una sola operación, que se cancela completa si algo falla. Imprime una carta de códigos de barras.</p></li>
+        <li><h3>Registro de clientes</h3><p>Por QR, con protección anti-bots. La respuesta es la misma si la persona ya estaba registrada, para no revelar quién es cliente.</p></li>
+        <li><h3>Equipo</h3><p>El propietario invita con un enlace válido para un solo correo.</p></li>
+        <li><h3>Resultados</h3><p>El resultado del mes (ventas, gastos y utilidad operativa), la caja general y los productos más vendidos; exportes para el software contable del contador; y un semáforo de formalización que avisa cuando los ingresos del año se acercan al umbral que obliga a facturar electrónicamente.</p></li>
       </ol>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-resultados">
-      <h2 id="titulo-resultados">Resultados</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-pantallas">
+      <h2 id="titulo-pantallas">Pantallas</h2>
       <ul class="vinetas">
-        <li>En producción: la PWA del mostrador, el formulario público de registro, el worker (bot, sondas y alertas) y la base con RLS. El micronegocio piloto ya cargó su catálogo real desde la pantalla de Catálogo; su aceptación, un día completo de operación sin la hoja de cálculo, sigue pendiente.</li>
-        <li>El aislamiento entre negocios se prueba en cada PR: la suite pgTAP (672 aserciones) corre en CI contra un Supabase local y comprueba, entre otras cosas, que el dueño de otro negocio ve cero filas ajenas y que todas las tablas del esquema tienen RLS activa.</li>
-        <li>Un gate único de 22 reglas corre en pre-commit (modo rápido), en pre-push y en CI (completo): lint, tipos, unos 370 casos de Vitest repetidos en tres zonas horarias, build, el formato de cada mensaje de commit, que ningún RPC llamado por el código falte en el esquema y que los hooks del agente sigan bloqueando.</li>
-        <li>Cinco workflows de GitHub Actions: CI (gate, npm audit que falla en high y critical, gitleaks, pgTAP y, tras cada push a main, un smoke contra lo desplegado), respaldo diario cifrado con AES-256 a R2 con retención de 90 días, un vigilante horario que corre fuera de Cloudflare y de Supabase, el cierre nocturno de Demo y su purga diaria.</li>
-        <li>Vigilancia continua: la sonda del canario corre cada 5 minutos entre 06:00 y 22:00 de Bogotá (cada 30 de madrugada) y avisa por Telegram si falla; el tenant Demo opera a diario como un negocio real, con ventas por el camino del cajero y cierre de caja cada noche.</li>
-        <li>Cambios de esquema trazables: 149 parches SQL aplicados a producción, cada uno reflejado en el baseline en el mismo commit, y 22 ADR con las decisiones de arquitectura.</li>
+        <li><strong>Del negocio:</strong> Hoy (ventas del día y pendientes de la semana); Mostrador; Cierre del día; Comprobantes; Gastos; Catálogo, con carta de códigos; Insumos y recetas; Clientes y proveedores, con el QR de registro; Resultado del mes; Exportes; y Ajustes (cuentas, impuestos, descuentos, equipo, dispositivos, bot y semáforo).</li>
+        <li><strong>Pública:</strong> el formulario de registro de clientes, con la marca del negocio.</li>
+        <li><strong>De la plataforma:</strong> indicadores, auditoría, catálogos, equipo, negocios, operaciones y sesiones.</li>
       </ul>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-lecciones">
-      <h2 id="titulo-lecciones">Lecciones y siguientes pasos</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-operacion">
+      <h2 id="titulo-operacion">Operación: bot y avisos</h2>
+      <div class="tabla-marco" role="region" aria-label="Bot y avisos" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Disparador</th><th scope="col">Mensaje</th><th scope="col">Quién lo recibe</th><th scope="col">Para qué</th></tr></thead>
+          <tbody>
+            <tr><td>/hoy, /cuadre, /existencias</td><td>Ventas del día frente a la semana anterior, resultado del último cierre, insumos bajo el mínimo</td><td>Dueño, en su chat vinculado</td><td>Seguir el negocio desde el teléfono</td></tr>
+            <tr><td>Cierre de cada noche</td><td>Ventas, resultado del cuadre y pendientes de la semana</td><td>Cada dueño</td><td>Saber cómo cerró el día</td></tr>
+            <tr><td>Sonda del canario</td><td>Si falla, alerta con qué se perdió y qué hacer</td><td>Chat de operaciones</td><td>Atender antes de que el cliente lo note</td></tr>
+            <tr><td>Alerta por prioridad</td><td>Servicio, fuente, qué hacer y si la causa es del proveedor</td><td>Chat de operaciones; las críticas también por correo y se repiten hasta resolverse</td><td>Priorizar</td></tr>
+            <tr><td>/salud, /estado, /sonda, /playbook</td><td>Estado de la plataforma y guía por fuente de alerta</td><td>Chat de operaciones</td><td>Diagnosticar sin entrar al panel</td></tr>
+          </tbody>
+        </table>
+      </div>
       <ul class="vinetas">
-        <li>Un CI siempre en rojo no protege nada. Un paso que dependía de un secreto nunca cargado dejó el CI en rojo 20 corridas seguidas y escondió fallos reales de pgTAP entre el ruido; se retiró, y lo que vigilaba se comprobó a mano sobre toda la historia del repositorio.</li>
-        <li>Un vigilante con datos incoherentes solo produce ruido, y el ruido enseña a ignorar los rojos. Demo dejó de fabricar datos por caminos especiales y pasó a operar como un negocio real, para que un día en rojo signifique que el servicio falló ese día.</li>
-        <li>Que el CI revise después del push no basta: los rojos llegaban a main y el trabajo se apilaba encima. Ahora a main solo se entra por PR con el CI en verde, y el pre-push corre el gate completo y bloquea mientras main esté en rojo.</li>
-        <li>Siguiente, según el roadmap y los ADR: el día de aceptación del piloto; un plan único, aprobado el 2026-10-04, que ordena el trabajo pendiente por superficie (fases F60 a F67); y, más adelante, la facturación electrónica vía proveedor cuando un negocio quede obligado, el saldo de arranque, el arqueo de la caja general y el fiado.</li>
+        <li>El bot se vincula con un código de un solo uso que genera el propietario.</li>
+        <li><strong>Sonda del canario:</strong> entra como cajero en un negocio de prueba, vende por el mismo camino del mostrador y relee la venta con esa sesión; si una regla de acceso se rompe, la sonda lo ve.</li>
+        <li><strong>Negocio de demostración:</strong> opera a diario como uno real y cierra el día cuadrado.</li>
+        <li><strong>Respaldo diario cifrado</strong> y un <strong>vigilante externo</strong>, fuera de la plataforma, que también comprueba el correo.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-controles">
+      <h2 id="titulo-controles">Controles</h2>
+      <ul class="vinetas">
+        <li><strong>Aislamiento entre negocios:</strong> cada regla vive en la base de datos; las claves impiden que un registro apunte a otro negocio; las operaciones de dinero solo entran por funciones del servidor; y las pruebas comprueban que el dueño de otro negocio ve cero filas ajenas.</li>
+        <li><strong>La plataforma no ve un negocio real:</strong> ninguna regla le da acceso, el panel recibe el documento enmascarado y las métricas son conteos, sin montos.</li>
+        <li><strong>Mínimo privilegio:</strong> la sonda y la demo usan sesiones reales de cajero o propietario, no la llave maestra.</li>
+        <li><strong>Integridad:</strong> comprobantes inmutables y sin huecos, datos congelados al vender, ninguna venta ni gasto se duplica, y el día cerrado no se toca sin una reapertura auditada.</li>
+        <li><strong>Auditoría:</strong> cada acción relevante queda registrada; la ven el propietario, el contador y la plataforma.</li>
+        <li><strong>Datos personales:</strong> consentimiento obligatorio, del dueño al crear el negocio y del cliente al registrarse; supresión con anonimización.</li>
+        <li><strong>Control de cambios:</strong> las mismas verificaciones en cada commit, en cada push y en la integración continua; revisión de dependencias y de secretos; la matriz de acceso como condición innegociable; y una prueba de humo después de cada despliegue.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-integraciones">
+      <h2 id="titulo-integraciones">Integraciones</h2>
+      <ul class="vinetas">
+        <li><strong>Supabase:</strong> base de datos, ingreso con código y funciones.</li>
+        <li><strong>Cloudflare:</strong> sitio, worker del bot y las sondas, respaldos cifrados y anti-bots.</li>
+        <li><strong>Telegram:</strong> el bot. <strong>Correo:</strong> códigos y alertas críticas.</li>
+        <li><strong>GitHub Actions:</strong> controles, vigilante, respaldo y demo. <strong>Software contable:</strong> solo exportación de archivos.</li>
       </ul>
     </section>
 
     <details class="apendice">
-      <summary>Para revisores técnicos: infraestructura, stack y código</summary>
+      <summary>Para revisores técnicos: infraestructura, stack, cifras y detalles de operación</summary>
       <div class="apendice-contenido">
         <div class="infra-cabecera">
           <h2>Infraestructura</h2>
@@ -117,7 +166,22 @@
         <p class="infra-nota">Diagrama interactivo generado a partir del código del proyecto. Toca un nodo para ver su detalle y sus conexiones.</p>
         <iframe class="infra-marco" src="../../../archivos/tanteo/infra.html" title="Infraestructura de Tanteo" loading="lazy" sandbox="allow-scripts"></iframe>
         <h3>Stack</h3>
-        <ul class="etiquetas"><li class="etiqueta">React</li><li class="etiqueta">TypeScript</li><li class="etiqueta">Vite</li><li class="etiqueta">Tailwind CSS</li><li class="etiqueta">PWA + IndexedDB</li><li class="etiqueta">Supabase</li><li class="etiqueta">PostgreSQL + RLS</li><li class="etiqueta">pgTAP</li><li class="etiqueta">Cloudflare Pages</li><li class="etiqueta">Cloudflare Workers</li><li class="etiqueta">Cloudflare R2</li><li class="etiqueta">Vitest</li><li class="etiqueta">Playwright</li><li class="etiqueta">GitHub Actions</li></ul>
+        <ul class="etiquetas"><li class="etiqueta">PWA en React 18 + TypeScript</li><li class="etiqueta">Vite</li><li class="etiqueta">Tailwind CSS</li><li class="etiqueta">IndexedDB</li><li class="etiqueta">Supabase (PostgreSQL, pg_cron)</li><li class="etiqueta">pgTAP</li><li class="etiqueta">Cloudflare Workers, Pages y R2</li><li class="etiqueta">Vitest</li><li class="etiqueta">Playwright</li><li class="etiqueta">GitHub Actions</li></ul>
+        <h3>Cifras</h3>
+        <ul class="vinetas">
+          <li>39 tablas, todas con políticas de acceso (52 políticas); 111 funciones, 13 vistas y 34 triggers; 3 Edge Functions.</li>
+          <li>679 aserciones de pruebas de acceso, unas 396 pruebas unitarias y 66 de extremo a extremo; 23 reglas en el control de cambios; 150 parches SQL aplicados.</li>
+        </ul>
+        <h3>Detalles de operación</h3>
+        <ul class="vinetas">
+          <li><strong>Resumen del dueño:</strong> a las 21:00, hora de Colombia.</li>
+          <li><strong>Canario:</strong> cada 5 minutos de 06:00 a 21:55 y cada 30 minutos de madrugada.</li>
+          <li><strong>Alertas:</strong> las críticas se repiten cada hora; las demás, cada 24 horas.</li>
+          <li><strong>Respaldo:</strong> a las 03:00, con los últimos 90 conservados. <strong>Vigilante:</strong> cada hora. <strong>Tareas de la base:</strong> 06:00 y 06:30.</li>
+          <li><strong>Invitación:</strong> válida 7 días. <strong>Código del bot:</strong> 6 dígitos, 10 minutos y 5 intentos.</li>
+          <li><strong>Importación:</strong> hasta 2000 filas. <strong>Ventas sin conexión:</strong> se aceptan hasta 7 días atrás.</li>
+          <li><strong>Semáforo:</strong> umbral legal de ingresos (3500 UVT en Colombia), con aviso al 70 % y al 90 %.</li>
+        </ul>
         <p class="apendice-nota">Cómo construyo: defino el problema, los requisitos, el modelo de datos y los controles; implemento con asistentes de IA (Claude Code) bajo mi dirección, y cada cambio pasa pruebas automáticas y mi revisión antes de publicarse.</p>
         <p class="apendice-nota">El código es privado porque contiene reglas de negocio y datos del cliente. Puedo recorrerlo en vivo: código, pruebas y despliegue.</p>
       </div>
