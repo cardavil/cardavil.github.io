@@ -134,9 +134,11 @@
         <li><strong>Sidebar:</strong> Home, Members, ISAK, Routines and Nutrition, depending on the role.</li>
         <li><strong>Coach home:</strong> active athletes, assessments, active routines and plans; shortcuts and recent people. The administrator also sees the indicators alert.</li>
         <li><strong>Members:</strong> a list with search and filters, invitations, access requests and coach-change requests, and each person’s record.</li>
-        <li><strong>ISAK:</strong> wizard, detail with charts, report and comparison. <strong>Routines and Nutrition:</strong> wizard and editor.</li>
+        <li><strong>ISAK:</strong> wizard, detail with charts, report and comparison.</li>
+        <li><strong>Routines and Nutrition:</strong> wizard and editor.</li>
         <li><strong>For the administrator:</strong> Indicators, Activity, Access (the permission matrix by role and screen) and Catalogs.</li>
-        <li><strong>For everyone:</strong> profile and settings (light or dark theme). <strong>Public:</strong> sign-in, athlete and coach sign-up, and profile completion.</li>
+        <li><strong>For everyone:</strong> profile and settings (light or dark theme).</li>
+        <li><strong>Public:</strong> sign-in, athlete and coach sign-up, and profile completion.</li>
       </ul>
     </section>
 
@@ -272,7 +274,8 @@
           <li><strong>Report engine:</strong> 2 attempts per model with increasing backoff and 5 seconds between agents; the app waits up to 15 seconds for the engine to accept the job and offers a retry after 7 minutes; limits of 5 requests per minute in the app and 20 per minute per IP in the engine; coach’s notes up to 2,000 characters; only Z-scores beyond ±2 are sent; the verifier applies 8 rules.</li>
           <li><strong>Sign-in:</strong> 6-digit code, valid for 10 minutes; minimum response time of 1.5 seconds; status notices at most once every 10 minutes.</li>
           <li><strong>Editing:</strong> the lock expires after 2 minutes without a heartbeat or 15 without changes; the draft is saved 2 seconds after each change and expires after 14 days.</li>
-          <li><strong>Activity log:</strong> 12 months; purged on the 1st of each month. <strong>Backup:</strong> at 03:17, Colombia time; restore test on Sundays; kept encrypted for 30 days.</li>
+          <li><strong>Activity log:</strong> 12 months; purged on the 1st of each month.</li>
+          <li><strong>Backup:</strong> at 03:17, Colombia time; restore test on Sundays; kept encrypted for 30 days.</li>
           <li><strong>Catalogs:</strong> 366 items of 34 types, 94 foods and 100 exercises across 14 muscle groups.</li>
         </ul>
         <p class="apendice-nota">How I build: I define the problem, the requirements, the data model and the controls; I implement with AI coding assistants (Claude Code) under my direction, and every change passes automated tests and my review before release.</p>
