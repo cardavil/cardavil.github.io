@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Corex — Carlos Davila</title>
-  <meta name="description" content="Plataforma para entrenadores: antropometría ISAK, rutinas, planes nutricionales e informes.">
+  <meta name="description" content="Gestión deportiva para entrenadores: evalúan a sus atletas con antropometría ISAK y les prescriben rutinas y planes nutricionales.">
   <link rel="canonical" href="https://cardavil.github.io/es/proyectos/corex/">
   <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/proyectos/corex/">
   <link rel="alternate" hreflang="en" href="https://cardavil.github.io/projects/corex/">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Carlos Davila">
   <meta property="og:title" content="Corex — Carlos Davila">
-  <meta property="og:description" content="Plataforma para entrenadores: antropometría ISAK, rutinas, planes nutricionales e informes.">
+  <meta property="og:description" content="Gestión deportiva para entrenadores: evalúan a sus atletas con antropometría ISAK y les prescriben rutinas y planes nutricionales.">
   <meta property="og:url" content="https://cardavil.github.io/es/proyectos/corex/">
   <meta property="og:locale" content="es_CO">
   <meta property="og:locale:alternate" content="en_CA">
@@ -45,73 +45,200 @@
 
     <header class="tarjeta caso-cabecera" data-proyecto="corex">
       <h1>Corex</h1>
-      <p class="caso-lema">Plataforma para entrenadores: antropometría ISAK, rutinas, planes nutricionales e informes.</p>
-      <p class="caso-resumen">Aplicación web con 4 roles (administrador, entrenador, analista y usuario) que migró de un prototipo en Google Apps Script a Next.js y Supabase.</p>
+      <p class="caso-lema">Gestión deportiva para entrenadores: evalúan a sus atletas con antropometría ISAK y les prescriben rutinas y planes nutricionales.</p>
+      <p class="caso-resumen">Calcula la composición corporal al guardar cada evaluación, prepara un informe narrativo opcional con IA que el entrenador revisa antes de publicarlo, y a cada atleta le muestra solo lo suyo. Funciona en la web y en una app Android.</p>
       <dl class="caso-ficha">
         <div><dt>Estado</dt><dd>En producción · en uso</dd></div>
         <div><dt>Periodo</dt><dd>Abr 2026 – presente</dd></div>
-        <div><dt>Rol</dt><dd>Proyecto independiente: diseño, desarrollo y operación</dd></div>
+        <div><dt>Rol</dt><dd>Proyecto independiente, hecho para negocios de amigos</dd></div>
       </dl>
     </header>
 
-    <section class="caso-seccion caso-seccion-ancha" aria-label="En cifras">
-      <div class="metricas"><div class="metrica"><b>25</b><span>tablas en PostgreSQL</span></div><div class="metrica"><b>72</b><span>políticas RLS</span></div><div class="metrica"><b>490</b><span>tests automatizados</span></div><div class="metrica"><b>19</b><span>reglas en el gate del repo</span></div><div class="metrica"><b>11</b><span>dimensiones en la auditoría repetible</span></div><div class="metrica"><b>~35k</b><span>líneas de TypeScript en la app web</span></div></div>
-    </section>
-
-    <section class="caso-seccion" aria-labelledby="titulo-contexto">
-      <h2 id="titulo-contexto">Contexto y problema</h2>
-      <p>Corex es una plataforma web para profesionales de la salud y hoy sirve a entrenadores. Incluye un asistente de 4 pasos para evaluaciones antropométricas ISAK (composición corporal, somatotipo Heath-Carter, Z-scores Phantom, gráficas y comparación entre evaluaciones), rutinas organizadas de lunes a domingo con catálogo de ejercicios y planes nutricionales con TMB, TDEE y macros por día. Cuatro roles (admin, entrenador, analista y usuario) comparten la plataforma; una persona puede tener varios y cambiar entre ellos.</p>
-      <p>Nació como prototipo en Google Apps Script y se migró a Next.js 14 + Supabase. Maneja datos personales y de salud, por eso el control de acceso vive en PostgreSQL (RLS) y no solo en la interfaz. Está en producción y en uso.</p>
-    </section>
-
-    <section class="caso-seccion" aria-labelledby="titulo-rol">
-      <h2 id="titulo-rol">Mi rol y restricciones</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-que-es">
+      <h2 id="titulo-que-es">Qué es</h2>
+      <p>Corex es una plataforma web de gestión deportiva, con una app Android que la envuelve.</p>
       <ul class="vinetas">
-        <li>Proyecto independiente, construido en solitario para negocios de amigos: producto, código, base de datos, despliegue y operación (CI y respaldos).</li>
-        <li>Desarrollo asistido por IA con Claude Code bajo un protocolo escrito y obligatorio para todo cambio, sin importar su tamaño: auditar → diagnosticar → planear → pedir autorización → implementar solo lo aprobado. Si un plan falla a mitad de camino, se revierte y se escribe otro.</li>
-        <li>Cada plan se ensaya completo en un clon desechable y se mide (gate, lint, typecheck, tests y build) contra main; si algún número empeora, el cambio se cancela.</li>
-        <li>Restricciones de operación: planes gratuitos (Supabase Free no hace respaldos, por eso existe un workflow propio), secretos que nunca se imprimen (solo se comprueba su existencia o su largo) y nunca datos reales de usuarios como ejemplo.</li>
+        <li>El entrenador evalúa a sus atletas con <strong>antropometría ISAK</strong>, el protocolo internacional de medición corporal, y el sistema calcula los resultados al guardar.</li>
+        <li>Con cada evaluación puede generar un <strong>informe narrativo con IA</strong>, que revisa antes de publicarlo.</li>
+        <li>Les prescribe rutinas de entrenamiento y planes nutricionales.</li>
+        <li>El atleta consulta lo suyo.</li>
+        <li>La administración aprueba los accesos, reasigna entrenadores y supervisa la operación.</li>
       </ul>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-arquitectura">
-      <h2 id="titulo-arquitectura">Arquitectura y decisiones</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-roles">
+      <h2 id="titulo-roles">Quién lo usa y qué ve cada uno</h2>
+      <ul class="vinetas">
+        <li><strong>Atleta:</strong> ve su inicio con la última evaluación (IMC, % de grasa y masa muscular), su rutina activa y su plan con calorías y macronutrientes. Ve sus evaluaciones, y cada informe solo cuando su entrenador lo publica. Edita sus datos básicos, pero no las notas del entrenador, y puede pedir cambio de entrenador.</li>
+        <li><strong>Entrenador:</strong> ve solo a sus atletas activos, y solo a ellos les crea evaluaciones, informes, rutinas y planes; al terminar la relación conserva la lectura de lo que creó. Invita atletas, que entran activos, e invita entrenadores, que quedan pendientes de aprobación. Aprueba a quienes se registran eligiéndolo, desactiva atletas y pide cambios de entrenador.</li>
+        <li><strong>Analista:</strong> parte de un acceso mínimo; el administrador le da permisos de lectura o escritura por módulo (atletas, evaluaciones, rutinas, nutrición, actividad y catálogos). No crea evaluaciones, rutinas ni planes. Con permiso de escritura edita atletas y resuelve cambios de entrenador, salvo los que pidió él.</li>
+        <li><strong>Administrador:</strong> control total. Aprueba entrenadores, asigna roles (sin poder quitarse el suyo), otorga permisos de analista y reasigna entrenadores. Es el único que puede tomar el bloqueo de edición de un atleta, y ve Indicadores, Actividad, Accesos y Catálogos.</li>
+        <li>Una persona puede tener varios roles y elige con cuál trabaja. <strong>Cambiar de rol solo puede reducir permisos, nunca ampliarlos.</strong></li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-registra">
+      <h2 id="titulo-registra">Qué registra</h2>
+      <ul class="vinetas">
+        <li><strong>Evaluación ISAK</strong> (el objeto principal): fecha, antropometrista, deporte, edad, sexo, medidas básicas, pliegues cutáneos, perímetros y diámetros, con las tomas crudas. Al guardar, el servidor calcula IMC, índices cintura-cadera y cintura-talla con su nivel de riesgo, sumatorias de pliegues, % de grasa, masas muscular, ósea, adiposa y residual, somatotipo Heath-Carter y el perfil de proporcionalidad. La editan su autor, mientras siga siendo el entrenador activo, o el administrador.</li>
+        <li><strong>Informe ISAK:</strong> uno por evaluación, con siete secciones (Síntesis, Composición corporal, Somatotipo y proporcionalidad, Riesgo y salud, Impacto en tu rutina, Impacto en tu nutrición, y Conclusiones y próximos pasos) más las notas del entrenador. Estados: generando → listo o error; la publicación va aparte. Regenerarlo reemplaza el anterior y le quita la publicación.</li>
+        <li><strong>Rutina:</strong> objetivo, nivel, días por semana, jornada, lugar e implementos; por día, bloques por grupo muscular, y en cada uno ejercicios con series, repeticiones, peso, descanso, técnica, consejos y video. Estados: activa o inactiva.</li>
+        <li><strong>Plan nutricional:</strong> calorías, proteínas, carbohidratos, grasas, hidratación, ajuste para días de entreno, restricciones y preferencias, y un menú semanal. Estados: activo o inactivo, con un solo plan activo por atleta: crear uno nuevo desactiva el anterior.</li>
+        <li><strong>Persona:</strong> identidad con perfiles demográfico, de salud, de participación, deportivo (con las notas del entrenador) y profesional (con el nivel ISAK del entrenador). Estados: pendiente → activa o rechazada; activa → inactiva. Solo una cuenta activa inicia sesión.</li>
+        <li><strong>Relación entrenador–atleta:</strong> una sola vigente por atleta, con historial.</li>
+        <li><strong>Solicitud de cambio de entrenador:</strong> pendiente → aprobada, rechazada o cancelada; una pendiente por atleta.</li>
+        <li><strong>Catálogos:</strong> generales, alimentos con macronutrientes por porción y ejercicios por grupo muscular.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-flujo">
+      <h2 id="titulo-flujo">Cómo funciona</h2>
       <ol class="decisiones">
-        <li><h3>Rol activo en un claim del JWT que el usuario no puede editar</h3><p>El rol activo viaja en los metadatos de app del JWT, que solo escribe una Edge Function con service role; las funciones de RLS lo cruzan con los roles activos de la persona, así que alterar el claim solo puede reducir permisos, nunca escalarlos. La contrapartida: cada cambio de rol obliga a refrescar la sesión para que el JWT nuevo llegue a PostgreSQL.</p></li>
-        <li><h3>RLS automático en cada tabla nueva</h3><p>Un event trigger sobre ddl_command_end habilita RLS en toda tabla nueva del esquema public, como defensa en profundidad si una migración lo olvida. A cambio, una tabla nueva nace cerrada hasta que tenga políticas; la de bloqueos de edición se deja así a propósito y solo se accede por funciones SECURITY DEFINER.</p></li>
-        <li><h3>R15: cada server action comprueba su guarda</h3><p>La regla R15 del gate recorre cada archivo 'use server' y exige, de forma estática, que toda función exportada llame a una guarda que resuelve la persona desde la sesión (no desde un argumento) antes de cualquier lectura o escritura. El costo es imponer una forma de código que el chequeo sepa leer y listar cada excepción con su razón (el login ocurre antes de que exista sesión); una excepción sin uso también hace fallar el gate.</p></li>
-        <li><h3>R19: toda escritura devuelve filas</h3><p>R19 obliga a que cada UPDATE o DELETE de Supabase en la app pida la fila de vuelta: una escritura que RLS filtra no da error, toca 0 filas y la app respondería éxito. Implica devolver filas en cada escritura; la lista de excepciones existe y hoy está vacía.</p></li>
-        <li><h3>Informe con IA: consentimiento y anonimización en el servidor</h3><p>La Edge Function del informe comprueba ella misma el consentimiento guardado en la fila antes de enviar datos a Gemini, y solo envía antropometría, sin nombre, email ni documento; las notas del entrenador se limpian, van entre marcadores aleatorios por solicitud y se rechaza una salida que los copie. El pipeline de 5 agentes tarda 1–2 minutos, así que corre en segundo plano, y si un agente falla no se guarda un informe parcial.</p></li>
+        <li><h3>Acceso</h3><p>Con un código que llega por correo. La respuesta es la misma exista o no la cuenta: solo una cuenta activa recibe el código, y una pendiente, rechazada o inactiva recibe en cambio un correo que explica su estado.</p></li>
+        <li><h3>Alta de un atleta</h3><p>Por invitación del entrenador, y queda activo con su relación; o por registro público, eligiendo entrenador y aceptando el tratamiento de datos, y queda pendiente hasta que su entrenador o el administrador lo aprueba. Después completa su perfil por pasos y acepta el consentimiento.</p></li>
+        <li><h3>Alta de un entrenador</h3><p>Por registro público o por invitación de otro entrenador queda pendiente, y se avisa a los administradores; si lo invita un administrador, queda activo.</p></li>
+        <li><h3>Evaluación ISAK</h3>
+          <ul class="vinetas">
+            <li>El entrenador elige al atleta; edad, sexo y deporte se precargan, y la pantalla dice de dónde salió cada dato.</li>
+            <li>Registra las mediciones, y el sistema pide otra toma cuando dos no coinciden.</li>
+            <li>Al primer cambio toma el bloqueo del atleta y la pantalla se va guardando como borrador.</li>
+            <li>Al guardar, el servidor valida, comprueba el acceso y el bloqueo, y calcula.</li>
+            <li>Los resultados se ven en gráficas (composición, riesgo, somatocarta y proporcionalidad), y dos evaluaciones se comparan con sus diferencias y su evolución.</li>
+          </ul>
+        </li>
+        <li><h3>Informe con IA</h3>
+          <ul class="vinetas">
+            <li>El entrenador abre «Generar informe» y marca la casilla que autoriza la interpretación asistida por IA, que viene desmarcada.</li>
+            <li>Sin la casilla, el informe sale solo con datos y gráficas.</li>
+            <li>Con ella, el motor trabaja en segundo plano y la pantalla muestra en palabras la etapa en que va.</li>
+            <li>El entrenador lo revisa y pulsa «Publicar al usuario»; solo entonces el atleta lo ve. Se imprime o se guarda en PDF.</li>
+          </ul>
+        </li>
+        <li><h3>Rutina</h3><p>Un asistente por pasos: atleta, configuración, días con ejercicios del catálogo y resumen. Después se edita por día, se duplica a otro atleta o se desactiva, y muestra estadísticas: ejercicios, series, repeticiones, tonelaje, tiempo estimado y músculos trabajados.</p></li>
+        <li><h3>Plan nutricional</h3><p>El sistema estima el gasto en reposo (con la masa libre de grasa de la última evaluación ISAK, si existe) y el gasto total según la actividad, y propone calorías y macronutrientes según el objetivo. El entrenador arma el menú semanal, con el ajuste para días de entreno. El % de grasa lo lee el servidor de la base de datos, no lo que envía la pantalla.</p></li>
+        <li><h3>Cambio de entrenador</h3>
+          <ul class="vinetas">
+            <li>Lo piden el atleta o su entrenador, con un motivo.</li>
+            <li>Lo resuelve el administrador o un analista con permiso, nunca quien lo pidió.</li>
+            <li>Al aprobarse, la relación cambia en una sola operación y se avisa por correo a los afectados.</li>
+            <li>El administrador también puede reasignar directamente.</li>
+          </ul>
+        </li>
+        <li><h3>Catálogos</h3><p>Crear, editar, activar o desactivar; importar desde CSV y exportar a CSV o Excel.</p></li>
       </ol>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-resultados">
-      <h2 id="titulo-resultados">Resultados</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-pantallas">
+      <h2 id="titulo-pantallas">Pantallas</h2>
       <ul class="vinetas">
-        <li>Módulos principales funcionando: asistente ISAK de 4 pasos con composición corporal, somatotipo Heath-Carter, Z-scores Phantom y comparación entre evaluaciones; rutinas de lunes a domingo con catálogo de ejercicios; planes nutricionales con TMB, TDEE y macros por día.</li>
-        <li>Acceso resuelto en PostgreSQL: 25 tablas con RLS y 72 políticas, todas para usuarios autenticados. El cambio de rol es real a nivel de RLS (un admin que actúa como usuario solo ve sus propios datos), y el usuario recibe su informe ISAK solo cuando el entrenador lo publica: lo filtra la política, no la interfaz.</li>
-        <li>Un único gate corre en cada commit y en CI: las 19 reglas del repo, deno check y deno lint de las Edge Functions, ESLint, tsc y los tests. CI añade el build, y un hook pre-push bloquea el push a main si el último CI de main está en rojo.</li>
-        <li>Respaldo diario de la base, cifrado con AES-256-GCM y clave protegida con RSA-OAEP, guardado 30 días. Los domingos se restaura en una Supabase local y se comparan las filas de las tablas clave; el resultado se anota en la base aunque algún paso falle.</li>
-        <li>CSP con nonce por respuesta y strict-dynamic, sin 'unsafe-inline' en script-src, y rechazo de escrituras cuyo Origin no coincide con el Host.</li>
-        <li>Auditoría 360 de 11 dimensiones con scorecard: la línea base del 2026-06-01 quedó en 4 verdes, 4 amarillas y 3 rojas; tras la remediación del 2026-06-02, las 11 pasaron a verde.</li>
+        <li><strong>Barra lateral:</strong> Inicio, Inscritos, ISAK, Rutinas y Nutrición, según el rol.</li>
+        <li><strong>Inicio del entrenador:</strong> atletas activos, evaluaciones, rutinas activas y planes; accesos rápidos y personas recientes. El administrador ve además el aviso de indicadores.</li>
+        <li><strong>Inscritos:</strong> lista con búsqueda y filtros, invitaciones, solicitudes de acceso y de cambio de entrenador, y la ficha de cada persona.</li>
+        <li><strong>ISAK:</strong> asistente, detalle con gráficas, informe y comparación. <strong>Rutinas y Nutrición:</strong> asistente y editor.</li>
+        <li><strong>Del administrador:</strong> Indicadores, Actividad, Accesos (la matriz de permisos por rol y pantalla) y Catálogos.</li>
+        <li><strong>De todos:</strong> perfil y configuración (tema claro u oscuro). <strong>Públicas:</strong> ingreso, registro de atleta y de entrenador, y completar el perfil.</li>
       </ul>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-lecciones">
-      <h2 id="titulo-lecciones">Lecciones y siguientes pasos</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-operacion">
+      <h2 id="titulo-operacion">Operación: motor del informe, correos y avisos</h2>
+      <h3>Motor del informe con IA</h3>
+      <p>Corex no usa bots de Telegram. Su motor de análisis son <strong>cinco agentes de IA en cadena</strong>:</p>
+      <div class="tabla-marco" role="region" aria-label="Agentes del informe" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">#</th><th scope="col">Agente</th><th scope="col">Qué hace</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Intérprete antropométrico</td><td>Composición, somatotipo, proporcionalidad, riesgo y salud</td></tr>
+            <tr><td>2</td><td>Preparador físico</td><td>Enfoques de entrenamiento, sin series, repeticiones, cargas ni plazos</td></tr>
+            <tr><td>3</td><td>Orientador en nutrición deportiva</td><td>Orientación cualitativa, sin calorías, gramos ni suplementos; cierra diciendo que el plan lo define un profesional</td></tr>
+            <tr><td>4</td><td>Verificador, con un modelo distinto</td><td>Comprueba que nada contradiga los números ni identifique a la persona, y quita prescripciones, invenciones, frases genéricas y afirmaciones sobre lo no medido</td></tr>
+            <tr><td>5</td><td>Formateador</td><td>Ordena el texto verificado en las siete secciones</td></tr>
+          </tbody>
+        </table>
+      </div>
       <ul class="vinetas">
-        <li>Lo que se puede verificar con código se vuelve regla del gate: cada regla tiene número y dice qué protege, sus excepciones viven en la propia regla con su razón, y una excepción que deja de usarse también hace fallar el commit.</li>
-        <li>Fuente de verdad explícita: BD viva &gt; código &gt; docs. El esquema versionado se regenera por introspección de la base viva y, antes de abrirse a usuarios, el historial de migraciones se consolidó en una línea base limpia de cuatro archivos.</li>
-        <li>Con IA en el ciclo, el plan aprobado funciona como contrato: se ejecuta exactamente lo aprobado, y un cambio que quita una función, una garantía o un test sin reemplazo equivalente no se ejecuta.</li>
-        <li>Próximos pasos documentados: soporte offline (service worker + IndexedDB), funciones nativas en Capacitor (cámara, push, archivos), tests E2E de flujos completos, y rutinas avanzadas (RIR, tempo, rango de repeticiones) con fechas de inicio y fin en rutinas y planes.</li>
+        <li><strong>Solo recibe datos anonimizados:</strong> sexo, edad, peso, talla y el cálculo. Nunca nombre, correo, documento, rutina ni plan. Lo que falta se marca como no disponible, con la orden de no inferirlo.</li>
+        <li><strong>Las notas del entrenador viajan como datos, no como instrucciones:</strong> se limpian de datos personales, van entre marcadores que cambian en cada solicitud y, si la respuesta las copió, se rechaza.</li>
+        <li><strong>Estilo:</strong> cada afirmación se ancla en un dato, las inferencias se marcan como tales y el informe aclara que es orientación general, no el juicio de un profesional.</li>
+        <li><strong>Fallos:</strong> si falta una sección, el informe queda en error y no se guarda a medias; el entrenador ve un mensaje claro y el detalle técnico queda en los registros. Si el modelo principal falla, reintenta y pasa a uno de reserva, y el informe muestra qué modelo respondió por cada agente.</li>
+        <li><strong>Límites:</strong> de frecuencia en la app y en el motor, y un solo informe generándose por evaluación.</li>
+      </ul>
+      <h3>Correos y avisos</h3>
+      <div class="tabla-marco" role="region" aria-label="Correos y avisos" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Disparador</th><th scope="col">Mensaje</th><th scope="col">Quién lo recibe</th><th scope="col">Para qué</th></tr></thead>
+          <tbody>
+            <tr><td>Ingreso con una cuenta activa</td><td>Código de acceso</td><td>La persona</td><td>Entrar</td></tr>
+            <tr><td>Ingreso con una cuenta no activa, o registro con un correo ya usado</td><td>Aviso de su estado o del intento, con límite de frecuencia</td><td>La persona</td><td>Saber qué pasa sin revelarle nada a un tercero</td></tr>
+            <tr><td>Registro o invitación de un entrenador</td><td>Nueva solicitud de acceso</td><td>Los administradores</td><td>Aprobar o rechazar</td></tr>
+            <tr><td>Invitación o reenvío del enlace</td><td>«Completa tu perfil»</td><td>La persona invitada</td><td>Entrar y completar</td></tr>
+            <tr><td>Aprobación o rechazo</td><td>El resultado</td><td>La persona</td><td>Entrar</td></tr>
+            <tr><td>Solicitud de cambio de entrenador</td><td>Atleta, solicitante, entrenador propuesto y motivo</td><td>Los administradores</td><td>Resolver</td></tr>
+            <tr><td>Cambio resuelto o reasignación directa</td><td>«Cambio de entrenador»</td><td>Solicitante, atleta y entrenadores anterior y nuevo</td><td>Enterarse</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="vinetas">
+        <li>Si un correo falla, la operación no se deshace y el fallo queda registrado.</li>
+        <li><strong>Aviso en el inicio del administrador</strong> cuando un indicador está en crítico o en atención.</li>
+        <li><strong>Tareas programadas:</strong> purga periódica de la bitácora antigua y respaldo diario.</li>
+      </ul>
+      <h3>Indicadores (panel del administrador)</h3>
+      <ul class="vinetas">
+        <li><strong>Por servicio:</strong> tamaño de la base, tareas programadas, errores del sistema por módulo, informes de IA colgados o en error, respaldo y prueba de restauración, y consumo de los servicios externos.</li>
+        <li><strong>De operación:</strong> accesos por aprobar y cambios de entrenador pendientes, con la antigüedad del más viejo; perfiles incompletos; personas.</li>
+        <li>Cada tarjeta tiene un estado (crítico, atención, en orden) con umbrales, y las personas de demostración no cuentan.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-controles">
+      <h2 id="titulo-controles">Controles</h2>
+      <ul class="vinetas">
+        <li><strong>Acceso:</strong> reglas en la base de datos en todas las tablas, que se activan solas en las tablas nuevas; columnas protegidas (las notas del entrenador y los datos sensibles de la persona); cada acción del servidor identifica a la persona desde su sesión, y una regla del control de cambios lo comprueba; y la pantalla no ofrece lo que el servidor va a rechazar.</li>
+        <li><strong>Cuatro ojos:</strong> quien pide un cambio de entrenador no lo resuelve.</li>
+        <li><strong>Edición concurrente:</strong> un bloqueo por atleta que el servidor hace cumplir en cada escritura, y detección de conflicto si otra persona guardó después.</li>
+        <li><strong>Seguridad web:</strong> protección contra solicitudes falsificadas, política de contenido y cabeceras de seguridad; el ingreso y el registro no revelan si una cuenta existe; validación en tres capas (pantalla, servidor y base de datos) con los mismos topes; exportaciones protegidas contra inyección de fórmulas; y límites de frecuencia por acción.</li>
+        <li><strong>Datos personales:</strong> consentimiento de tratamiento obligatorio al registrarse y al completar el perfil, que no se puede modificar ni borrar; consentimiento de IA por informe; y anonimización antes de cualquier envío a la IA.</li>
+        <li><strong>Humano en el bucle:</strong> el atleta no ve ningún informe hasta que el entrenador lo publica, y eso lo hace cumplir la base de datos.</li>
+        <li><strong>Auditoría:</strong> la bitácora la escribe el servidor; la ven el administrador, el analista con permiso o el propio dueño, y se conserva por un tiempo limitado.</li>
+        <li><strong>Control de cambios:</strong> las mismas verificaciones en cada commit y en la integración continua (reglas del repositorio, tipos, estilo, pruebas y build); el push a la rama principal se bloquea si la última integración quedó en rojo.</li>
+        <li><strong>Respaldos:</strong> diarios y cifrados, con conteo de filas por tabla; una prueba de restauración semanal en un entorno aparte; el resultado queda registrado sin datos personales.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-integraciones">
+      <h2 id="titulo-integraciones">Integraciones</h2>
+      <ul class="vinetas">
+        <li><strong>Supabase:</strong> base de datos, ingreso por código, funciones y tareas programadas.</li>
+        <li><strong>Google Gemini:</strong> solo el informe ISAK.</li>
+        <li><strong>Correo (Gmail, SMTP):</strong> los correos de la app. El código de acceso lo envía el servicio de autenticación.</li>
+        <li><strong>Vercel:</strong> aloja la web. <strong>Capacitor:</strong> la app Android.</li>
+        <li><strong>GitHub Actions:</strong> integración continua y respaldo.</li>
       </ul>
     </section>
 
     <details class="apendice">
-      <summary>Para revisores técnicos: stack y código</summary>
+      <summary>Para revisores técnicos: stack, cifras y detalles de operación</summary>
       <div class="apendice-contenido">
         <h3>Stack</h3>
-        <ul class="etiquetas"><li class="etiqueta">Next.js 14</li><li class="etiqueta">React 18</li><li class="etiqueta">TypeScript</li><li class="etiqueta">Tailwind CSS</li><li class="etiqueta">Supabase</li><li class="etiqueta">PostgreSQL + RLS</li><li class="etiqueta">Deno Edge Functions</li><li class="etiqueta">Gemini API</li><li class="etiqueta">Vitest</li><li class="etiqueta">Capacitor (Android)</li><li class="etiqueta">Vercel</li><li class="etiqueta">GitHub Actions</li></ul>
+        <ul class="etiquetas"><li class="etiqueta">Next.js 14 (App Router)</li><li class="etiqueta">React 18</li><li class="etiqueta">TypeScript</li><li class="etiqueta">Tailwind CSS</li><li class="etiqueta">Zod</li><li class="etiqueta">Recharts</li><li class="etiqueta">SheetJS</li><li class="etiqueta">Supabase (PostgreSQL, Auth, pg_cron)</li><li class="etiqueta">Edge Functions (Deno)</li><li class="etiqueta">Google Gemini</li><li class="etiqueta">nodemailer</li><li class="etiqueta">Vercel</li><li class="etiqueta">Capacitor (Android)</li><li class="etiqueta">Vitest</li><li class="etiqueta">GitHub Actions</li></ul>
+        <h3>Cifras</h3>
+        <ul class="vinetas">
+          <li>25 tablas, todas con políticas de acceso (72 políticas); 25 funciones, 37 índices, 15 triggers y 86 restricciones de longitud.</li>
+          <li>490 pruebas en 38 archivos; 19 reglas en el control de cambios; 28 páginas; 55 tipos de acción en la bitácora.</li>
+        </ul>
+        <h3>Detalles de operación</h3>
+        <ul class="vinetas">
+          <li><strong>Mediciones:</strong> medidas básicas, 8 pliegues, 6 perímetros y 3 diámetros; hasta 3 tomas por medida (promedio de 2 o mediana de 3); se pide la tercera si la diferencia supera el 5 % en pliegues o el 1 % en lo demás.</li>
+          <li><strong>Fórmulas:</strong> % de grasa de Faulkner y Carter; masa muscular de Lee (2000), ósea de Rocha (1975) y adiposa de Kerr (1988); Z-scores con el modelo Phantom.</li>
+          <li><strong>Nutrición:</strong> gasto en reposo con Cunningham (si hay evaluación ISAK) o Mifflin-St Jeor; factores de actividad de 1,2 a 1,9; calorías objetivo entre −25 % y +20 %; proteína de 1,8 a 2,2 g/kg y carbohidratos de 3 a 10 g/kg; la grasa completa entre el 20 y el 35 %; hidratación de 35 ml/kg más un extra por actividad.</li>
+          <li><strong>Modelos del informe:</strong> principal gemini-3.1-flash-lite, de reserva gemini-2.5-flash-lite y verificador gemini-2.5-flash; temperatura 0,4 en los tres primeros agentes, 0 en el verificador y 0,3 en el formateador.</li>
+          <li><strong>Motor del informe:</strong> 2 intentos por modelo con espera creciente y 5 segundos entre agentes; la app espera hasta 15 segundos a que el motor acepte el encargo y ofrece reintentar a los 7 minutos; límites de 5 solicitudes por minuto en la app y 20 por minuto por IP en el motor; notas del entrenador hasta 2.000 caracteres; de los Z-scores solo van los que pasan de ±2; el verificador aplica 8 reglas.</li>
+          <li><strong>Acceso:</strong> código de 6 dígitos, válido 10 minutos; respuesta mínima de 1,5 segundos; avisos de estado como máximo 1 cada 10 minutos.</li>
+          <li><strong>Edición:</strong> el bloqueo vence a los 2 minutos sin señal o a los 15 sin cambios; el borrador se guarda 2 segundos después de cada cambio y vence a los 14 días.</li>
+          <li><strong>Bitácora:</strong> 12 meses; se purga el día 1 de cada mes. <strong>Respaldo:</strong> a las 03:17, hora de Colombia; prueba de restauración los domingos; se conserva cifrado 30 días.</li>
+          <li><strong>Catálogos:</strong> 366 ítems de 34 tipos, 94 alimentos y 100 ejercicios en 14 grupos musculares.</li>
+        </ul>
         <p class="apendice-nota">Cómo construyo: defino el problema, los requisitos, el modelo de datos y los controles; implemento con asistentes de IA (Claude Code) bajo mi dirección, y cada cambio pasa pruebas automáticas y mi revisión antes de publicarse.</p>
         <p class="apendice-nota">El código es privado porque contiene reglas de negocio y datos del cliente. Puedo recorrerlo en vivo: código, pruebas y despliegue.</p>
       </div>

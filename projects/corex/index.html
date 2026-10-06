@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Corex — Carlos Davila</title>
-  <meta name="description" content="Platform for trainers: ISAK anthropometry, training routines, nutrition plans and reports.">
+  <meta name="description" content="Sports management for coaches: they assess their athletes with ISAK anthropometry and prescribe training routines and nutrition plans.">
   <link rel="canonical" href="https://cardavil.github.io/projects/corex/">
   <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/proyectos/corex/">
   <link rel="alternate" hreflang="en" href="https://cardavil.github.io/projects/corex/">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Carlos Davila">
   <meta property="og:title" content="Corex — Carlos Davila">
-  <meta property="og:description" content="Platform for trainers: ISAK anthropometry, training routines, nutrition plans and reports.">
+  <meta property="og:description" content="Sports management for coaches: they assess their athletes with ISAK anthropometry and prescribe training routines and nutrition plans.">
   <meta property="og:url" content="https://cardavil.github.io/projects/corex/">
   <meta property="og:locale" content="en_CA">
   <meta property="og:locale:alternate" content="es_CO">
@@ -45,73 +45,200 @@
 
     <header class="tarjeta caso-cabecera" data-proyecto="corex">
       <h1>Corex</h1>
-      <p class="caso-lema">Platform for trainers: ISAK anthropometry, training routines, nutrition plans and reports.</p>
-      <p class="caso-resumen">Web app with 4 roles (admin, trainer, analyst and user), migrated from a Google Apps Script prototype to Next.js and Supabase.</p>
+      <p class="caso-lema">Sports management for coaches: they assess their athletes with ISAK anthropometry and prescribe training routines and nutrition plans.</p>
+      <p class="caso-resumen">It calculates body composition every time an assessment is saved, prepares an optional AI-written narrative report that the coach reviews before publishing it, and shows each athlete only their own data. It runs on the web and in an Android app.</p>
       <dl class="caso-ficha">
         <div><dt>Status</dt><dd>In production · in use</dd></div>
         <div><dt>Period</dt><dd>Apr 2026 – present</dd></div>
-        <div><dt>Role</dt><dd>Independent project: design, development and operations</dd></div>
+        <div><dt>Role</dt><dd>Independent project, built for friends’ businesses</dd></div>
       </dl>
     </header>
 
-    <section class="caso-seccion caso-seccion-ancha" aria-label="By the numbers">
-      <div class="metricas"><div class="metrica"><b>25</b><span>PostgreSQL tables</span></div><div class="metrica"><b>72</b><span>RLS policies</span></div><div class="metrica"><b>490</b><span>automated tests</span></div><div class="metrica"><b>19</b><span>rules in the repo gate</span></div><div class="metrica"><b>11</b><span>dimensions in the repeatable audit</span></div><div class="metrica"><b>~35k</b><span>lines of TypeScript in the web app</span></div></div>
-    </section>
-
-    <section class="caso-seccion" aria-labelledby="titulo-contexto">
-      <h2 id="titulo-contexto">Context & problem</h2>
-      <p>Corex is a web platform for health professionals and currently serves coaches. It includes a 4-step wizard for ISAK anthropometric assessments (body composition, Heath-Carter somatotype, Phantom Z-scores, charts and comparison between assessments), Monday-to-Sunday training routines built from an exercise catalog, and nutrition plans with BMR, TDEE and daily macros. Four roles (admin, coach, analyst and user) share the platform; one person can hold several and switch between them.</p>
-      <p>It started as a Google Apps Script prototype and was migrated to Next.js 14 + Supabase. It handles personal and health data, so access control lives in PostgreSQL (RLS), not only in the UI. It is in production and in use.</p>
-    </section>
-
-    <section class="caso-seccion" aria-labelledby="titulo-rol">
-      <h2 id="titulo-rol">My role & constraints</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-que-es">
+      <h2 id="titulo-que-es">What it is</h2>
+      <p>Corex is a web platform for sports management, wrapped in an Android app.</p>
       <ul class="vinetas">
-        <li>Independent project, built solo for friends’ businesses: product, code, database, deployment and operations (CI and backups).</li>
-        <li>AI-assisted development with Claude Code under a written protocol that applies to every change, whatever its size: audit → diagnose → plan → ask for approval → implement only what was approved. If a plan fails midway, it is reverted and a new plan is written.</li>
-        <li>Every plan is rehearsed in full in a throwaway clone and measured (gate, lint, typecheck, tests and build) against main; if any number gets worse, the change is cancelled.</li>
-        <li>Operating constraints: free-tier plans (Supabase Free has no backups, hence a dedicated workflow), secrets are never printed (only their presence or length is checked), and real user data is never used as an example.</li>
+        <li>The coach assesses their athletes with <strong>ISAK anthropometry</strong>, the international body-measurement protocol, and the system calculates the results on save.</li>
+        <li>For each assessment, the coach can generate an <strong>AI-written narrative report</strong>, which they review before publishing it.</li>
+        <li>The coach prescribes training routines and nutrition plans.</li>
+        <li>The athlete sees their own data.</li>
+        <li>Administrators approve access, reassign coaches and oversee operations.</li>
       </ul>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-arquitectura">
-      <h2 id="titulo-arquitectura">Architecture & decisions</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-roles">
+      <h2 id="titulo-roles">Who uses it and what each one sees</h2>
+      <ul class="vinetas">
+        <li><strong>Athlete:</strong> sees a home screen with their latest assessment (BMI, body-fat % and muscle mass), their active routine and their plan with calories and macronutrients. Sees their assessments, and each report only once their coach publishes it. Edits their basic details, but not the coach’s notes, and can request a change of coach.</li>
+        <li><strong>Coach:</strong> sees only their active athletes, and creates assessments, reports, routines and plans only for them; when the relationship ends, they keep read access to what they created. Invites athletes, who join as active, and invites coaches, who stay pending approval. Approves people who sign up choosing them, deactivates athletes and requests coach changes.</li>
+        <li><strong>Analyst:</strong> starts with minimal access; the administrator grants read or write permissions per module (athletes, assessments, routines, nutrition, activity and catalogs). Cannot create assessments, routines or plans. With write permission, edits athletes and resolves coach changes, except the ones they requested.</li>
+        <li><strong>Administrator:</strong> full control. Approves coaches, assigns roles (without being able to remove their own), grants analyst permissions and reassigns coaches. The only one who can take over an athlete’s edit lock, and sees Indicators, Activity, Access and Catalogs.</li>
+        <li>One person can hold several roles and chooses which one to work in. <strong>Switching roles can only reduce permissions, never expand them.</strong></li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-registra">
+      <h2 id="titulo-registra">What it records</h2>
+      <ul class="vinetas">
+        <li><strong>ISAK assessment</strong> (the core object): date, anthropometrist, sport, age, sex, basic measurements, skinfolds, girths and breadths, with the raw readings. On save, the server calculates BMI, waist-to-hip and waist-to-height ratios with their risk level, skinfold sums, body-fat %, muscle, bone, fat and residual mass, the Heath-Carter somatotype and the proportionality profile. It can be edited by its author, while they remain the active coach, or by the administrator.</li>
+        <li><strong>ISAK report:</strong> one per assessment, with seven sections (Summary, Body composition, Somatotype and proportionality, Risk and health, Impact on your routine, Impact on your nutrition, and Conclusions and next steps) plus the coach’s notes. Statuses: generating → ready or error; publishing is separate. Regenerating it replaces the previous one and unpublishes it.</li>
+        <li><strong>Routine:</strong> goal, level, days per week, time of day, location and equipment; for each day, blocks by muscle group, each with exercises that have sets, reps, weight, rest, technique, tips and a video. Statuses: active or inactive.</li>
+        <li><strong>Nutrition plan:</strong> calories, protein, carbohydrates, fat, hydration, an adjustment for training days, restrictions and preferences, and a weekly menu. Statuses: active or inactive, with a single active plan per athlete: creating a new one deactivates the previous one.</li>
+        <li><strong>Person:</strong> identity with demographic, health, participation, sports (including the coach’s notes) and professional (including the coach’s ISAK level) profiles. Statuses: pending → active or rejected; active → inactive. Only an active account can sign in.</li>
+        <li><strong>Coach–athlete relationship:</strong> only one current relationship per athlete, with history.</li>
+        <li><strong>Coach-change request:</strong> pending → approved, rejected or cancelled; one pending request per athlete.</li>
+        <li><strong>Catalogs:</strong> general lists, foods with macronutrients per serving, and exercises by muscle group.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-flujo">
+      <h2 id="titulo-flujo">How it works</h2>
       <ol class="decisiones">
-        <li><h3>Active role in a JWT claim users cannot edit</h3><p>The active role travels in the JWT's app metadata, which only a service-role Edge Function writes; the RLS helpers cross-check it against the person's active roles, so tampering with the claim can only reduce permissions, never escalate them. The trade-off: every role switch requires a session refresh so the new JWT reaches Postgres.</p></li>
-        <li><h3>RLS switched on for every new table</h3><p>An event trigger on ddl_command_end enables RLS on any new table in the public schema, as defense in depth if a migration forgets to. The trade-off is that a new table starts closed until it gets policies; the edit-lock table is deliberately left that way and is reached only through SECURITY DEFINER functions.</p></li>
-        <li><h3>R15: every server action checked for an auth guard</h3><p>Gate rule R15 walks every 'use server' file and statically requires each exported function to call a guard that resolves the person from the session (not from an argument) before any read or write. The cost is enforcing a code shape the check can parse and listing every exception with its reason (login happens before a session exists); an unused exception also fails the gate.</p></li>
-        <li><h3>R19: every write returns rows</h3><p>R19 requires every Supabase UPDATE or DELETE in the app to request the row back: a write that RLS filters raises no error, touches 0 rows, and the app would report success. It means returning rows on every write; the exception list exists and is empty today.</p></li>
-        <li><h3>AI report: consent and anonymization enforced server-side</h3><p>The report Edge Function checks the consent stored on the row itself before sending anything to Gemini, and sends only anthropometry, with no name, email or ID number; coach notes are sanitized and wrapped in per-request random markers, and any output that copies them is rejected. The 5-agent pipeline takes 1–2 minutes, so it runs in the background, and if any agent fails no partial report is saved.</p></li>
+        <li><h3>Sign-in</h3><p>With a code sent by email. The response is the same whether or not the account exists: only an active account gets the code, and a pending, rejected or inactive one gets an email explaining its status instead.</p></li>
+        <li><h3>Adding an athlete</h3><p>By invitation from the coach, joining as active with the relationship in place; or by public sign-up, choosing a coach and accepting the data-processing terms, staying pending until their coach or the administrator approves them. They then complete their profile step by step and accept the consent.</p></li>
+        <li><h3>Adding a coach</h3><p>Through public sign-up or an invitation from another coach, the new coach stays pending and the administrators are notified; if an administrator sends the invitation, the coach joins as active.</p></li>
+        <li><h3>ISAK assessment</h3>
+          <ul class="vinetas">
+            <li>The coach picks the athlete; age, sex and sport are prefilled, and the screen shows where each value came from.</li>
+            <li>The coach enters the measurements, and the system asks for another reading when two do not match.</li>
+            <li>The first change takes the athlete’s edit lock, and the screen keeps saving as a draft.</li>
+            <li>On save, the server validates, checks access and the lock, and calculates.</li>
+            <li>Results are shown in charts (composition, risk, somatochart and proportionality), and two assessments can be compared with their differences and progress over time.</li>
+          </ul>
+        </li>
+        <li><h3>AI report</h3>
+          <ul class="vinetas">
+            <li>The coach opens “Generate report” and ticks the box authorizing AI-assisted interpretation, which is unticked by default.</li>
+            <li>Without the box ticked, the report contains only data and charts.</li>
+            <li>With it, the engine works in the background and the screen describes in words which stage it has reached.</li>
+            <li>The coach reviews the report and clicks “Publish to user”; only then does the athlete see it. It can be printed or saved as a PDF.</li>
+          </ul>
+        </li>
+        <li><h3>Routine</h3><p>A step-by-step wizard: athlete, settings, days with exercises from the catalog, and summary. Afterwards it can be edited day by day, copied to another athlete or deactivated, and it shows statistics: exercises, sets, reps, total load, estimated time and muscles worked.</p></li>
+        <li><h3>Nutrition plan</h3><p>The system estimates resting energy expenditure (using fat-free mass from the latest ISAK assessment, if there is one) and total expenditure based on activity, and proposes calories and macronutrients for the goal. The coach builds the weekly menu, with the adjustment for training days. The server reads body-fat % from the database, not from what the screen sends.</p></li>
+        <li><h3>Coach change</h3>
+          <ul class="vinetas">
+            <li>Requested by the athlete or their coach, with a reason.</li>
+            <li>Resolved by the administrator or an analyst with permission, never by the person who requested it.</li>
+            <li>Once approved, the relationship changes in a single operation and everyone affected is notified by email.</li>
+            <li>The administrator can also reassign directly.</li>
+          </ul>
+        </li>
+        <li><h3>Catalogs</h3><p>Create, edit, activate or deactivate; import from CSV and export to CSV or Excel.</p></li>
       </ol>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-resultados">
-      <h2 id="titulo-resultados">Results</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-pantallas">
+      <h2 id="titulo-pantallas">Screens</h2>
       <ul class="vinetas">
-        <li>Core modules working: a 4-step ISAK wizard with body composition, Heath-Carter somatotype, Phantom Z-scores and comparison between assessments; Monday-to-Sunday routines built from an exercise catalog; nutrition plans with BMR, TDEE and daily macros.</li>
-        <li>Access enforced in PostgreSQL: 25 tables with RLS and 72 policies, all scoped to authenticated users. Role switching is real at the RLS level (an admin acting as a user sees only their own data), and a user receives their ISAK report only after the coach publishes it: the policy filters it, not the UI.</li>
-        <li>A single gate runs on every commit and in CI: the 19 repo rules, deno check and deno lint for the Edge Functions, ESLint, tsc and the tests. CI adds the build, and a pre-push hook blocks pushes to main while the latest CI run on main is red.</li>
-        <li>Daily database backup, encrypted with AES-256-GCM with the key wrapped by RSA-OAEP, kept for 30 days. Every Sunday it is restored into a local Supabase and row counts for the key tables are compared; the result is recorded in the database even if a step fails.</li>
-        <li>Per-response nonce CSP with strict-dynamic, no 'unsafe-inline' in script-src, and writes rejected when the Origin does not match the Host.</li>
-        <li>11-dimension 360 audit with a scorecard: the 2026-06-01 baseline came out at 4 green, 4 yellow and 3 red; after remediation on 2026-06-02, all 11 were green.</li>
+        <li><strong>Sidebar:</strong> Home, Members, ISAK, Routines and Nutrition, depending on the role.</li>
+        <li><strong>Coach home:</strong> active athletes, assessments, active routines and plans; shortcuts and recent people. The administrator also sees the indicators alert.</li>
+        <li><strong>Members:</strong> a list with search and filters, invitations, access requests and coach-change requests, and each person’s record.</li>
+        <li><strong>ISAK:</strong> wizard, detail with charts, report and comparison. <strong>Routines and Nutrition:</strong> wizard and editor.</li>
+        <li><strong>For the administrator:</strong> Indicators, Activity, Access (the permission matrix by role and screen) and Catalogs.</li>
+        <li><strong>For everyone:</strong> profile and settings (light or dark theme). <strong>Public:</strong> sign-in, athlete and coach sign-up, and profile completion.</li>
       </ul>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-lecciones">
-      <h2 id="titulo-lecciones">Lessons & next steps</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-operacion">
+      <h2 id="titulo-operacion">Operations: report engine, emails and alerts</h2>
+      <h3>AI report engine</h3>
+      <p>Corex does not use Telegram bots. Its analysis engine is a chain of <strong>five AI agents</strong>:</p>
+      <div class="tabla-marco" role="region" aria-label="Report agents" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">#</th><th scope="col">Agent</th><th scope="col">What it does</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Anthropometric interpreter</td><td>Composition, somatotype, proportionality, risk and health</td></tr>
+            <tr><td>2</td><td>Strength and conditioning coach</td><td>Training approaches, with no sets, reps, loads or timelines</td></tr>
+            <tr><td>3</td><td>Sports nutrition advisor</td><td>Qualitative guidance, with no calories, grams or supplements; ends by stating that the plan is set by a professional</td></tr>
+            <tr><td>4</td><td>Verifier, on a different model</td><td>Checks that nothing contradicts the numbers or identifies the person, and removes prescriptions, made-up facts, generic phrases and claims about anything not measured</td></tr>
+            <tr><td>5</td><td>Formatter</td><td>Arranges the verified text into the seven sections</td></tr>
+          </tbody>
+        </table>
+      </div>
       <ul class="vinetas">
-        <li>Whatever can be checked in code becomes a gate rule: each rule has a number and states what it protects, its exceptions live inside the rule with their reason, and an exception that is no longer used also fails the commit.</li>
-        <li>Explicit source of truth: live DB &gt; code &gt; docs. The versioned schema is regenerated by introspecting the live database and, before opening to users, the migration history was consolidated into a clean four-file baseline.</li>
-        <li>With AI in the loop, the approved plan works as a contract: exactly what was approved gets executed, and a change that removes a feature, a guarantee or a test without an equivalent replacement is not carried out.</li>
-        <li>Documented next steps: offline support (service worker + IndexedDB), native Capacitor features (camera, push, filesystem), end-to-end tests for full flows, and advanced routines (RIR, tempo, rep ranges) with start and end dates for routines and plans.</li>
+        <li><strong>It only receives anonymized data:</strong> sex, age, weight, height and the calculation. Never name, email, ID number, routine or plan. Anything missing is marked as unavailable, with an instruction not to infer it.</li>
+        <li><strong>The coach’s notes travel as data, not as instructions:</strong> they are stripped of personal data and wrapped in markers that change with every request, and if the response copies them, it is rejected.</li>
+        <li><strong>Style:</strong> every statement is anchored to a data point, inferences are labelled as such, and the report states that it is general guidance, not a professional’s judgement.</li>
+        <li><strong>Failures:</strong> if a section is missing, the report is marked as an error and never saved half-done; the coach sees a clear message and the technical detail stays in the logs. If the main model fails, it retries and falls back to a backup model, and the report shows which model answered for each agent.</li>
+        <li><strong>Limits:</strong> rate limits in the app and in the engine, and only one report generating per assessment.</li>
+      </ul>
+      <h3>Emails and alerts</h3>
+      <div class="tabla-marco" role="region" aria-label="Emails and alerts" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Trigger</th><th scope="col">Message</th><th scope="col">Who receives it</th><th scope="col">What for</th></tr></thead>
+          <tbody>
+            <tr><td>Sign-in with an active account</td><td>Sign-in code</td><td>The person</td><td>Get in</td></tr>
+            <tr><td>Sign-in with an inactive account, or sign-up with an email already in use</td><td>A notice of the account’s status or of the attempt, rate-limited</td><td>The person</td><td>Know what is happening without revealing anything to a third party</td></tr>
+            <tr><td>A coach signs up or is invited</td><td>New access request</td><td>The administrators</td><td>Approve or reject</td></tr>
+            <tr><td>Invitation or link resent</td><td>“Complete your profile”</td><td>The invited person</td><td>Get in and complete it</td></tr>
+            <tr><td>Approval or rejection</td><td>The outcome</td><td>The person</td><td>Get in</td></tr>
+            <tr><td>Coach-change request</td><td>Athlete, requester, proposed coach and reason</td><td>The administrators</td><td>Resolve it</td></tr>
+            <tr><td>Change resolved or direct reassignment</td><td>“Coach change”</td><td>Requester, athlete, and previous and new coach</td><td>Stay informed</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="vinetas">
+        <li>If an email fails, the operation is not rolled back and the failure is logged.</li>
+        <li><strong>Alert on the administrator’s home screen</strong> when an indicator is critical or needs attention.</li>
+        <li><strong>Scheduled jobs:</strong> periodic purge of old activity logs and a daily backup.</li>
+      </ul>
+      <h3>Indicators (administrator dashboard)</h3>
+      <ul class="vinetas">
+        <li><strong>By service:</strong> database size, scheduled jobs, system errors by module, AI reports stuck or in error, backup and restore test, and usage of external services.</li>
+        <li><strong>Operational:</strong> access requests awaiting approval and pending coach changes, with the age of the oldest; incomplete profiles; people.</li>
+        <li>Each card has a status (critical, attention, OK) with thresholds, and demo people are not counted.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-controles">
+      <h2 id="titulo-controles">Controls</h2>
+      <ul class="vinetas">
+        <li><strong>Access:</strong> rules in the database on every table, switched on automatically for new tables; protected columns (the coach’s notes and the person’s sensitive data); every server action identifies the person from their session, and a change-control rule checks this; and the screen never offers what the server will reject.</li>
+        <li><strong>Four eyes:</strong> whoever requests a coach change cannot resolve it.</li>
+        <li><strong>Concurrent editing:</strong> a per-athlete lock that the server enforces on every write, and conflict detection if someone else saved in the meantime.</li>
+        <li><strong>Web security:</strong> protection against forged requests, a content security policy and security headers; sign-in and sign-up never reveal whether an account exists; validation in three layers (screen, server and database) with the same limits; exports protected against formula injection; and rate limits per action.</li>
+        <li><strong>Personal data:</strong> data-processing consent is required at sign-up and when completing the profile, and cannot be modified or deleted; AI consent is given per report; and data is anonymized before anything is sent to the AI.</li>
+        <li><strong>Human in the loop:</strong> the athlete sees no report until the coach publishes it, and the database enforces this.</li>
+        <li><strong>Audit:</strong> the activity log is written by the server; the administrator, an analyst with permission or the person themselves can read it, and it is kept for a limited time.</li>
+        <li><strong>Change control:</strong> the same checks on every commit and in continuous integration (repository rules, types, linting, tests and build); pushes to the main branch are blocked if the last integration run failed.</li>
+        <li><strong>Backups:</strong> daily and encrypted, with a row count per table; a weekly restore test in a separate environment; the result is logged without personal data.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-integraciones">
+      <h2 id="titulo-integraciones">Integrations</h2>
+      <ul class="vinetas">
+        <li><strong>Supabase:</strong> database, sign-in with a code, functions and scheduled jobs.</li>
+        <li><strong>Google Gemini:</strong> the ISAK report only.</li>
+        <li><strong>Email (Gmail, SMTP):</strong> the app’s emails. The sign-in code is sent by the authentication service.</li>
+        <li><strong>Vercel:</strong> hosts the website. <strong>Capacitor:</strong> the Android app.</li>
+        <li><strong>GitHub Actions:</strong> continuous integration and backup.</li>
       </ul>
     </section>
 
     <details class="apendice">
-      <summary>For technical reviewers: stack and code</summary>
+      <summary>For technical reviewers: stack, figures and operational details</summary>
       <div class="apendice-contenido">
         <h3>Stack</h3>
-        <ul class="etiquetas"><li class="etiqueta">Next.js 14</li><li class="etiqueta">React 18</li><li class="etiqueta">TypeScript</li><li class="etiqueta">Tailwind CSS</li><li class="etiqueta">Supabase</li><li class="etiqueta">PostgreSQL + RLS</li><li class="etiqueta">Deno Edge Functions</li><li class="etiqueta">Gemini API</li><li class="etiqueta">Vitest</li><li class="etiqueta">Capacitor (Android)</li><li class="etiqueta">Vercel</li><li class="etiqueta">GitHub Actions</li></ul>
+        <ul class="etiquetas"><li class="etiqueta">Next.js 14 (App Router)</li><li class="etiqueta">React 18</li><li class="etiqueta">TypeScript</li><li class="etiqueta">Tailwind CSS</li><li class="etiqueta">Zod</li><li class="etiqueta">Recharts</li><li class="etiqueta">SheetJS</li><li class="etiqueta">Supabase (PostgreSQL, Auth, pg_cron)</li><li class="etiqueta">Edge Functions (Deno)</li><li class="etiqueta">Google Gemini</li><li class="etiqueta">nodemailer</li><li class="etiqueta">Vercel</li><li class="etiqueta">Capacitor (Android)</li><li class="etiqueta">Vitest</li><li class="etiqueta">GitHub Actions</li></ul>
+        <h3>Figures</h3>
+        <ul class="vinetas">
+          <li>25 tables, all with access policies (72 policies); 25 functions, 37 indexes, 15 triggers and 86 length constraints.</li>
+          <li>490 tests in 38 files; 19 change-control rules; 28 pages; 55 action types in the activity log.</li>
+        </ul>
+        <h3>Operational details</h3>
+        <ul class="vinetas">
+          <li><strong>Measurements:</strong> basic measurements, 8 skinfolds, 6 girths and 3 breadths; up to 3 readings per measurement (mean of 2 or median of 3); a third is requested if the difference exceeds 5% for skinfolds or 1% for the rest.</li>
+          <li><strong>Formulas:</strong> body-fat % by Faulkner and Carter; muscle mass by Lee (2000), bone mass by Rocha (1975) and fat mass by Kerr (1988); Z-scores with the Phantom model.</li>
+          <li><strong>Nutrition:</strong> resting expenditure with Cunningham (when there is an ISAK assessment) or Mifflin-St Jeor; activity factors from 1.2 to 1.9; target calories between −25% and +20%; protein from 1.8 to 2.2 g/kg and carbohydrates from 3 to 10 g/kg; fat fills the rest, between 20% and 35%; hydration of 35 ml/kg plus extra for activity.</li>
+          <li><strong>Report models:</strong> main gemini-3.1-flash-lite, backup gemini-2.5-flash-lite and verifier gemini-2.5-flash; temperature 0.4 for the first three agents, 0 for the verifier and 0.3 for the formatter.</li>
+          <li><strong>Report engine:</strong> 2 attempts per model with increasing backoff and 5 seconds between agents; the app waits up to 15 seconds for the engine to accept the job and offers a retry after 7 minutes; limits of 5 requests per minute in the app and 20 per minute per IP in the engine; coach’s notes up to 2,000 characters; only Z-scores beyond ±2 are sent; the verifier applies 8 rules.</li>
+          <li><strong>Sign-in:</strong> 6-digit code, valid for 10 minutes; minimum response time of 1.5 seconds; status notices at most once every 10 minutes.</li>
+          <li><strong>Editing:</strong> the lock expires after 2 minutes without a heartbeat or 15 without changes; the draft is saved 2 seconds after each change and expires after 14 days.</li>
+          <li><strong>Activity log:</strong> 12 months; purged on the 1st of each month. <strong>Backup:</strong> at 03:17, Colombia time; restore test on Sundays; kept encrypted for 30 days.</li>
+          <li><strong>Catalogs:</strong> 366 items of 34 types, 94 foods and 100 exercises across 14 muscle groups.</li>
+        </ul>
         <p class="apendice-nota">How I build: I define the problem, the requirements, the data model and the controls; I implement with AI coding assistants (Claude Code) under my direction, and every change passes automated tests and my review before release.</p>
         <p class="apendice-nota">The source code is private because it contains the client’s business rules and data. I can walk through it live: code, tests and deployment.</p>
       </div>

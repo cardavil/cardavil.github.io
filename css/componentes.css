@@ -238,12 +238,12 @@ img, svg { max-width: 100%; }
 .caso-seccion > p { color: var(--texto-suave); }
 .caso-seccion > p + p { margin-top: var(--espacio-3); }
 .decisiones { list-style: none; display: grid; gap: var(--espacio-4); counter-reset: decision; margin-top: var(--espacio-6); max-width: var(--ancho-texto); }
-.decisiones li { counter-increment: decision; position: relative; padding-left: 44px; }
-.decisiones li::before {
+.decisiones > li { counter-increment: decision; position: relative; padding-left: 44px; }
+.decisiones > li::before {
   content: counter(decision); position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%;
   display: grid; place-items: center; background: var(--p-suave); color: var(--p-acento-texto); font-weight: 700; font-size: var(--texto-sm);
 }
-.decisiones h3 { font-size: var(--texto-base); margin-bottom: var(--espacio-1); }
+.decisiones > li > h3 { font-size: var(--texto-base); margin: 0 0 var(--espacio-1); }
 .decisiones p { color: var(--texto-suave); }
 .decisiones .vinetas { margin-top: var(--espacio-2); }
 
