@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CONECTA — Carlos Davila</title>
-  <meta name="description" content="Gestión documental digital con consentimiento para una organización de innovación social.">
+  <meta name="description" content="Sistema de expedientes digitales de DiversoLAB: datos, consentimientos, debida diligencia, documentos, tareas, cobros y pagos de cada beneficiario, aliado, contratista y proveedor.">
   <link rel="canonical" href="https://cardavil.github.io/es/proyectos/conecta/">
   <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/proyectos/conecta/">
   <link rel="alternate" hreflang="en" href="https://cardavil.github.io/projects/conecta/">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Carlos Davila">
   <meta property="og:title" content="CONECTA — Carlos Davila">
-  <meta property="og:description" content="Gestión documental digital con consentimiento para una organización de innovación social.">
+  <meta property="og:description" content="Sistema de expedientes digitales de DiversoLAB: datos, consentimientos, debida diligencia, documentos, tareas, cobros y pagos de cada beneficiario, aliado, contratista y proveedor.">
   <meta property="og:url" content="https://cardavil.github.io/es/proyectos/conecta/">
   <meta property="og:locale" content="es_CO">
   <meta property="og:locale:alternate" content="en_CA">
@@ -45,8 +45,8 @@
 
     <header class="tarjeta caso-cabecera" data-proyecto="conecta">
       <h1>CONECTA</h1>
-      <p class="caso-lema">Gestión documental digital con consentimiento para una organización de innovación social.</p>
-      <p class="caso-resumen">Expedientes digitales de beneficiarios, empresas aliadas, contratistas y proveedores, con consentimiento verificable y autorización en la base de datos. La v2 reemplazó un portal estático (v1) por Supabase.</p>
+      <p class="caso-lema">Sistema de expedientes digitales de DiversoLAB.</p>
+      <p class="caso-resumen">Un expediente único por cada beneficiario, empresa aliada, contratista y proveedor: sus datos, consentimientos, debida diligencia, documentos, tareas, cobros y pagos, con su carpeta en Google Drive y el historial de cada cambio.</p>
       <dl class="caso-ficha">
         <div><dt>Estado</dt><dd>En producción</dd></div>
         <div><dt>Periodo</dt><dd>Ene 2026 – presente</dd></div>
@@ -55,61 +55,188 @@
       </dl>
     </header>
 
-    <section class="caso-seccion caso-seccion-ancha" aria-label="En cifras">
-      <div class="metricas"><div class="metrica"><b>37</b><span>tablas, todas con RLS</span></div><div class="metrica"><b>83</b><span>políticas RLS</span></div><div class="metrica"><b>16</b><span>Edge Functions (Deno/TypeScript) con 22 módulos compartidos</span></div><div class="metrica"><b>156</b><span>pruebas Playwright en 20 specs</span></div><div class="metrica"><b>182</b><span>escenarios del banco de pruebas de Edge Functions</span></div><div class="metrica"><b>24</b><span>candados automáticos del repositorio</span></div></div>
+    <section class="caso-seccion" aria-labelledby="titulo-que-es">
+      <h2 id="titulo-que-es">Qué es</h2>
+      <p>DiversoLAB es una organización colombiana que trabaja con personas con discapacidad, empresas aliadas, contratistas y proveedores. CONECTA es el sistema donde lleva el expediente de cada una de esas personas y organizaciones: quién es, qué autorizó, qué documentos entregó y cuáles faltan, qué tiene pendiente y qué se le debe o se le pagó. Lo diseñé y construí como su Consultor de Tecnología y Gobernanza.</p>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-contexto">
-      <h2 id="titulo-contexto">Contexto y problema</h2>
-      <p>DiversoLAB es una organización colombiana que trabaja con personas con discapacidad, empresas aliadas, contratistas y proveedores. Necesitaba capturar, custodiar y coordinar sus datos, incluidos datos sensibles como discapacidad y salud, con respaldo legal de consentimiento y trazabilidad, sin depender de hojas de cálculo dispersas ni de captura manual. La v1 de CONECTA fue un portal interno estático, sin backend ni autenticación, que reunía 62 enlaces en tres secciones (formularios, tableros de Power BI y Looker Studio, y la documentación del SGC y el SICE) embebidos en un visor; el control de acceso dependía de los permisos de cada recurso externo.</p>
-      <p>El backlog de la v1 dejaba pendiente un módulo de gestión de terceros (KYC/AML y gestión documental), planeado sobre Wix, Apps Script, Drive y Monday.com, porque los documentos llegaban por correo, se guardaban a mano y no había alertas de vencimiento. La v2 construyó ese módulo como plataforma propia. Una primera arquitectura apoyaba el OTP y la firma en servicios de Apps Script; en julio de 2026 se retiraron y todo el acceso privilegiado pasó a Edge Functions de Supabase que hablan directamente con la API de Drive. Los enlaces de la v1 siguen disponibles en la página de Herramientas de la v2, y la integración con Monday.com quedó fuera del alcance de esta versión.</p>
-    </section>
-
-    <section class="caso-seccion" aria-labelledby="titulo-rol">
-      <h2 id="titulo-rol">Mi rol y restricciones</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-tipos">
+      <h2 id="titulo-tipos">Cuatro tipos de expediente</h2>
+      <div class="tabla-marco" role="region" aria-label="Tipos de expediente" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Expediente</th><th scope="col">Quién es</th><th scope="col">Qué se gestiona</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Beneficiario</th><td>Persona con discapacidad atendida por los programas</td><td>Dirección, origen y caracterización de condiciones (datos de salud, con acceso restringido)</td></tr>
+            <tr><th scope="row">Aliado</th><td>Empresa aliada</td><td>Identificación y perfil tributario, debida diligencia, caracterización empresarial y diagnóstico de diversidad</td></tr>
+            <tr><th scope="row">Contratista</th><td>Persona que presta servicios</td><td>Perfil tributario, seguridad social, datos de pago, debida diligencia y cuentas de cobro</td></tr>
+            <tr><th scope="row">Proveedor</th><td>Empresa proveedora</td><td>Identificación y perfil tributario, datos de pago, debida diligencia y facturas o cuentas de cobro</td></tr>
+          </tbody>
+        </table>
+      </div>
       <ul class="vinetas">
-        <li>Diseño y desarrollo de la plataforma (modelo de datos, políticas RLS, Edge Functions, frontend, pruebas y operación) como Consultor independiente de Tecnología y Gobernanza. DiversoLAB es la dueña del proyecto: los repositorios y la organización de Supabase están a nombre de una cuenta institucional.</li>
-        <li>Cumplimiento normativo colombiano: Ley 1581 de 2012 (protección de datos personales) y Ley 527 de 1999 (mensajes de datos y firma electrónica). La debida diligencia LA/FT se adopta de forma voluntaria y opera como condición de vinculación de terceros.</li>
-        <li>Datos sensibles (discapacidad, salud, orientación sexual) con acceso restringido al titular, a su analista asignado y a la administración de la plataforma; el rol financiero no los ve.</li>
-        <li>Servicios en planes gratuitos (Cloudflare Pages con repositorio privado, Supabase) y una API contable sin credenciales de solo lectura: la llave de Siigo también podría emitir documentos, así que toda consulta pasa por una única función que solo emite GET. Las Edge Functions no pueden salir por los puertos 25 ni 587, por eso el correo transaccional va por la API HTTP de Resend.</li>
+        <li>Una misma persona puede tener varios expedientes, uno por tipo, con un solo acceso, y cambia de uno a otro desde el encabezado.</li>
+        <li>En una empresa se vinculan su representante legal, su contacto financiero y sus autorizados.</li>
       </ul>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-arquitectura">
-      <h2 id="titulo-arquitectura">Arquitectura y decisiones</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-roles">
+      <h2 id="titulo-roles">Quién lo usa y qué ve cada uno</h2>
+      <ul class="vinetas">
+        <li><strong>Titular del expediente.</strong> Ve solo lo suyo: tareas, documentos, cobros, consentimientos y caracterizaciones. Responde formularios y sube documentos y cobros. Edita únicamente sus datos de contacto; el tipo, el estado y la identidad no los puede cambiar.</li>
+        <li><strong>Equipo de DiversoLAB.</strong> No hay roles fijos, sino 7 permisos que se combinan: uno por cada tipo de expediente, accesos, financiero y plataforma. Dos atajos los arman: Administrador (todos) y Analista (los cuatro por tipo).
+          <ul class="vinetas">
+            <li><strong>Analista o gestor del tipo:</strong> ve y gestiona esos expedientes, y crea, edita y cancela sus tareas.</li>
+            <li><strong>Datos de salud y caracterizaciones:</strong> solo el analista asignado a ese expediente, el titular y la administración de la plataforma; el permiso por tipo no basta.</li>
+            <li><strong>Accesos:</strong> aprueba o rechaza registros, crea miembros (solo con correo corporativo) y asigna permisos y analistas.</li>
+            <li><strong>Financiero:</strong> revisa documentos de debida diligencia y cobros, consulta el reporte financiero y mantiene el catálogo de cuentas contables.</li>
+            <li><strong>Plataforma:</strong> administra instrumentos, playbooks y recursos, y es la única que consulta la bitácora de actividad.</li>
+          </ul>
+        </li>
+        <li><strong>Respondentes del diagnóstico de diversidad:</strong> anónimos, sin cuenta.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-contenido">
+      <h2 id="titulo-contenido">Qué contiene un expediente</h2>
+      <ul class="vinetas">
+        <li><strong>Identidad:</strong> nombre o razón social, documento (CC, CE, NIT, PA, PEP, PPT o TI) con su formato validado, contacto y estado.</li>
+        <li><strong>Consentimientos:</strong> cada uno queda con su versión, un folio y una huella verificable.</li>
+      </ul>
+      <div class="tabla-marco" role="region" aria-label="Consentimientos" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Consentimiento</th><th scope="col">Qué cubre</th><th scope="col">Cuándo se pide</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">C1</th><td>Datos básicos</td><td>Obligatorio al registrarse</td></tr>
+            <tr><th scope="row">C2</th><td>Identificación</td><td>Obligatorio al registrarse</td></tr>
+            <tr><th scope="row">C3</th><td>Datos sensibles</td><td>Obligatorio al registrarse</td></tr>
+            <tr><th scope="row">C4</th><td>Analítica e IA</td><td>Voluntario</td></tr>
+            <tr><th scope="row">C5</th><td>Comunicaciones</td><td>Voluntario</td></tr>
+            <tr><th scope="row">C6</th><td>Imagen y voz</td><td>Voluntario</td></tr>
+            <tr><th scope="row">C7</th><td>Seguimiento psicosocial y educativo</td><td>Voluntario</td></tr>
+            <tr><th scope="row">C2.1</th><td>Datos tributarios y financieros</td><td>Obligatorio para contratistas y proveedores al vincularse</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="vinetas">
+        <li><strong>Debida diligencia:</strong> dirección, origen, identificación tributaria, perfil tributario (persona natural o jurídica), datos de pago, seguridad social y debida diligencia LA/FT. Son instrumentos versionados y cada envío lleva folio.</li>
+        <li><strong>Caracterizaciones:</strong> empresarial para aliados (24 preguntas) y de condiciones para beneficiarios (77 preguntas, con un bloque para el cuidador).</li>
+        <li><strong>Documentos:</strong> documento de identidad, RUT, certificación bancaria, cámara de comercio, declaración de no obligado a facturar, cuenta de cobro, factura, planilla de seguridad social, soportes bancarios de ingreso y egreso, y constancias de consentimiento. El sistema calcula qué documento le falta a cada expediente y en qué estado está el último enviado.</li>
+        <li><strong>Tareas:</strong> formulario, documento, financiero, revisión, consentimiento y diagnóstico, con prioridad, plazo, dependencias y recurrencia.</li>
+        <li><strong>Cobros y pagos:</strong> facturas o cuentas de cobro con su cuenta contable, y los ingresos y egresos bancarios que las saldan.</li>
+        <li><strong>Historial:</strong> bitácora de actividad, versiones de cada respuesta, documentos reemplazados y cadenas de corrección. Nada se borra en silencio.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-ciclo">
+      <h2 id="titulo-ciclo">Cómo avanza un expediente</h2>
       <ol class="decisiones">
-        <li><h3>Frontend estático sin paso de compilación</h3><p>HTML, CSS y JavaScript vanilla servidos por Cloudflare Pages, sin framework ni bundler: cualquier archivo se edita directamente y desplegar es copiar el sitio. La contrapartida aceptada es no tener componentes reutilizables ni tipado, y algo de duplicación de helpers entre páginas.</p></li>
-        <li><h3>RLS en todas las tablas con helpers SECURITY DEFINER</h3><p>La autorización vive en la base de datos y no en el frontend, que es público. Las políticas se apoyan en funciones SECURITY DEFINER STABLE con search_path='' que resuelven el perfil activo, los permisos y las asignaciones; el conjunto de perfiles que gestiona un miembro se calcula una vez por consulta y no por fila. El costo es expresar toda regla de acceso en SQL y mantener políticas complejas.</p></li>
-        <li><h3>Secretos de cabecera comparados en tiempo constante</h3><p>Las Edge Functions que no usan JWT (crons, triggers de alerta, webhook de Telegram) se autentican con un secreto de cabecera que se compara en tiempo constante; donde el diseño lo permite, la base guarda solo su hash. Desactivar la verificación de JWT traslada el control al código, por eso esa comparación vive en un único módulo compartido: estaba copiada en siete funciones y una copia desalineada habría abierto esa puerta sin que las demás lo delataran.</p></li>
-        <li><h3>Consentimientos inmutables, con hash SHA-256 y folio</h3><p>La tabla de consentimientos no tiene políticas de UPDATE ni DELETE y su INSERT está cerrado al cliente: solo la escribe la Edge Function, después de verificar un JWT emitido hace menos de cinco minutos. Cada registro lleva un folio consecutivo atómico (DL-Cx-AAAA-NNNN) y un SHA-256 que un tercero puede recalcular sin secretos, y la constancia en PDF se archiva en Drive. La contrapartida es que no hay corrección en el sitio: toda enmienda es un registro nuevo.</p></li>
-        <li><h3>Drive como archivo definitivo; buckets privados solo de paso</h3><p>Los documentos del expediente viven en una Unidad Compartida de Google Drive, a la que las Edge Functions acceden con una cuenta de servicio. Los buckets de Supabase son privados (10 MB, solo PDF, JPEG y PNG) y hacen de cuarentena hasta la aprobación; un cron semanal purga los objetos huérfanos. El navegador nunca toca Storage ni recibe URLs de Drive: la Edge comprueba el permiso y entrega los bytes, así que hay un solo control de acceso. El costo es un doble salto (bucket → Drive) al aprobar.</p></li>
+        <li><h3>Registro</h3><p>Asistente de 3 pasos: tipo de expediente; datos de persona natural o jurídica; y política de datos con consentimientos, confirmados con un código enviado al correo. En una sola operación se crean el expediente (pendiente) y sus consentimientos; la constancia en PDF va a Drive y llega por correo, y el equipo recibe el aviso por Telegram.</p></li>
+        <li><h3>Aprobación</h3><p>Quien tiene el permiso de accesos decide. Si aprueba, el expediente queda activo, se crea su carpeta en Drive, el titular recibe el correo y se crean las tareas de vinculación de su tipo. Si rechaza, el expediente queda inactivo y el titular recibe el correo.</p></li>
+        <li><h3>Vinculación</h3><p>Las tareas de cada tipo, con su plazo en días:</p>
+          <div class="tabla-marco" role="region" aria-label="Tareas de vinculación por tipo" tabindex="0">
+            <table class="tabla">
+              <thead><tr><th scope="col">Tipo</th><th scope="col">Tareas</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Aliado</th><td>Identificación tributaria (7), dirección (7), perfil tributario (10), debida diligencia (10), caracterización empresarial (10)</td></tr>
+                <tr><th scope="row">Beneficiario</th><td>Dirección (5), origen (5), caracterización de condiciones (7)</td></tr>
+                <tr><th scope="row">Contratista</th><td>Dirección, origen, perfil tributario, seguridad social, datos de pago y debida diligencia (de 5 a 10)</td></tr>
+                <tr><th scope="row">Proveedor</th><td>Identificación tributaria, dirección, perfil tributario, datos de pago y debida diligencia (de 7 a 10)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </li>
+        <li><h3>Formularios</h3><p>Al enviar uno, el sistema valida cada respuesta contra lo permitido, comprueba que los adjuntos sean de ese titular y de esa tarea, respeta las dependencias, impide el doble envío, asigna el folio, guarda la versión y cierra la tarea.</p></li>
+        <li><h3>Documentos</h3><p>Solo PDF, JPEG o PNG de hasta 10 MB; se verifica el contenido real del archivo y se rechazan los PDF con contraseña. El RUT tiene que ser el de la DIAN y de menos de 30 días. Se revisan desde una bandeja única: aprobado, se archiva en la carpeta del expediente en Drive con nombre estándar; rechazado, el motivo es obligatorio, el archivo se elimina, la tarea vuelve al titular con 5 días de plazo y se le avisa por correo.</p></li>
+        <li><h3>Seguimiento</h3><p>Todos los días se marcan las tareas vencidas y se generan las recurrentes (mensual, trimestral, semestral, anual o cada N días). Los recordatorios por correo son como máximo 2 por requisito, agrupados en un solo correo por persona; después, el requisito queda como «Sin respuesta» para el equipo.</p></li>
+      </ol>
+      <h3>Estados</h3>
+      <ul class="vinetas">
+        <li><strong>Expediente:</strong> pendiente, activo, inactivo o suspendido.</li>
+        <li><strong>Tarea:</strong> pendiente, en curso, completada, devuelta, vencida o cancelada.</li>
+        <li><strong>Documento:</strong> pendiente, aprobado o rechazado.</li>
+        <li><strong>Cobro:</strong> subido, aprobado, rechazado, pagado o cerrado. Un cobro no se borra: se conserva al menos 5 años.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-pagos">
+      <h2 id="titulo-pagos">Pagos a contratistas y proveedores</h2>
+      <ol class="decisiones">
+        <li><h3>El tercero sube su cobro</h3><p>Solo con la debida diligencia vigente. Sube factura si está obligado a facturar y cuenta de cobro si no; elige la cuenta contable, y el número sugerido sigue la serie del documento soporte en la contabilidad y no puede repetirse.</p></li>
+        <li><h3>Revisión financiera</h3><p>Si se aprueba, se archiva en la carpeta financiera del expediente. Si se rechaza, lleva motivo y abre un requisito de corrección enlazado al original.</p></li>
+        <li><h3>Soporte del pago</h3><p>Un miembro del equipo lo reporta desde el bot de Telegram. Si tiene el permiso financiero, el cobro pasa a pagado.</p></li>
+        <li><h3>Cruce con la contabilidad</h3><p>Cada noche se leen de Siigo los documentos soporte y los recibos de pago, sin escribir nada en Siigo. Cada documento se empareja con su cobro; si un número coincide con dos cobros, no se asigna a ninguno.</p></li>
+        <li><h3>Cierre automático</h3><p>El cobro pagado se cierra cuando Siigo deja de tenerlo como cuenta por pagar. El cierre se detiene si la información llegó incompleta.</p></li>
+        <li><h3>Conciliación a la vista</h3><p>Cada operación tiene 4 piezas: cuenta de cobro, soporte de pago, documento soporte y recibo de pago, y lleva un veredicto: completa, falta documento soporte, falta pago, falta recibo, descuadre, pago anterior a la cuenta, solo en Siigo o sin expediente, entre otros. El reporte financiero cruza las cuentas por pagar de Siigo con CONECTA y lista lo que falta causar. Solo informa; no bloquea pagos.</p></li>
       </ol>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-resultados">
-      <h2 id="titulo-resultados">Resultados</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-diversidad">
+      <h2 id="titulo-diversidad">Diagnóstico de diversidad (anónimo)</h2>
+      <ol class="decisiones">
+        <li><h3>Campaña</h3><p>El equipo abre una campaña para una empresa aliada o proveedora, que recibe la tarea de difundir un enlace público y declara cuando lo hizo.</p></li>
+        <li><h3>Respuestas sin identidad</h3><p>Las personas responden 40 preguntas sin cuenta. Solo se guardan la campaña y las respuestas: sin nombre, correo ni IP.</p></li>
+        <li><h3>Reporte agregado</h3><p>Se agrega por dimensión y oculta toda categoría con menos de 5 respuestas (k-anonimato), un umbral fijo en el servidor. Solo el equipo cierra la campaña, y la caracterización empresarial del aliado complementa el diagnóstico.</p></li>
+      </ol>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-pantallas">
+      <h2 id="titulo-pantallas">Pantallas</h2>
       <ul class="vinetas">
-        <li>Esquema con 37 tablas (todas con RLS), 83 políticas y 52 funciones SQL; 16 Edge Functions en Deno/TypeScript que comparten 22 módulos, y 8 jobs de pg_cron: vencimiento de tareas, recordatorios por correo, sincronización y cierre con Siigo, purga de archivos huérfanos, resumen de alertas, vencimiento de sesiones y una sonda de servicios.</li>
-        <li>Registro autónomo de cuatro tipos de perfil externo (beneficiario, aliado, contratista y proveedor): los datos, los consentimientos C1–C7 y la verificación por OTP terminan en un alta atómica de perfil y consentimientos, con constancia en PDF con folios y hashes archivada en Drive.</li>
-        <li>Ciclo de pagos a terceros: subida y revisión de cuentas de cobro, captura del soporte de pago desde un bot de Telegram con código propio (no una sesión de la plataforma; vence a los 10 minutos y admite 5 intentos) y cierre automático de cada operación al cruzarla con la contabilidad en Siigo, que solo se lee.</li>
-        <li>Onboarding configurable sin desplegar código: instrumentos versionados en JSONB, KYC modular en seis tablas y playbooks que crean las tareas al aprobar un perfil. El mapeo de diversidad guarda respuestas sin identidad y reporta solo agregados con k-anonimato (umbral 5).</li>
-        <li>Controles en cada cambio: 24 candados del repositorio y revisión de tipos en pre-commit, pre-push y CI; 156 pruebas Playwright con revisiones de accesibilidad axe en 20 specs; un banco de 182 escenarios que compara dos versiones de las Edge Functions contra servicios simulados en memoria antes de desplegar; y una sonda cada 30 minutos que entra con una cuenta sintética sin permisos y verifica que la RLS solo le deja ver su propio perfil.</li>
-        <li>Desarrollo asistido por IA con Claude Code bajo un protocolo escrito (auditar, diagnosticar, planificar, pedir aprobación, implementar, verificar) y hooks de guarda que piden confirmación antes de cada push, despliegue de Edge Functions o escritura SQL en producción, y bloquean el push forzado y saltarse los hooks de git.</li>
+        <li><strong>Públicas:</strong> portada; iniciar sesión, con código de un solo uso; registro; y el cuestionario del diagnóstico, sin cuenta.</li>
+        <li><strong>Del titular:</strong> Mi expediente (por hacer, avisos, documentos, cobros y operaciones); Mis tareas; Formulario, con borrador automático y en solo lectura una vez enviado; y Mi cuenta (datos de contacto, documento de identidad y consentimientos otorgados).</li>
+        <li><strong>Del equipo:</strong> Panel (indicadores, bandeja de revisión de documentos y cobros, expedientes y nueva tarea); Expediente, la vista completa de un titular; Accesos (aprobaciones, asignaciones y matriz de permisos); Reporte financiero; Administración (actividad, estado de los servicios, bitácora, instrumentos, playbooks y cuentas contables); y Herramientas, los enlaces internos de la organización.</li>
       </ul>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-lecciones">
-      <h2 id="titulo-lecciones">Lecciones y siguientes pasos</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-operacion">
+      <h2 id="titulo-operacion">Operación: bots y avisos</h2>
+      <div class="tabla-marco" role="region" aria-label="Bots y avisos" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Disparador</th><th scope="col">Mensaje</th><th scope="col">Quién lo recibe</th><th scope="col">Para qué</th></tr></thead>
+          <tbody>
+            <tr><td>Documento, cobro, registro o tarea de revisión nuevos</td><td>«Documento por revisar», «Cuenta de cobro por revisar», «Registro nuevo por aprobar» o «Tarea de revisión», con enlace directo</td><td>Bot de alertas, chat del equipo</td><td>Revisar o aprobar sin buscar</td></tr>
+            <tr><td>Una cuenta abre sesión desde otra red mientras tiene otra abierta</td><td>«Sesión simultánea desde otra red», con dispositivo y navegador</td><td>Bot de alertas</td><td>Suspender la cuenta desde Accesos si no fue el titular</td></tr>
+            <tr><td>07:30 todos los días, si hay algo pendiente</td><td>Colas pendientes con la antigüedad del más viejo, personas sin respuesta, tareas programadas con problemas y servicios con fallas</td><td>Bot de alertas</td><td>Priorizar el día</td></tr>
+            <tr><td>Un miembro escribe al bot</td><td>Verificación con código al correo institucional (vence en 10 minutos, 5 intentos); luego el registro guiado del ingreso o egreso con su soporte</td><td>Bot de captura</td><td>Dejar el pago registrado con su soporte en Drive</td></tr>
+            <tr><td>Aprobación, rechazo, documento devuelto, consentimiento otorgado o requisito pendiente</td><td>Correo con el resultado, el motivo y el plazo, la constancia en PDF o el recordatorio</td><td>Titular</td><td>Saber qué pasó y qué falta</td></tr>
+          </tbody>
+        </table>
+      </div>
       <ul class="vinetas">
-        <li>La documentación se desfasa del código. El proyecto declara el código y la base de datos viva como fuente de verdad, y convirtió esa regla en candados que hacen fallar el build cuando el índice de documentos, el inventario de secretos, el mapa del repositorio, la matriz RLS o el diagrama de infraestructura no coinciden con el código.</li>
-        <li>Una lista incompleta se lee como completa. Con una API contable que pagina a su manera y en la que un recurso falló durante semanas, la sincronización informa si pudo leer todo, degrada en lugar de abortar, y el cierre automático se detiene si la respuesta llegó incompleta.</li>
-        <li>Un cron «exitoso» no significa que el trabajo terminó: pg_cron da por buena la llamada en cuanto sale la petición. Cada corrida deja su propio rastro y un resumen diario reporta los crons con problemas. Por la misma razón, el código de seguridad repetido se concentró en un solo módulo: una copia que diverge no avisa.</li>
-        <li>Próximos pasos documentados: unificar en un solo motor lo que se le pide a cada titular (tareas, documentos y cobros; fases F138–F143 en curso), hacer el cambio al dominio definitivo y retirar la v1, y, al adoptar la siguiente versión del diagnóstico DEI, exigir el consentimiento de analítica e IA (C4) antes de entregar datos.</li>
+        <li>Ningún aviso incluye cédula, NIT, correo ni IP.</li>
+        <li><strong>Tareas programadas</strong> (hora de Bogotá): vencimientos y tareas recurrentes (06:00); recordatorios (lunes a viernes, 08:00); lectura de Siigo (01:20); cierre de cobros (02:00); resumen (07:30); vencimiento de sesiones (cada hora); limpieza de archivos de paso (domingos); y respaldo de la base, guardado 30 días (diario).</li>
+        <li><strong>Sonda cada 30 minutos:</strong> 12 pruebas sobre 7 servicios. Una entra con una cuenta de prueba sin permisos y verifica que solo vea su propio expediente.</li>
+        <li><strong>Rastro de las tareas programadas:</strong> el sistema avisa si una no corrió, falló o quedó sin vigilancia.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-controles">
+      <h2 id="titulo-controles">Controles</h2>
+      <ul class="vinetas">
+        <li><strong>Acceso:</strong> cada regla vive en la base de datos y las funciones del servidor repiten la misma regla. Las escrituras críticas (consentimientos, documentos, cobros, movimientos y bitácora) solo las hace el servidor.</li>
+        <li><strong>Datos sensibles:</strong> los de salud, solo con asignación nominal; el diagnóstico de diversidad, anónimo; los avisos, sin identificadores; el reporte financiero, solo para el rol financiero.</li>
+        <li><strong>Consentimientos:</strong> no se editan ni se borran; llevan folio consecutivo y una huella SHA-256 que un tercero puede recalcular. La constancia PDF lleva la huella en cada página y la política anexa. Qué es obligatorio lo decide el servidor, no el formulario.</li>
+        <li><strong>Trazabilidad:</strong> bitácora de actividad, versiones de cada respuesta, cadenas de reemplazo y de corrección, registro de inicios de sesión durante 90 días y un registro de cada cambio automático en un cobro.</li>
+        <li><strong>Archivos:</strong> el navegador nunca toca el almacenamiento; cada archivo se valida por su contenido, se borra al rechazarlo y cada semana se limpian las copias de paso; solo se entrega después de verificar el permiso.</li>
+        <li><strong>Sesiones:</strong> se cierran tras 8 horas sin actividad.</li>
+        <li><strong>Control de cambios:</strong> 24 verificaciones automáticas en cada cambio, que también comparan la documentación, la matriz de acceso y el diagrama con el código; 156 pruebas de extremo a extremo con revisión de accesibilidad; un banco de unos 182 escenarios que compara cada función antes y después de un cambio contra servicios simulados; y todo entra por rama y revisión.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-integraciones">
+      <h2 id="titulo-integraciones">Integraciones</h2>
+      <ul class="vinetas">
+        <li><strong>Google Drive:</strong> carpetas de expediente, constancias, archivo y soportes.</li>
+        <li><strong>Google Docs:</strong> política de datos y consentimiento integral.</li>
+        <li><strong>Siigo:</strong> contabilidad, solo lectura.</li>
+        <li><strong>Resend:</strong> correos. <strong>Google Workspace:</strong> códigos de acceso.</li>
+        <li><strong>Telegram:</strong> los 2 bots.</li>
+        <li><strong>Cloudflare Pages:</strong> sitio. <strong>GitHub Actions:</strong> controles automáticos y respaldo.</li>
       </ul>
     </section>
 
     <details class="apendice">
-      <summary>Para revisores técnicos: infraestructura, stack y código</summary>
+      <summary>Para revisores técnicos: infraestructura, stack y cifras</summary>
       <div class="apendice-contenido">
         <div class="infra-cabecera">
           <h2>Infraestructura</h2>
@@ -118,7 +245,13 @@
         <p class="infra-nota">Diagrama interactivo generado a partir del código del proyecto. Toca un nodo para ver su detalle y sus conexiones.</p>
         <iframe class="infra-marco" src="../../../archivos/conecta/infra.html" title="Infraestructura de CONECTA" loading="lazy" sandbox="allow-scripts"></iframe>
         <h3>Stack</h3>
-        <ul class="etiquetas"><li class="etiqueta">Supabase</li><li class="etiqueta">PostgreSQL + RLS</li><li class="etiqueta">Deno / TypeScript</li><li class="etiqueta">pg_cron</li><li class="etiqueta">HTML/CSS/JavaScript</li><li class="etiqueta">Cloudflare Pages</li><li class="etiqueta">Google Drive API</li><li class="etiqueta">Playwright + axe</li><li class="etiqueta">Sentry</li><li class="etiqueta">GitHub Actions</li></ul>
+        <ul class="etiquetas"><li class="etiqueta">HTML/CSS/JavaScript sin framework</li><li class="etiqueta">Supabase (PostgreSQL, Auth, Storage)</li><li class="etiqueta">pg_cron + pg_net</li><li class="etiqueta">Edge Functions (Deno/TypeScript)</li><li class="etiqueta">pdf-lib</li><li class="etiqueta">Google Drive API</li><li class="etiqueta">Siigo API (lectura)</li><li class="etiqueta">Resend</li><li class="etiqueta">Telegram Bot API</li><li class="etiqueta">Cloudflare Pages</li><li class="etiqueta">Playwright + axe</li><li class="etiqueta">GitHub Actions</li></ul>
+        <h3>Cifras</h3>
+        <ul class="vinetas">
+          <li>37 tablas, todas con políticas de acceso (83 políticas); 52 funciones SQL y 24 triggers.</li>
+          <li>16 Edge Functions con 22 módulos compartidos; 8 tareas programadas más el respaldo; 3 almacenes privados de paso.</li>
+          <li>11 instrumentos versionados y 4 playbooks; 14 páginas.</li>
+        </ul>
         <p class="apendice-nota">Cómo construyo: defino el problema, los requisitos, el modelo de datos y los controles; implemento con asistentes de IA (Claude Code) bajo mi dirección, y cada cambio pasa pruebas automáticas y mi revisión antes de publicarse.</p>
         <p class="apendice-nota">El código es privado porque contiene reglas de negocio y datos del cliente. Puedo recorrerlo en vivo: código, pruebas y despliegue.</p>
       </div>

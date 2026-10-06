@@ -228,6 +228,20 @@ img, svg { max-width: 100%; }
 }
 .decisiones h3 { font-size: var(--texto-base); margin-bottom: var(--espacio-1); }
 .decisiones p { color: var(--texto-suave); }
+.decisiones .vinetas { margin-top: var(--espacio-2); }
+
+/* Subtítulos, listas anidadas y tablas dentro de una sección de caso (páginas "en qué consiste el proyecto"). */
+.caso-seccion h3 { font-size: var(--texto-lg); margin: var(--espacio-5) 0 var(--espacio-2); }
+.caso-seccion > .vinetas + p, .caso-seccion > p + .vinetas { margin-top: var(--espacio-3); }
+.vinetas .vinetas { margin-top: var(--espacio-2); }
+/* La tabla se desplaza dentro de su marco en pantallas angostas, nunca la página (WCAG 1.4.10). */
+.tabla-marco { overflow-x: auto; margin: var(--espacio-3) 0; border: 1px solid var(--borde); border-radius: var(--radio-sm); background: var(--superficie); }
+.tabla-marco:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+.tabla { width: 100%; border-collapse: collapse; font-size: var(--texto-sm); }
+.tabla caption { text-align: left; padding: var(--espacio-2) var(--espacio-3); font-weight: 600; }
+.tabla th, .tabla td { text-align: left; vertical-align: top; padding: var(--espacio-2) var(--espacio-3); border-top: 1px solid var(--borde); }
+.tabla thead th { background: var(--superficie-2); font-weight: 600; border-top: 0; white-space: nowrap; }
+.tabla tbody th { font-weight: 600; }
 .infra-cabecera { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--espacio-3); margin-bottom: var(--espacio-2); }
 .infra-cabecera h2 { margin-bottom: 0; }
 .infra-nota { color: var(--texto-suave); font-size: var(--texto-sm); margin-bottom: var(--espacio-4); max-width: var(--ancho-texto); }

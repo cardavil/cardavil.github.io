@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CONECTA — Carlos Davila</title>
-  <meta name="description" content="Consent-backed digital records management for a social innovation organization.">
+  <meta name="description" content="DiversoLAB's digital case-file system: data, consents, due diligence, documents, tasks, invoices and payments for every beneficiary, partner company, contractor and supplier.">
   <link rel="canonical" href="https://cardavil.github.io/projects/conecta/">
   <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/proyectos/conecta/">
   <link rel="alternate" hreflang="en" href="https://cardavil.github.io/projects/conecta/">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Carlos Davila">
   <meta property="og:title" content="CONECTA — Carlos Davila">
-  <meta property="og:description" content="Consent-backed digital records management for a social innovation organization.">
+  <meta property="og:description" content="DiversoLAB's digital case-file system: data, consents, due diligence, documents, tasks, invoices and payments for every beneficiary, partner company, contractor and supplier.">
   <meta property="og:url" content="https://cardavil.github.io/projects/conecta/">
   <meta property="og:locale" content="en_CA">
   <meta property="og:locale:alternate" content="es_CO">
@@ -45,8 +45,8 @@
 
     <header class="tarjeta caso-cabecera" data-proyecto="conecta">
       <h1>CONECTA</h1>
-      <p class="caso-lema">Consent-backed digital records management for a social innovation organization.</p>
-      <p class="caso-resumen">Digital records for beneficiaries, partner companies, contractors and suppliers, with verifiable consent and authorization in the database. v2 replaced a static portal (v1) with Supabase.</p>
+      <p class="caso-lema">DiversoLAB's digital case-file system.</p>
+      <p class="caso-resumen">One case file for every beneficiary, partner company, contractor and supplier: their data, consents, due diligence, documents, tasks, invoices and payments, with its own Google Drive folder and a history of every change.</p>
       <dl class="caso-ficha">
         <div><dt>Status</dt><dd>In production</dd></div>
         <div><dt>Period</dt><dd>Jan 2026 – present</dd></div>
@@ -55,61 +55,188 @@
       </dl>
     </header>
 
-    <section class="caso-seccion caso-seccion-ancha" aria-label="By the numbers">
-      <div class="metricas"><div class="metrica"><b>37</b><span>tables, all with RLS</span></div><div class="metrica"><b>83</b><span>RLS policies</span></div><div class="metrica"><b>16</b><span>Edge Functions (Deno/TypeScript) sharing 22 modules</span></div><div class="metrica"><b>156</b><span>Playwright tests across 20 specs</span></div><div class="metrica"><b>182</b><span>Edge Function test-bench scenarios</span></div><div class="metrica"><b>24</b><span>automated repository checks</span></div></div>
+    <section class="caso-seccion" aria-labelledby="titulo-que-es">
+      <h2 id="titulo-que-es">What it is</h2>
+      <p>DiversoLAB is a Colombian organization that works with people with disabilities, partner companies, contractors and suppliers. CONECTA is the system where it keeps a case file for each of those people and organizations: who they are, what they authorized, which documents they provided and which are missing, what is pending, and what they are owed or have been paid. I designed and built it as DiversoLAB's Technology &amp; Governance Consultant.</p>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-contexto">
-      <h2 id="titulo-contexto">Context & problem</h2>
-      <p>DiversoLAB is a Colombian organization that works with people with disabilities, partner companies, contractors and suppliers. It needed to capture, safeguard and coordinate their data, including sensitive data such as disability and health, with legally backed consent and traceability, without relying on scattered spreadsheets or manual data entry. CONECTA v1 was a static internal portal, with no backend and no authentication, that gathered 62 links in three sections (forms, Power BI and Looker Studio dashboards, and the quality-management and ethics-system documentation) embedded in a viewer; access control depended on each external resource's own permissions.</p>
-      <p>The v1 backlog left a third-party management module (KYC/AML and document management) pending, planned on Wix, Apps Script, Drive and Monday.com, because documents arrived by email, were filed by hand and had no expiry alerts. Version 2 built that module as a platform of its own. A first architecture relied on Apps Script services for OTP and signing; in July 2026 they were retired and all privileged access moved to Supabase Edge Functions that call the Drive API directly. The v1 links remain available on the v2 Tools page, and the Monday.com integration was left out of scope for this version.</p>
-    </section>
-
-    <section class="caso-seccion" aria-labelledby="titulo-rol">
-      <h2 id="titulo-rol">My role & constraints</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-tipos">
+      <h2 id="titulo-tipos">Four types of case file</h2>
+      <div class="tabla-marco" role="region" aria-label="Case file types" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Case file</th><th scope="col">Who it is</th><th scope="col">What is managed</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Beneficiary</th><td>A person with a disability served by the programs</td><td>Address, background and a profile of their conditions (health data, with restricted access)</td></tr>
+            <tr><th scope="row">Partner</th><td>Partner company</td><td>Tax identification and tax profile, due diligence, company profile and the diversity assessment</td></tr>
+            <tr><th scope="row">Contractor</th><td>A person who provides services</td><td>Tax profile, social security, payment details, due diligence and invoices</td></tr>
+            <tr><th scope="row">Supplier</th><td>Supplier company</td><td>Tax identification and tax profile, payment details, due diligence and invoices</td></tr>
+          </tbody>
+        </table>
+      </div>
       <ul class="vinetas">
-        <li>Designed and built the platform (data model, RLS policies, Edge Functions, frontend, tests and operations) as an Independent Technology &amp; Governance Consultant. DiversoLAB owns the project: the repositories and the Supabase organization are held by an institutional account.</li>
-        <li>Colombian regulatory compliance: Law 1581 of 2012 (personal data protection) and Law 527 of 1999 (data messages and electronic signatures). Anti-money-laundering due diligence is adopted voluntarily and works as a condition for onboarding third parties.</li>
-        <li>Sensitive data (disability, health, sexual orientation) is restricted to the data subject, their assigned analyst and platform administration; the finance role cannot see it.</li>
-        <li>Services run on free tiers (Cloudflare Pages with a private repository, Supabase), and the accounting API offers no read-only credentials: the Siigo key could also issue documents, so every query goes through a single function that only sends GET requests. Edge Functions cannot use ports 25 or 587, so transactional email goes through Resend's HTTP API.</li>
+        <li>The same person can hold several case files, one per type, under a single login, and switch between them from the header.</li>
+        <li>A company's legal representative, finance contact and authorized users are linked to its case file.</li>
       </ul>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-arquitectura">
-      <h2 id="titulo-arquitectura">Architecture & decisions</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-roles">
+      <h2 id="titulo-roles">Who uses it and what each one sees</h2>
+      <ul class="vinetas">
+        <li><strong>Case-file holder.</strong> Sees only their own file: tasks, documents, invoices, consents and profiles. They answer forms and upload documents and invoices. They can edit only their contact details; type, status and identity cannot be changed by them.</li>
+        <li><strong>DiversoLAB team.</strong> There are no fixed roles, but 7 permissions that combine: one per case-file type, access, finance and platform. Two presets build them: Administrator (all) and Analyst (the four by type).
+          <ul class="vinetas">
+            <li><strong>Analyst or manager of a type:</strong> sees and manages those case files, and creates, edits and cancels their tasks.</li>
+            <li><strong>Health data and profiles:</strong> only the analyst assigned to that case file, the holder and the platform administration; the per-type permission is not enough.</li>
+            <li><strong>Access:</strong> approves or rejects sign-ups, creates members (corporate email only) and assigns permissions and analysts.</li>
+            <li><strong>Finance:</strong> reviews due-diligence documents and invoices, reads the financial report and maintains the chart of accounts.</li>
+            <li><strong>Platform:</strong> manages questionnaires, playbooks and resources, and is the only role that reads the activity log.</li>
+          </ul>
+        </li>
+        <li><strong>Diversity-assessment respondents:</strong> anonymous, with no account.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-contenido">
+      <h2 id="titulo-contenido">What a case file contains</h2>
+      <ul class="vinetas">
+        <li><strong>Identity:</strong> name or legal name, ID document (CC, CE, NIT, PA, PEP, PPT or TI) with its format validated, contact details and status.</li>
+        <li><strong>Consents:</strong> each one is stored with its version, a record number and a verifiable fingerprint.</li>
+      </ul>
+      <div class="tabla-marco" role="region" aria-label="Consents" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Consent</th><th scope="col">What it covers</th><th scope="col">When it is requested</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">C1</th><td>Basic data</td><td>Required at sign-up</td></tr>
+            <tr><th scope="row">C2</th><td>Identification</td><td>Required at sign-up</td></tr>
+            <tr><th scope="row">C3</th><td>Sensitive data</td><td>Required at sign-up</td></tr>
+            <tr><th scope="row">C4</th><td>Analytics and AI</td><td>Optional</td></tr>
+            <tr><th scope="row">C5</th><td>Communications</td><td>Optional</td></tr>
+            <tr><th scope="row">C6</th><td>Image and voice</td><td>Optional</td></tr>
+            <tr><th scope="row">C7</th><td>Psychosocial and educational follow-up</td><td>Optional</td></tr>
+            <tr><th scope="row">C2.1</th><td>Tax and financial data</td><td>Required for contractors and suppliers at onboarding</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="vinetas">
+        <li><strong>Due diligence:</strong> address, background, tax identification, tax profile (individual or company), payment details, social security and AML/CTF due diligence. The questionnaires are versioned and every submission gets a record number.</li>
+        <li><strong>Profiles:</strong> a company profile for partners (24 questions) and a conditions profile for beneficiaries (77 questions, with a section for the caregiver).</li>
+        <li><strong>Documents:</strong> ID document, RUT (tax registration), bank certificate, chamber of commerce certificate, declaration of not being required to invoice, invoice or bill for services, social security contribution form, bank receipts for money in and out, and consent certificates. The system works out which document each case file is missing and the status of the last one submitted.</li>
+        <li><strong>Tasks:</strong> form, document, finance, review, consent and assessment, with priority, due date, dependencies and recurrence.</li>
+        <li><strong>Invoices and payments:</strong> invoices or bills with their ledger account, and the bank inflows and outflows that settle them.</li>
+        <li><strong>History:</strong> activity log, versions of every answer, replaced documents and correction chains. Nothing is deleted silently.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-ciclo">
+      <h2 id="titulo-ciclo">How a case file moves forward</h2>
       <ol class="decisiones">
-        <li><h3>Static frontend with no build step</h3><p>Vanilla HTML, CSS and JavaScript served by Cloudflare Pages, with no framework or bundler: any file can be edited directly and deploying means copying the site. The accepted cost is no reusable components, no typing and some helper duplication across pages.</p></li>
-        <li><h3>RLS on every table, backed by SECURITY DEFINER helpers</h3><p>Authorization lives in the database, not in the public frontend. Policies rely on SECURITY DEFINER STABLE functions with search_path='' that resolve the active profile, permissions and assignments; the set of profiles a member manages is computed once per query, not per row. The cost is expressing every access rule in SQL and maintaining complex policies.</p></li>
-        <li><h3>Constant-time header secrets for functions without JWT</h3><p>Edge Functions that do not use JWT (cron jobs, alert triggers, the Telegram webhook) authenticate with a header secret compared in constant time; where the design allows, the database stores only its hash. Turning off JWT verification moves the check into code, so the comparison lives in a single shared module: it had been copied into seven functions, and one copy drifting out of line would have opened that door without the others revealing it.</p></li>
-        <li><h3>Immutable consent records with SHA-256 hashes and serial numbers</h3><p>The consent table has no UPDATE or DELETE policies and its INSERT is closed to the client: only the Edge Function writes it, after checking a JWT issued less than five minutes earlier. Each record gets an atomic sequential number (DL-Cx-YYYY-NNNN) and a SHA-256 hash that a third party can recompute without secrets, and the PDF certificate is archived in Drive. The trade-off is that nothing is corrected in place: every amendment is a new record.</p></li>
-        <li><h3>Drive as the permanent store; private buckets only for staging</h3><p>Case-file documents live in a Google Drive shared drive that Edge Functions reach through a service account. Supabase buckets are private (10 MB, PDF, JPEG and PNG only) and act as quarantine until approval; a weekly cron job purges orphaned objects. The browser never touches Storage or receives Drive URLs: the Edge Function checks the permission and returns the bytes, so there is a single access control. The cost is a double hop (bucket → Drive) on approval.</p></li>
+        <li><h3>Sign-up</h3><p>A 3-step wizard: case-file type; individual or company details; and the data policy with the consents, confirmed with a code sent by email. The case file (pending) and its consents are created in a single operation; the PDF certificate goes to Drive and arrives by email, and the team is notified on Telegram.</p></li>
+        <li><h3>Approval</h3><p>A member with the access permission decides. If approved, the case file becomes active, its Drive folder is created, the holder gets an email and the onboarding tasks for its type are created. If rejected, the case file becomes inactive and the holder gets an email.</p></li>
+        <li><h3>Onboarding</h3><p>The tasks for each type, with their due dates in days:</p>
+          <div class="tabla-marco" role="region" aria-label="Onboarding tasks by type" tabindex="0">
+            <table class="tabla">
+              <thead><tr><th scope="col">Type</th><th scope="col">Tasks</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Partner</th><td>Tax identification (7), address (7), tax profile (10), due diligence (10), company profile (10)</td></tr>
+                <tr><th scope="row">Beneficiary</th><td>Address (5), background (5), conditions profile (7)</td></tr>
+                <tr><th scope="row">Contractor</th><td>Address, background, tax profile, social security, payment details and due diligence (5 to 10)</td></tr>
+                <tr><th scope="row">Supplier</th><td>Tax identification, address, tax profile, payment details and due diligence (7 to 10)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </li>
+        <li><h3>Forms</h3><p>When one is submitted, the system checks every answer against the allowed values, confirms that attachments belong to that holder and that task, enforces dependencies, prevents double submission, assigns the record number, stores the version and closes the task.</p></li>
+        <li><h3>Documents</h3><p>PDF, JPEG or PNG only, up to 10 MB; the actual file content is checked and password-protected PDFs are rejected. The RUT must be the one issued by the tax authority (DIAN) and less than 30 days old. They are reviewed from a single inbox: approved, it is filed in the case file's Drive folder with a standard name; rejected, a reason is required, the file is deleted, the task goes back to the holder with 5 days to respond and they are notified by email.</p></li>
+        <li><h3>Follow-up</h3><p>Every day overdue tasks are flagged and recurring ones are generated (monthly, quarterly, half-yearly, yearly or every N days). Email reminders are capped at 2 per requirement, grouped into a single email per person; after that, the requirement is marked "No response" for the team.</p></li>
+      </ol>
+      <h3>Statuses</h3>
+      <ul class="vinetas">
+        <li><strong>Case file:</strong> pending, active, inactive or suspended.</li>
+        <li><strong>Task:</strong> pending, in progress, completed, returned, overdue or cancelled.</li>
+        <li><strong>Document:</strong> pending, approved or rejected.</li>
+        <li><strong>Invoice:</strong> uploaded, approved, rejected, paid or closed. Invoices are never deleted: they are kept for at least 5 years.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-pagos">
+      <h2 id="titulo-pagos">Payments to contractors and suppliers</h2>
+      <ol class="decisiones">
+        <li><h3>The third party uploads an invoice</h3><p>Only with current due diligence. They upload an invoice if they are required to invoice, and a bill for services if not; they choose the ledger account, and the suggested number follows the support-document series in the accounting system and cannot be repeated.</p></li>
+        <li><h3>Finance review</h3><p>If approved, it is filed in the case file's finance folder. If rejected, it carries a reason and opens a correction requirement linked to the original.</p></li>
+        <li><h3>Proof of payment</h3><p>A team member reports it from the Telegram bot. If they hold the finance permission, the invoice moves to paid.</p></li>
+        <li><h3>Matching with the accounting system</h3><p>Every night the support documents and payment receipts are read from Siigo, without writing anything to Siigo. Each document is matched to its invoice; if a number matches two invoices, it is assigned to neither.</p></li>
+        <li><h3>Automatic closing</h3><p>A paid invoice is closed when Siigo no longer shows it as an account payable. Closing stops if the data arrived incomplete.</p></li>
+        <li><h3>Reconciliation in plain view</h3><p>Every transaction has 4 pieces: invoice, proof of payment, support document and payment receipt, and gets a verdict: complete, missing support document, missing payment, missing receipt, mismatch, payment before the invoice, only in Siigo or no case file, among others. The financial report matches Siigo's accounts payable against CONECTA and lists what still needs to be recorded. It only informs; it does not block payments.</p></li>
       </ol>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-resultados">
-      <h2 id="titulo-resultados">Results</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-diversidad">
+      <h2 id="titulo-diversidad">Diversity assessment (anonymous)</h2>
+      <ol class="decisiones">
+        <li><h3>Campaign</h3><p>The team opens a campaign for a partner or supplier company, which gets a task to share a public link and confirms when it has done so.</p></li>
+        <li><h3>Answers without identity</h3><p>People answer 40 questions without an account. Only the campaign and the answers are stored: no name, email or IP address.</p></li>
+        <li><h3>Aggregated report</h3><p>Results are aggregated by dimension and any category with fewer than 5 answers is hidden (k-anonymity), with the threshold fixed on the server. Only the team closes the campaign, and the partner's company profile complements the assessment.</p></li>
+      </ol>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-pantallas">
+      <h2 id="titulo-pantallas">Screens</h2>
       <ul class="vinetas">
-        <li>Schema with 37 tables (all with RLS), 83 policies and 52 SQL functions; 16 Edge Functions in Deno/TypeScript sharing 22 modules, and 8 pg_cron jobs: task expiry, email reminders, Siigo sync and close-out, orphaned-file purge, alert digest, session expiry and a service probe.</li>
-        <li>Self-registration for four external profile types (beneficiary, partner, contractor and supplier): data entry, consents C1–C7 and OTP verification end in an atomic creation of the profile and its consents, with a PDF certificate carrying serial numbers and hashes archived in Drive.</li>
-        <li>Third-party payment cycle: upload and review of payment requests, capture of the payment receipt through a Telegram bot with its own code (not a platform session; it expires after 10 minutes and allows 5 attempts), and automatic close-out of each transaction by matching it against the Siigo accounting system, which is only read.</li>
-        <li>Onboarding configurable without deploying code: versioned JSONB instruments, KYC split into six tables and playbooks that create tasks when a profile is approved. The diversity survey stores answers with no identity and reports only aggregates under k-anonymity (threshold 5).</li>
-        <li>Checks on every change: 24 repository checks plus type checking in pre-commit, pre-push and CI; 156 Playwright tests with axe accessibility checks across 20 specs; a bench of 182 scenarios that compares two versions of the Edge Functions against in-memory fake services before deploying; and a probe every 30 minutes that signs in with a synthetic no-access account and verifies that RLS only lets it see its own profile.</li>
-        <li>AI-assisted development with Claude Code under a written protocol (audit, diagnose, plan, request approval, implement, verify) and guard hooks that ask for confirmation before every push, Edge Function deployment or production SQL write, and block force pushes and bypassing git hooks.</li>
+        <li><strong>Public:</strong> home page; sign-in with a one-time code; sign-up; and the assessment questionnaire, with no account.</li>
+        <li><strong>For the holder:</strong> My case file (to-do, notices, documents, invoices and transactions); My tasks; Form, with automatic drafts and read-only once submitted; and My account (contact details, ID document and consents given).</li>
+        <li><strong>For the team:</strong> Dashboard (indicators, review inbox for documents and invoices, case files and new task); Case file, the full view of a holder; Access (approvals, assignments and permission matrix); Financial report; Administration (activity, service status, log, questionnaires, playbooks and chart of accounts); and Tools, the organization's internal links.</li>
       </ul>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-lecciones">
-      <h2 id="titulo-lecciones">Lessons & next steps</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-operacion">
+      <h2 id="titulo-operacion">Operations: bots and notifications</h2>
+      <div class="tabla-marco" role="region" aria-label="Bots and notifications" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Trigger</th><th scope="col">Message</th><th scope="col">Who receives it</th><th scope="col">What for</th></tr></thead>
+          <tbody>
+            <tr><td>New document, invoice, sign-up or review task</td><td>"Document to review", "Invoice to review", "New sign-up to approve" or "Review task", with a direct link</td><td>Alerts bot, team chat</td><td>Review or approve without searching</td></tr>
+            <tr><td>An account signs in from another network while another session is open</td><td>"Simultaneous session from another network", with device and browser</td><td>Alerts bot</td><td>Suspend the account from Access if it was not the holder</td></tr>
+            <tr><td>07:30 every day, if anything is pending</td><td>Pending queues with the age of the oldest item, people with no response, scheduled jobs with problems and failing services</td><td>Alerts bot</td><td>Prioritize the day</td></tr>
+            <tr><td>A team member messages the bot</td><td>Verification with a code sent to their work email (expires in 10 minutes, 5 attempts); then a guided entry of the inflow or outflow with its proof</td><td>Capture bot</td><td>Record the payment with its proof in Drive</td></tr>
+            <tr><td>Approval, rejection, returned document, consent given or pending requirement</td><td>Email with the outcome, the reason and the deadline, the PDF certificate or the reminder</td><td>Holder</td><td>Know what happened and what is missing</td></tr>
+          </tbody>
+        </table>
+      </div>
       <ul class="vinetas">
-        <li>Documentation drifts from code. The project treats the code and the live database as the source of truth, and turned that rule into checks that fail the build when the docs index, the secrets inventory, the repository map, the RLS matrix or the infrastructure diagram stop matching the code.</li>
-        <li>An incomplete list reads as a complete one. With an accounting API that paginates in its own way, and where one resource failed for weeks, the sync reports whether it read everything, degrades instead of aborting, and the automatic close-out stops when the response is incomplete.</li>
-        <li>A «successful» cron job does not mean the work finished: pg_cron marks the call as done as soon as the request leaves. Each run now leaves its own trace and a daily digest reports cron jobs with problems. For the same reason, repeated security code was moved into a single module: a copy that drifts gives no warning.</li>
-        <li>Documented next steps: unify everything asked of each data subject (tasks, documents and payment requests) in a single engine (phases F138–F143 in progress), move to the final domain and retire v1, and, when adopting the next version of the DEI diagnostic, require the analytics-and-AI consent (C4) before any data is shared.</li>
+        <li>No notification includes an ID number, tax ID, email or IP address.</li>
+        <li><strong>Scheduled jobs</strong> (Bogotá time): due dates and recurring tasks (06:00); reminders (weekdays, 08:00); reading from Siigo (01:20); invoice closing (02:00); daily summary (07:30); session expiry (hourly); cleanup of temporary files (Sundays); and a daily database backup kept for 30 days.</li>
+        <li><strong>Probe every 30 minutes:</strong> 12 checks across 7 services. One signs in with a test account that has no permissions and verifies it can see only its own case file.</li>
+        <li><strong>Scheduled-job trail:</strong> the system flags any job that did not run, failed or is not being watched.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-controles">
+      <h2 id="titulo-controles">Controls</h2>
+      <ul class="vinetas">
+        <li><strong>Access:</strong> every rule lives in the database and the server functions repeat the same rule. Critical writes (consents, documents, invoices, transactions and the log) are made only by the server.</li>
+        <li><strong>Sensitive data:</strong> health data only with a named assignment; the diversity assessment is anonymous; notifications carry no identifiers; the financial report is for the finance role only.</li>
+        <li><strong>Consents:</strong> cannot be edited or deleted; they carry a sequential record number and a SHA-256 fingerprint that a third party can recompute. The PDF certificate shows the fingerprint on every page with the policy attached. What is mandatory is decided by the server, not by the form.</li>
+        <li><strong>Traceability:</strong> activity log, versions of every answer, replacement and correction chains, sign-in records kept for 90 days, and a record of every automatic change to an invoice.</li>
+        <li><strong>Files:</strong> the browser never touches storage; every file is validated by its content, deleted when rejected, and temporary copies are cleaned weekly; files are served only after the permission is checked.</li>
+        <li><strong>Sessions:</strong> closed after 8 hours of inactivity.</li>
+        <li><strong>Change control:</strong> 24 automated checks on every change, which also compare the documentation, the access matrix and the diagram with the code; 156 end-to-end tests with accessibility checks; a bench of about 182 scenarios that compares every function before and after a change against simulated services; and everything goes in through a branch and a review.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-integraciones">
+      <h2 id="titulo-integraciones">Integrations</h2>
+      <ul class="vinetas">
+        <li><strong>Google Drive:</strong> case-file folders, certificates, archive and proofs.</li>
+        <li><strong>Google Docs:</strong> data policy and combined consent.</li>
+        <li><strong>Siigo:</strong> accounting, read-only.</li>
+        <li><strong>Resend:</strong> emails. <strong>Google Workspace:</strong> sign-in codes.</li>
+        <li><strong>Telegram:</strong> the 2 bots.</li>
+        <li><strong>Cloudflare Pages:</strong> website. <strong>GitHub Actions:</strong> automated checks and backup.</li>
       </ul>
     </section>
 
     <details class="apendice">
-      <summary>For technical reviewers: infrastructure, stack and code</summary>
+      <summary>For technical reviewers: infrastructure, stack and figures</summary>
       <div class="apendice-contenido">
         <div class="infra-cabecera">
           <h2>Infrastructure</h2>
@@ -118,7 +245,13 @@
         <p class="infra-nota">Interactive diagram generated from the project’s code. Tap a node to see its details and connections.</p>
         <iframe class="infra-marco" src="../../archivos/conecta/infra.en.html" title="CONECTA infrastructure" loading="lazy" sandbox="allow-scripts"></iframe>
         <h3>Stack</h3>
-        <ul class="etiquetas"><li class="etiqueta">Supabase</li><li class="etiqueta">PostgreSQL + RLS</li><li class="etiqueta">Deno / TypeScript</li><li class="etiqueta">pg_cron</li><li class="etiqueta">HTML/CSS/JavaScript</li><li class="etiqueta">Cloudflare Pages</li><li class="etiqueta">Google Drive API</li><li class="etiqueta">Playwright + axe</li><li class="etiqueta">Sentry</li><li class="etiqueta">GitHub Actions</li></ul>
+        <ul class="etiquetas"><li class="etiqueta">HTML/CSS/JavaScript, no framework</li><li class="etiqueta">Supabase (PostgreSQL, Auth, Storage)</li><li class="etiqueta">pg_cron + pg_net</li><li class="etiqueta">Edge Functions (Deno/TypeScript)</li><li class="etiqueta">pdf-lib</li><li class="etiqueta">Google Drive API</li><li class="etiqueta">Siigo API (read-only)</li><li class="etiqueta">Resend</li><li class="etiqueta">Telegram Bot API</li><li class="etiqueta">Cloudflare Pages</li><li class="etiqueta">Playwright + axe</li><li class="etiqueta">GitHub Actions</li></ul>
+        <h3>Figures</h3>
+        <ul class="vinetas">
+          <li>37 tables, all with access policies (83 policies); 52 SQL functions and 24 triggers.</li>
+          <li>16 Edge Functions with 22 shared modules; 8 scheduled jobs plus the backup; 3 private staging buckets.</li>
+          <li>11 versioned questionnaires and 4 playbooks; 14 pages.</li>
+        </ul>
         <p class="apendice-nota">How I build: I define the problem, the requirements, the data model and the controls; I implement with AI coding assistants (Claude Code) under my direction, and every change passes automated tests and my review before release.</p>
         <p class="apendice-nota">The source code is private because it contains the client’s business rules and data. I can walk through it live: code, tests and deployment.</p>
       </div>
