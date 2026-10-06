@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Consentia — Carlos Davila</title>
-  <meta name="description" content="Informed consent and e-signatures for small businesses.">
+  <meta name="description" content="Informed consent and e-signatures on a business's own documents, with verifiable evidence and without keeping signers' personal data.">
   <link rel="canonical" href="https://cardavil.github.io/projects/consentia/">
   <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/proyectos/consentia/">
   <link rel="alternate" hreflang="en" href="https://cardavil.github.io/projects/consentia/">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Carlos Davila">
   <meta property="og:title" content="Consentia — Carlos Davila">
-  <meta property="og:description" content="Informed consent and e-signatures for small businesses.">
+  <meta property="og:description" content="Informed consent and e-signatures on a business's own documents, with verifiable evidence and without keeping signers' personal data.">
   <meta property="og:url" content="https://cardavil.github.io/projects/consentia/">
   <meta property="og:locale" content="en_CA">
   <meta property="og:locale:alternate" content="es_CO">
@@ -45,71 +45,130 @@
 
     <header class="tarjeta caso-cabecera" data-proyecto="consentia">
       <h1>Consentia</h1>
-      <p class="caso-lema">Informed consent and e-signatures for small businesses.</p>
-      <p class="caso-resumen">Verifies each signer over two channels, seals the PDF with SHA-256 hashes and keeps the document in the customer's own cloud.</p>
+      <p class="caso-lema">Informed consent and e-signatures on a business's own documents.</p>
+      <p class="caso-resumen">Every signer verifies their identity by email and by SMS. When the last one signs, the PDF is sealed with verifiable evidence and stored in the business's own cloud; the platform does not keep signers' personal data.</p>
       <dl class="caso-ficha">
         <div><dt>Status</dt><dd>In production · pilot clients</dd></div>
         <div><dt>Period</dt><dd>May 2026 – present</dd></div>
-        <div><dt>Role</dt><dd>Independent project: design, development and operations</dd></div>
+        <div><dt>Role</dt><dd>Independent project, built for friends’ businesses</dd></div>
         <div><dt>Website</dt><dd><a href="https://consentia.com.co" rel="noopener" target="_blank">consentia.com.co</a></dd></div>
       </dl>
     </header>
 
-    <section class="caso-seccion caso-seccion-ancha" aria-label="By the numbers">
-      <div class="metricas"><div class="metrica"><b>13</b><span>Edge Functions in Deno/TypeScript</span></div><div class="metrica"><b>24/24</b><span>tables with RLS enabled (26 policies)</span></div><div class="metrica"><b>45</b><span>cases in the SQL RLS isolation harness</span></div><div class="metrica"><b>343</b><span>Deno unit tests</span></div><div class="metrica"><b>39</b><span>rules in the repository's own linter</span></div><div class="metrica"><b>37</b><span>recorded architecture decisions (ADRs)</span></div></div>
+    <section class="caso-seccion" aria-labelledby="titulo-que-es">
+      <h2 id="titulo-que-es">What it is</h2>
+      <p>Consentia lets a small business (a clinic, a beauty or tattoo studio, a foundation, a school) ask its clients for informed consent or for a signature on a document, without changing its software or its cloud. The business uploads its own PDF; each signer receives a personal link and confirms their identity with a code; at the end, the sealed document is stored in the business's Google Drive or OneDrive, with a QR code that lets anyone verify it has not changed.</p>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-contexto">
-      <h2 id="titulo-contexto">Context & problem</h2>
-      <p>In Colombia, a medical practice, a beauty clinic, a tattoo studio, a foundation or a school needs informed consent forms and data-processing authorizations that hold up legally. The product thesis is that there is no standalone consent product: the real alternative is buying a full industry software suite or staying on paper. Buyers want something simple that meets their compliance obligations without changing their software or their cloud.</p>
-      <p>Consentia keeps two modes separate per request, because mixing them blurs the legal nature of each: consent (a PDF with “I have read and accept” clauses that are never pre-checked) and document (a visual editor to place signature, date, initials, checkbox and text fields on a PDF, with up to 7 signers). It is not a document management system: the sealed PDF and the history log stay in the customer's cloud. It is a simple electronic signature under Colombian law (Law 527 of 1999, Decree 2364 of 2012), so its value lies in the evidence: IP taken from the edge, per-channel timestamps, a SHA-256 hash per signer and a global hash printed on every page.</p>
+    <section class="caso-seccion" aria-labelledby="titulo-modos">
+      <h2 id="titulo-modos">Two modes that never mix</h2>
+      <div class="tabla-marco" role="region" aria-label="Modes" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Mode</th><th scope="col">What for</th><th scope="col">How</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Consent</th><td>A person accepts or rejects clauses</td><td>One person, one document and clauses accepted or rejected one by one; required clauses must be accepted and no box comes pre-ticked</td></tr>
+            <tr><th scope="row">E-signature</th><td>One or more people sign a document</td><td>Up to 7 signers, in any order, with fields placed on the PDF: signature, date, initials, checkbox and text</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-rol">
-      <h2 id="titulo-rol">My role & constraints</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-roles">
+      <h2 id="titulo-roles">Who uses it and what each one sees</h2>
       <ul class="vinetas">
-        <li>Independent project, built solo for friends’ businesses (hence its pilot clients): product definition, architecture, database, backend, frontend, deployment and operations.</li>
-        <li>AI-assisted development with Claude Code under a protocol written into the repository: audit, diagnose, plan, get explicit approval, then implement only what was approved. If a plan turns out to be incomplete midway, the work is reverted and re-planned. The protocol is backed by 13 skills and 5 versioned rule files.</li>
-        <li>Design constraints set in writing: never store signers' personal data in the permanent database, never mix consent and signature in the same request, and never operate external services through a CLI; everything goes through MCP or repo scripts with tokens in environment variables, so work never lands on the wrong project.</li>
-        <li>Constrained infrastructure: a static frontend with no framework and no build step, a Supabase backend, frontend releases only by pushing to main, and a design ceiling of 300 customer accounts.</li>
+        <li><strong>The business:</strong> sees only its own requests, templates and history. It connects its cloud, creates requests, resends or corrects the details of a signer who has not signed yet, and retries deliveries.</li>
+        <li><strong>The signer:</strong> needs no account. They come in through their personal link and see only their own data, never the other signers'.</li>
+        <li><strong>Anyone with the QR code:</strong> checks the document's authenticity without seeing personal data.</li>
+        <li><strong>Platform team:</strong> administrators and analysts with granular permissions (businesses, audit, requests, catalogs and indicators). They never see signers' personal data.</li>
       </ul>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-arquitectura">
-      <h2 id="titulo-arquitectura">Architecture & decisions</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-solicitud">
+      <h2 id="titulo-solicitud">The request</h2>
+      <ul class="vinetas">
+        <li><strong>Contents:</strong> the signers (an individual, a person represented by a guardian, or a company) with their ID document validated; the document or template; the clauses or fields; the context, which is required and gets sealed; and the expiry.</li>
+        <li><strong>Statuses:</strong> pending → opened → awaiting signatures → sealing → completed. It can also expire or be cancelled, and it shows as "paused" if the business's cloud is disconnected.</li>
+        <li><strong>What is kept:</strong> record numbers, digital fingerprints and timestamps, with no personal data. Signers' data lives only while the request is open.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-flujo">
+      <h2 id="titulo-flujo">How it works</h2>
       <ol class="decisiones">
-        <li><h3>Per-function JWT policy, declared in a single file</h3><p>Of the 13 Edge Functions, 8 turn off the gateway's JWT check because they are called by actors without a session (the signer, the auth hook, cron jobs, public verification and a webhook) and authenticate in code instead: a 256-bit per-signer token plus OTP, a webhook signature or a header secret. Each function's setting lives in config.toml; the deploy script reads it, aborts if it is missing, requires the project identifier to match across two repo files, and checks the value actually applied.</p></li>
-        <li><h3>Documents stay in the customer's own cloud, with the narrowest permission</h3><p>PDFs and the history log (one CSV per year) live in the customer's Drive or OneDrive; the platform does not keep the document. On Google the app moved to the drive.file permission, which only allows access to files the app itself created, so every PDF is uploaded through the UI instead of being picked from an existing folder. That removed the only restricted permission and the annual security assessment (CASA) it required. In exchange, the CSV log is read-modify-write rather than an atomic append, so each write is serialized with a per-customer lock held in the database.</p></li>
-        <li><h3>External watchdog with a read-only secret</h3><p>The monitor that sends every alert is triggered by pg_cron, so if pg_cron dies nothing is left to report it. A GitHub Actions workflow, outside Supabase, checks a heartbeat using its own secret that only allows reads: reusing the monitor's secret would have allowed forcing a real run and moving the alert cursor past events not yet reported. The same heartbeat checks that the platform's email sender is still alive. Trade-off: GitHub's scheduled runs are delayed or dropped under load, so the job runs three times an hour and the alert thresholds were set from the measured gap.</p></li>
-        <li><h3>Signer data is purged at sealing</h3><p>Signers' personal data lives only in a temporary table and is deleted when the document is sealed; the database keeps hashes, record numbers and timestamps. The one exception is bounded: if delivery to the customer's Drive or the copies fail, that data survives only until the request expires (120 hours at most) so delivery can be retried at no charge, and is then purged. The trade-off is that the evidence must be self-contained: the exact inputs to each hash are attached as JSON inside the sealed PDF itself.</p></li>
-        <li><h3>Neutral delivery channels to preserve non-repudiation</h3><p>If the invitation and the code were sent from the customer's own accounts, the customer, who benefits from the signature, could read both and sign on the signer's behalf. So the link is sent from the platform's email account and the one-time code through an SMS aggregator on a platform account; only the copy of the already-signed document goes out from the customer's account. The trade-off is that the platform processes the signer's email and phone transiently: data minimization applies to content, not to delivery.</p></li>
+        <li><h3>Business sign-up</h3><p>Individual or company details and the data-processing authorizations, confirmed with a code sent by email; the record is kept.</p></li>
+        <li><h3>Connect its cloud</h3><p>Google or Microsoft, with the narrowest permission: the app only sees what it created itself. The template and history folders are created.</p></li>
+        <li><h3>Upload the PDF</h3><p>It goes straight to the business's cloud. Encrypted or damaged PDFs are rejected.</p></li>
+        <li><h3>Create the request</h3><p>Signers, document or template, clauses or fields, context and expiry. The link is sent from the platform's email on the business's behalf, and is never shown to the business.</p></li>
+        <li><h3>Sign</h3><p>The signer reviews the document, fills in their fields or ticks their clauses, draws their signature and confirms with a code sent by SMS.</p></li>
+        <li><h3>Sealing, when the last signer signs</h3><p>The PDF is assembled with its evidence and stored in the business's cloud, logged in its history, a copy is sent to every signer from the business's own email, and the temporary personal data is deleted.</p></li>
+        <li><h3>Public verification</h3><p>The QR code opens a page that shows the evidence without personal data. Dropping the PDF on it lets the browser check, on the user's own device and without uploading it, that the document has not changed.</p></li>
       </ol>
-    </section>
-
-    <section class="caso-seccion" aria-labelledby="titulo-resultados">
-      <h2 id="titulo-resultados">Results</h2>
+      <h3>What the system handles on its own</h3>
       <ul class="vinetas">
-        <li>Three-phase MVP implemented and deployed at consentia.com.co: consent, a visual signature editor with reusable templates and up to 7 signers, and two-channel signer verification (email + SMS).</li>
-        <li>Verifiable multi-tenant isolation: all 24 tables in the production schema have RLS enabled (26 policies), and a 45-case SQL harness simulates the anonymous and authenticated roles inside a transaction that is rolled back.</li>
-        <li>The same quality gate runs on pre-commit and in CI: lint, type-check, 343 Deno tests, a custom 39-rule linter and a page check. CI also regenerates the schema from production with a read-only token and fails if the versioned mirror (functions, tables, RLS, grants and cron jobs) has drifted; the pre-push hook repeats that check.</li>
-        <li>Public QR verification without exposing data: the browser computes the PDF's SHA-256 locally and compares it with the record without uploading the file, then extracts the attached JSON files and recomputes each signer hash and the global hash.</li>
-        <li>Automated operations and reporting: 7 pg_cron jobs (request expiry every 15 minutes, code purging, idle-session revocation every 5 minutes, an hourly monitor, a daily evidence archive with no personal data, and expiry of credit lots and orders), alerts by email and Telegram, and an indicators dashboard showing the state of each job.</li>
-        <li>37 architecture decisions recorded with their origin, rejected alternatives and consequences; superseded ones are kept and marked rather than rewritten.</li>
+        <li><strong>Incomplete delivery:</strong> retried without charging again.</li>
+        <li><strong>Business cloud disconnected:</strong> requests are paused and their deadline is extended on reconnection.</li>
+        <li><strong>Voluntary disconnection of the cloud:</strong> it first shows which requests would be cancelled.</li>
+        <li><strong>Expired request:</strong> closed and its data deleted.</li>
+        <li><strong>Usage:</strong> each request uses prepaid credits; the business places a purchase order and the administrators activate it once payment is confirmed.</li>
       </ul>
     </section>
 
-    <section class="caso-seccion" aria-labelledby="titulo-lecciones">
-      <h2 id="titulo-lecciones">Lessons & next steps</h2>
+    <section class="caso-seccion" aria-labelledby="titulo-pantallas">
+      <h2 id="titulo-pantallas">Screens</h2>
       <ul class="vinetas">
-        <li>A deployment path that has never been run is not validated: the one first chosen (sending the files inline through an MCP call) could not fit the largest function, which only surfaced on the first real deploy. It was replaced by a script that reads from disk and turns the written warning into a check that aborts.</li>
-        <li>Measure the infrastructure before setting thresholds: the external watchdog assumed hourly detection, but GitHub's scheduled runs are delayed or dropped under load. The thresholds were set from the measured gap, not the nominal schedule.</li>
-        <li>A check counts only once it has been seen to fail: each new linter rule is tested by seeding the defect in a throwaway clone before it is accepted, and a number is either measured or left out.</li>
-        <li>Next steps stated in the docs: a live end-to-end validation with the field checklist and third-party timestamping (RFC 3161 or OpenTimestamps).</li>
+        <li><strong>Public:</strong> home, sign-up, sign-in with a code, signing, consent and verification.</li>
+        <li><strong>For the business:</strong> dashboard (getting started, pending requests, pending deliveries and history); its cloud (connect, test, repair and disconnect); signature templates, with the field editor on the PDF; consent templates; create request; credits, profile and settings.</li>
+        <li><strong>For the platform:</strong> indicators, audit, businesses, analysts, requests, finance and catalogs.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-operacion">
+      <h2 id="titulo-operacion">Operations: bot and notifications</h2>
+      <div class="tabla-marco" role="region" aria-label="Bot and notifications" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Trigger</th><th scope="col">Message</th><th scope="col">Who receives it</th><th scope="col">What for</th></tr></thead>
+          <tbody>
+            <tr><td>/estado in the operations group</td><td>Indicator summary: what is failing first, then the status of each provider</td><td>Telegram bot, operations group</td><td>Know what to look at</td></tr>
+            <tr><td>Periodic monitor</td><td>Summary of signals: repeated failures, SMS codes not arriving, expired requests not purged, evidence archive behind</td><td>Operator, by Telegram and email</td><td>Check the affected provider or job</td></tr>
+            <tr><td>A business piles up delivery, charge or signing failures</td><td>One alert per business</td><td>Operator</td><td>Help it reconnect its cloud</td></tr>
+            <tr><td>First failed sealing or unwritten history entry</td><td>One alert per request</td><td>Operator</td><td>Notify the business</td></tr>
+            <tr><td>New purchase order</td><td>Order number, business and quantity</td><td>Operator</td><td>Confirm payment and activate it</td></tr>
+            <tr><td>Request events</td><td>Invitation, code, sealing confirmation or pending delivery, cloud down</td><td>Signer or business</td><td>Know what happened and what is missing</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="vinetas">
+        <li><strong>Scheduled jobs:</strong> expire requests and credits, delete temporary data, close idle sessions, export a daily evidence index with no personal data, and run the monitor.</li>
+        <li><strong>External watchdog,</strong> outside the platform: checks that the monitor and the email sender are still alive.</li>
+        <li><strong>Indicators dashboard:</strong> a traffic light per provider and per in-house signal. If a reading fails, the card says "No data" instead of showing green.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-controles">
+      <h2 id="titulo-controles">Controls</h2>
+      <ul class="vinetas">
+        <li><strong>Access:</strong> each business sees only its own data, enforced by rules in the database, and every server function checks again who is calling. Sensitive tables are touched only by the server.</li>
+        <li><strong>Data minimization:</strong> signers' data lives only while the request is open; documents are never stored in Consentia; the history with names lives in the business's cloud; codes and the IP address used to limit abuse are stored hashed, never in clear text.</li>
+        <li><strong>Evidence:</strong> a digital fingerprint (SHA-256) per signer or per clause and a global fingerprint printed on every page; an evidence sheet with identity verified through two channels, timestamps, IP address and the QR code; and the exact inputs of each fingerprint attached inside the PDF so it can be recomputed.</li>
+        <li><strong>Non-repudiation:</strong> the invitation and the code go out through the platform's channels, not the business's, since the business benefits from the signature.</li>
+        <li><strong>Audit:</strong> an immutable log; the client can only read it.</li>
+        <li><strong>Legal basis:</strong> Colombian data-protection and e-signature law. Consentia is the controller for its clients' data and the processor for signers' data.</li>
+        <li><strong>Change control:</strong> the same checks on every commit and in continuous integration, automated tests, SQL harnesses that roll themselves back, and a check that the published schema still matches production.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-integraciones">
+      <h2 id="titulo-integraciones">Integrations</h2>
+      <ul class="vinetas">
+        <li><strong>The business's Google Workspace or Microsoft 365:</strong> cloud storage and email.</li>
+        <li><strong>Platform email:</strong> invitations, codes and notices. <strong>SMS provider:</strong> codes.</li>
+        <li><strong>Telegram:</strong> operations. <strong>Cloudflare:</strong> website and evidence archive.</li>
+        <li><strong>Supabase:</strong> database and server. <strong>GitHub Actions:</strong> checks and watchdog.</li>
       </ul>
     </section>
 
     <details class="apendice">
-      <summary>For technical reviewers: infrastructure, stack and code</summary>
+      <summary>For technical reviewers: infrastructure, stack, figures and operational details</summary>
       <div class="apendice-contenido">
         <div class="infra-cabecera">
           <h2>Infrastructure</h2>
@@ -118,7 +177,20 @@
         <p class="infra-nota">Interactive diagram generated from the project’s code. Tap a node to see its details and connections.</p>
         <iframe class="infra-marco" src="../../archivos/consentia/infra.en.html" title="Consentia infrastructure" loading="lazy" sandbox="allow-scripts"></iframe>
         <h3>Stack</h3>
-        <ul class="etiquetas"><li class="etiqueta">Supabase</li><li class="etiqueta">PostgreSQL + RLS</li><li class="etiqueta">pg_cron</li><li class="etiqueta">Deno / TypeScript</li><li class="etiqueta">Cloudflare Workers</li><li class="etiqueta">HTML/CSS/JavaScript</li><li class="etiqueta">pdf-lib</li><li class="etiqueta">Google Drive API</li><li class="etiqueta">Microsoft Graph</li><li class="etiqueta">GitHub Actions</li></ul>
+        <ul class="etiquetas"><li class="etiqueta">HTML/JavaScript, no framework</li><li class="etiqueta">pdf.js</li><li class="etiqueta">Supabase (PostgreSQL, Auth)</li><li class="etiqueta">Edge Functions (Deno/TypeScript)</li><li class="etiqueta">pg_cron + pg_net + pgcrypto</li><li class="etiqueta">pdf-lib</li><li class="etiqueta">Google Drive API</li><li class="etiqueta">Microsoft Graph</li><li class="etiqueta">Cloudflare</li><li class="etiqueta">GitHub Actions</li></ul>
+        <h3>Figures</h3>
+        <ul class="vinetas">
+          <li>24 tables, all with access policies (26 policies); 49 SQL functions and 12 triggers.</li>
+          <li>13 Edge Functions; 7 scheduled jobs; 343 automated tests and 7 SQL harnesses; 25 pages.</li>
+        </ul>
+        <h3>Operational details</h3>
+        <ul class="vinetas">
+          <li><strong>SMS code:</strong> 8 digits, valid for 5 minutes, 5 attempts, with limits per signer and per business.</li>
+          <li><strong>Request:</strong> expires between 1 and 120 hours; 1 to 50 clauses or 1 to 100 fields.</li>
+          <li><strong>Scheduled jobs:</strong> expiry every 15 minutes; idle-session revocation every 5 minutes; monitor hourly; daily evidence export.</li>
+          <li><strong>Session:</strong> closed after 30 minutes of inactivity. <strong>Watchdog:</strong> 3 times an hour. <strong>Public verification:</strong> rate-limited per minute.</li>
+          <li><strong>Retention:</strong> fingerprints, record numbers and the audit log are kept for 10 years.</li>
+        </ul>
         <p class="apendice-nota">How I build: I define the problem, the requirements, the data model and the controls; I implement with AI coding assistants (Claude Code) under my direction, and every change passes automated tests and my review before release.</p>
         <p class="apendice-nota">The source code is private because it contains the client’s business rules and data. I can walk through it live: code, tests and deployment.</p>
       </div>
