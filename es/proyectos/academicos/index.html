@@ -115,7 +115,7 @@
 
     <section class="caso-seccion" id="beaconiq" aria-labelledby="titulo-beaconiq">
       <h2 id="titulo-beaconiq">BeaconIQ</h2>
-      <p><strong>Posicionamiento en interiores con beacons BLE (laboratorio Signalion).</strong> Una app Android convierte la señal de beacons iBeacon en distancia, la suaviza y trilatera una posición (x, y) dentro de una sala; graba sesiones de prueba y las envía a un backend que las analiza.</p>
+      <p><strong>Posicionamiento en interiores con beacons BLE.</strong> Una app Android convierte la señal de beacons iBeacon en distancia, la suaviza y trilatera una posición (x, y) dentro de una sala; graba sesiones de prueba y las envía a un backend que las analiza.</p>
       <ul class="vinetas">
         <li><strong>Lectura:</strong> anuncios iBeacon con un lector propio (UUID, major, minor y potencia de transmisión), y sensores del teléfono (brújula, Wi-Fi, barómetro, acelerómetro, pasos y GPS).</li>
         <li><strong>Núcleo de posicionamiento, en Java puro:</strong> distancia por un modelo de pérdida log-distancia; filtro de Kalman 1D por beacon; descarta los beacons sin señal en 4 s y exige al menos 3; rechaza geometrías casi colineales; trilatera con Levenberg–Marquardt y suaviza la posición con un filtro de Kalman 2D. También ubica beacons no calibrados por trilateración inversa.</li>

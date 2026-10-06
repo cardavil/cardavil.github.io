@@ -115,7 +115,7 @@
 
     <section class="caso-seccion" id="beaconiq" aria-labelledby="titulo-beaconiq">
       <h2 id="titulo-beaconiq">BeaconIQ</h2>
-      <p><strong>Indoor positioning with BLE beacons (the Signalion lab).</strong> An Android app turns iBeacon signals into distance, smooths it and trilaterates an (x, y) position inside a room; it records test sessions and sends them to a backend that analyzes them.</p>
+      <p><strong>Indoor positioning with BLE beacons.</strong> An Android app turns iBeacon signals into distance, smooths it and trilaterates an (x, y) position inside a room; it records test sessions and sends them to a backend that analyzes them.</p>
       <ul class="vinetas">
         <li><strong>Reading:</strong> iBeacon advertisements with an in-house parser (UUID, major, minor and transmit power), plus the phone's sensors (compass, Wi-Fi, barometer, accelerometer, step counter and GPS).</li>
         <li><strong>Positioning core, in pure Java:</strong> distance from a log-distance path-loss model; a 1D Kalman filter per beacon; drops beacons silent for 4 s and requires at least 3; rejects near-collinear geometry; trilaterates with Levenberg–Marquardt and smooths the position with a 2D Kalman filter. It also locates uncalibrated beacons by reverse trilateration.</li>
