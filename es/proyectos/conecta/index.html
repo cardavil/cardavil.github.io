@@ -99,28 +99,11 @@
     <section class="caso-seccion" aria-labelledby="titulo-contenido">
       <h2 id="titulo-contenido">Qué contiene un expediente</h2>
       <ul class="vinetas">
-        <li><strong>Identidad:</strong> nombre o razón social, documento (CC, CE, NIT, PA, PEP, PPT o TI) con su formato validado, contacto y estado.</li>
-        <li><strong>Consentimientos:</strong> cada uno queda con su versión, un folio y una huella verificable.</li>
-      </ul>
-      <div class="tabla-marco" role="region" aria-label="Consentimientos" tabindex="0">
-        <table class="tabla">
-          <thead><tr><th scope="col">Consentimiento</th><th scope="col">Qué cubre</th><th scope="col">Cuándo se pide</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">C1</th><td>Datos básicos</td><td>Obligatorio al registrarse</td></tr>
-            <tr><th scope="row">C2</th><td>Identificación</td><td>Obligatorio al registrarse</td></tr>
-            <tr><th scope="row">C3</th><td>Datos sensibles</td><td>Obligatorio al registrarse</td></tr>
-            <tr><th scope="row">C4</th><td>Analítica e IA</td><td>Voluntario</td></tr>
-            <tr><th scope="row">C5</th><td>Comunicaciones</td><td>Voluntario</td></tr>
-            <tr><th scope="row">C6</th><td>Imagen y voz</td><td>Voluntario</td></tr>
-            <tr><th scope="row">C7</th><td>Seguimiento psicosocial y educativo</td><td>Voluntario</td></tr>
-            <tr><th scope="row">C2.1</th><td>Datos tributarios y financieros</td><td>Obligatorio para contratistas y proveedores al vincularse</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <ul class="vinetas">
+        <li><strong>Identidad:</strong> nombre o razón social, documento con su formato validado, contacto y estado.</li>
+        <li><strong>Consentimientos:</strong> las autorizaciones de tratamiento de datos que el titular da al registrarse, unas obligatorias y otras voluntarias, y, para contratistas y proveedores, la autorización de sus datos tributarios y financieros al vincularse. Cada una queda con su versión, un folio y una huella verificable.</li>
         <li><strong>Debida diligencia:</strong> dirección, origen, identificación tributaria, perfil tributario (persona natural o jurídica), datos de pago, seguridad social y debida diligencia LA/FT. Son instrumentos versionados y cada envío lleva folio.</li>
-        <li><strong>Caracterizaciones:</strong> empresarial para aliados (24 preguntas) y de condiciones para beneficiarios (77 preguntas, con un bloque para el cuidador).</li>
-        <li><strong>Documentos:</strong> documento de identidad, RUT, certificación bancaria, cámara de comercio, declaración de no obligado a facturar, cuenta de cobro, factura, planilla de seguridad social, soportes bancarios de ingreso y egreso, y constancias de consentimiento. El sistema calcula qué documento le falta a cada expediente y en qué estado está el último enviado.</li>
+        <li><strong>Caracterizaciones:</strong> empresarial, para aliados, y de condiciones, para beneficiarios.</li>
+        <li><strong>Documentos:</strong> documento de identidad, registro tributario, certificación bancaria, cámara de comercio, declaración de no obligado a facturar, cuenta de cobro, factura, planilla de seguridad social, soportes bancarios de ingreso y egreso, y constancias de consentimiento. El sistema calcula qué documento le falta a cada expediente y en qué estado está el último enviado.</li>
         <li><strong>Tareas:</strong> formulario, documento, financiero, revisión, consentimiento y diagnóstico, con prioridad, plazo, dependencias y recurrencia.</li>
         <li><strong>Cobros y pagos:</strong> facturas o cuentas de cobro con su cuenta contable, y los ingresos y egresos bancarios que las saldan.</li>
         <li><strong>Historial:</strong> bitácora de actividad, versiones de cada respuesta, documentos reemplazados y cadenas de corrección. Nada se borra en silencio.</li>
@@ -132,21 +115,9 @@
       <ol class="decisiones">
         <li><h3>Registro</h3><p>Asistente de 3 pasos: tipo de expediente; datos de persona natural o jurídica; y política de datos con consentimientos, confirmados con un código enviado al correo. En una sola operación se crean el expediente (pendiente) y sus consentimientos; la constancia en PDF va a Drive y llega por correo, y el equipo recibe el aviso por Telegram.</p></li>
         <li><h3>Aprobación</h3><p>Quien tiene el permiso de accesos decide. Si aprueba, el expediente queda activo, se crea su carpeta en Drive, el titular recibe el correo y se crean las tareas de vinculación de su tipo. Si rechaza, el expediente queda inactivo y el titular recibe el correo.</p></li>
-        <li><h3>Vinculación</h3><p>Las tareas de cada tipo, con su plazo en días:</p>
-          <div class="tabla-marco" role="region" aria-label="Tareas de vinculación por tipo" tabindex="0">
-            <table class="tabla">
-              <thead><tr><th scope="col">Tipo</th><th scope="col">Tareas</th></tr></thead>
-              <tbody>
-                <tr><th scope="row">Aliado</th><td>Identificación tributaria (7), dirección (7), perfil tributario (10), debida diligencia (10), caracterización empresarial (10)</td></tr>
-                <tr><th scope="row">Beneficiario</th><td>Dirección (5), origen (5), caracterización de condiciones (7)</td></tr>
-                <tr><th scope="row">Contratista</th><td>Dirección, origen, perfil tributario, seguridad social, datos de pago y debida diligencia (de 5 a 10)</td></tr>
-                <tr><th scope="row">Proveedor</th><td>Identificación tributaria, dirección, perfil tributario, datos de pago y debida diligencia (de 7 a 10)</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </li>
+        <li><h3>Vinculación</h3><p>Cada tipo de expediente recibe su propio conjunto de tareas de vinculación (los formularios, documentos y pasos de debida diligencia que necesita), cada una con su plazo.</p></li>
         <li><h3>Formularios</h3><p>Al enviar uno, el sistema valida cada respuesta contra lo permitido, comprueba que los adjuntos sean de ese titular y de esa tarea, respeta las dependencias, impide el doble envío, asigna el folio, guarda la versión y cierra la tarea.</p></li>
-        <li><h3>Documentos</h3><p>Solo PDF, JPEG o PNG de hasta 10 MB; se verifica el contenido real del archivo y se rechazan los PDF con contraseña. El RUT tiene que ser el de la DIAN y de menos de 30 días. Se revisan desde una bandeja única: aprobado, se archiva en la carpeta del expediente en Drive con nombre estándar; rechazado, el motivo es obligatorio, el archivo se elimina, la tarea vuelve al titular con 5 días de plazo y se le avisa por correo.</p></li>
+        <li><h3>Documentos</h3><p>Solo PDF, JPEG o PNG de hasta 10 MB; se verifica el contenido real del archivo y se rechazan los PDF con contraseña. El registro tributario tiene que estar expedido por la autoridad tributaria y tener menos de 30 días. Se revisan desde una bandeja única: aprobado, se archiva en la carpeta del expediente en Drive con nombre estándar; rechazado, el motivo es obligatorio, el archivo se elimina, la tarea vuelve al titular con 5 días de plazo y se le avisa por correo.</p></li>
         <li><h3>Seguimiento</h3><p>Todos los días se marcan las tareas vencidas y se generan las recurrentes (mensual, trimestral, semestral, anual o cada N días). Los recordatorios por correo son como máximo 2 por requisito, agrupados en un solo correo por persona; después, el requisito queda como «Sin respuesta» para el equipo.</p></li>
       </ol>
       <h3>Estados</h3>

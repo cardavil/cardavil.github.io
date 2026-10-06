@@ -99,28 +99,11 @@
     <section class="caso-seccion" aria-labelledby="titulo-contenido">
       <h2 id="titulo-contenido">What a case file contains</h2>
       <ul class="vinetas">
-        <li><strong>Identity:</strong> name or legal name, ID document (CC, CE, NIT, PA, PEP, PPT or TI) with its format validated, contact details and status.</li>
-        <li><strong>Consents:</strong> each one is stored with its version, a record number and a verifiable fingerprint.</li>
-      </ul>
-      <div class="tabla-marco" role="region" aria-label="Consents" tabindex="0">
-        <table class="tabla">
-          <thead><tr><th scope="col">Consent</th><th scope="col">What it covers</th><th scope="col">When it is requested</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">C1</th><td>Basic data</td><td>Required at sign-up</td></tr>
-            <tr><th scope="row">C2</th><td>Identification</td><td>Required at sign-up</td></tr>
-            <tr><th scope="row">C3</th><td>Sensitive data</td><td>Required at sign-up</td></tr>
-            <tr><th scope="row">C4</th><td>Analytics and AI</td><td>Optional</td></tr>
-            <tr><th scope="row">C5</th><td>Communications</td><td>Optional</td></tr>
-            <tr><th scope="row">C6</th><td>Image and voice</td><td>Optional</td></tr>
-            <tr><th scope="row">C7</th><td>Psychosocial and educational follow-up</td><td>Optional</td></tr>
-            <tr><th scope="row">C2.1</th><td>Tax and financial data</td><td>Required for contractors and suppliers at onboarding</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <ul class="vinetas">
+        <li><strong>Identity:</strong> name or legal name, ID document with its format validated, contact details and status.</li>
+        <li><strong>Consents:</strong> the data-processing authorizations the holder gives at sign-up, some required and some optional, and, for contractors and suppliers, the authorization for their tax and financial data at onboarding. Each one is stored with its version, a record number and a verifiable fingerprint.</li>
         <li><strong>Due diligence:</strong> address, background, tax identification, tax profile (individual or company), payment details, social security and AML/CTF due diligence. The questionnaires are versioned and every submission gets a record number.</li>
-        <li><strong>Profiles:</strong> a company profile for partners (24 questions) and a conditions profile for beneficiaries (77 questions, with a section for the caregiver).</li>
-        <li><strong>Documents:</strong> ID document, RUT (tax registration), bank certificate, chamber of commerce certificate, declaration of not being required to invoice, invoice or bill for services, social security contribution form, bank receipts for money in and out, and consent certificates. The system works out which document each case file is missing and the status of the last one submitted.</li>
+        <li><strong>Profiles:</strong> a company profile for partners and a conditions profile for beneficiaries.</li>
+        <li><strong>Documents:</strong> ID document, tax registration, bank certificate, chamber of commerce certificate, declaration of not being required to invoice, invoice or bill for services, social security contribution form, bank receipts for money in and out, and consent certificates. The system works out which document each case file is missing and the status of the last one submitted.</li>
         <li><strong>Tasks:</strong> form, document, finance, review, consent and assessment, with priority, due date, dependencies and recurrence.</li>
         <li><strong>Invoices and payments:</strong> invoices or bills with their ledger account, and the bank inflows and outflows that settle them.</li>
         <li><strong>History:</strong> activity log, versions of every answer, replaced documents and correction chains. Nothing is deleted silently.</li>
@@ -132,21 +115,9 @@
       <ol class="decisiones">
         <li><h3>Sign-up</h3><p>A 3-step wizard: case-file type; individual or company details; and the data policy with the consents, confirmed with a code sent by email. The case file (pending) and its consents are created in a single operation; the PDF certificate goes to Drive and arrives by email, and the team is notified on Telegram.</p></li>
         <li><h3>Approval</h3><p>A member with the access permission decides. If approved, the case file becomes active, its Drive folder is created, the holder gets an email and the onboarding tasks for its type are created. If rejected, the case file becomes inactive and the holder gets an email.</p></li>
-        <li><h3>Onboarding</h3><p>The tasks for each type, with their due dates in days:</p>
-          <div class="tabla-marco" role="region" aria-label="Onboarding tasks by type" tabindex="0">
-            <table class="tabla">
-              <thead><tr><th scope="col">Type</th><th scope="col">Tasks</th></tr></thead>
-              <tbody>
-                <tr><th scope="row">Partner</th><td>Tax identification (7), address (7), tax profile (10), due diligence (10), company profile (10)</td></tr>
-                <tr><th scope="row">Beneficiary</th><td>Address (5), background (5), conditions profile (7)</td></tr>
-                <tr><th scope="row">Contractor</th><td>Address, background, tax profile, social security, payment details and due diligence (5 to 10)</td></tr>
-                <tr><th scope="row">Supplier</th><td>Tax identification, address, tax profile, payment details and due diligence (7 to 10)</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </li>
+        <li><h3>Onboarding</h3><p>Each type of case file gets its own set of onboarding tasks (the forms, documents and due-diligence steps it needs), each with a due date.</p></li>
         <li><h3>Forms</h3><p>When one is submitted, the system checks every answer against the allowed values, confirms that attachments belong to that holder and that task, enforces dependencies, prevents double submission, assigns the record number, stores the version and closes the task.</p></li>
-        <li><h3>Documents</h3><p>PDF, JPEG or PNG only, up to 10 MB; the actual file content is checked and password-protected PDFs are rejected. The RUT must be the one issued by the tax authority (DIAN) and less than 30 days old. They are reviewed from a single inbox: approved, it is filed in the case file's Drive folder with a standard name; rejected, a reason is required, the file is deleted, the task goes back to the holder with 5 days to respond and they are notified by email.</p></li>
+        <li><h3>Documents</h3><p>PDF, JPEG or PNG only, up to 10 MB; the actual file content is checked and password-protected PDFs are rejected. The tax registration must be issued by the tax authority and be less than 30 days old. They are reviewed from a single inbox: approved, it is filed in the case file's Drive folder with a standard name; rejected, a reason is required, the file is deleted, the task goes back to the holder with 5 days to respond and they are notified by email.</p></li>
         <li><h3>Follow-up</h3><p>Every day overdue tasks are flagged and recurring ones are generated (monthly, quarterly, half-yearly, yearly or every N days). Email reminders are capped at 2 per requirement, grouped into a single email per person; after that, the requirement is marked "No response" for the team.</p></li>
       </ol>
       <h3>Statuses</h3>
