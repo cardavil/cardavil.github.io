@@ -286,6 +286,12 @@ img, svg { max-width: 100%; }
 .apendice-contenido { padding: 0 var(--espacio-5) var(--espacio-5); display: grid; gap: var(--espacio-3); }
 .apendice-contenido h3 { font-size: var(--texto-base); margin-top: var(--espacio-3); }
 .apendice-nota { color: var(--texto-suave); font-size: var(--texto-sm); max-width: var(--ancho-texto); }
+/* Plegable "Capturas de pantalla": miniaturas que abren la imagen completa, con su leyenda. */
+.capturas { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: var(--espacio-5); }
+.capturas figure { margin: 0; }
+.capturas a { display: block; border-radius: var(--radio); }
+.capturas img { display: block; width: 100%; height: auto; border: 1px solid var(--borde); border-radius: var(--radio); background: var(--superficie); }
+.capturas figcaption { margin-top: var(--espacio-2); font-size: var(--texto-sm); color: var(--texto-suave); }
 @media (prefers-reduced-motion: reduce) { .apendice > summary::before { transition: none; } }
 
 /* --- Página: académicos --- */
