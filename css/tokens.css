@@ -29,22 +29,29 @@
 }
 
 :root {
-  /* Color */
-  --fondo: #f6f7f9;
+  /* Color: dorado, marrón y morado oscuro (elegida por el usuario el 2026-10-06; ver la skill diseno-portafolio,
+     references/paletas.md, sección E). Morado = tinta; dorado = solo relleno con texto morado; marrón = enlaces y foco. */
+  --fondo: #fdfbf5;
   --superficie: #ffffff;
-  --superficie-2: #eff2f5;
-  --texto: #17212b;
-  --texto-suave: #586472;   /* 5.9:1 sobre --superficie */
-  --texto-tenue: #6b7682;   /* 4.7:1 sobre --superficie: metadatos */
-  --borde: #e1e5ea;
-  --borde-control: #8a95a1;
-  --acento: #0f766e;        /* 5.5:1 sobre --superficie: enlaces y foco */
-  --acento-fuerte: #0b5f58;
-  --acento-suave: #e3f3f1;
+  --superficie-2: #f5f0e6;
+  --texto: #1e1420;
+  --texto-suave: #5a4e57;   /* 7.6:1 sobre --fondo */
+  --texto-tenue: #6b6067;   /* 5.8:1 sobre --fondo: metadatos */
+  --borde: #e8e1d3;
+  --borde-control: #8c8288; /* 3.6:1 sobre --fondo */
+  --acento: #6e362a;        /* marrón: 9.1:1 sobre --fondo; enlaces y foco */
+  --acento-fuerte: #55291f;
+  --acento-suave: #f6ece4;
   --sobre-acento: #ffffff;
-  --marca: #2c3e4a;         /* el gris pizarra de la barra lateral del CV en PDF */
-  --sobre-marca: #ffffff;
-  --sobre-marca-suave: #c5d2db; /* 7.2:1 sobre --marca: títulos y datos secundarios de la barra lateral */
+  --marca: #200c25;         /* morado oscuro: encabezado y nombre */
+  --sobre-marca: #ffffff;   /* 18.4:1 sobre --marca */
+  --dorado: #feae02;        /* solo como relleno: botón principal, sello y franja; nunca texto ni foco (1.8:1) */
+  --dorado-fuerte: #e89f00;
+  --sobre-dorado: #200c25;  /* 9.9:1 sobre --dorado */
+  --amarillo-claro: #f1e2a0;
+  --lateral: #f8f1d0;       /* amarillo claro suavizado: barra lateral del Perfil y de Experiencia */
+  /* Franja bajo el encabezado: tramos sólidos, sin degradado. */
+  --franja: linear-gradient(90deg, var(--dorado) 0 25%, var(--amarillo-claro) 25% 50%, var(--acento) 50% 75%, var(--dorado) 75% 100%);
   --aviso-fondo: #fff4e0;
   --aviso-texto: #7a5000;
   --sombra: 0 1px 2px rgba(16, 24, 32, .05), 0 4px 16px rgba(16, 24, 32, .05);
@@ -89,10 +96,10 @@
   --p-acento: var(--acento);
   --p-acento-texto: var(--acento);
   --p-suave: var(--acento-suave);
-  --p-boton: var(--acento);
-  --p-boton-texto: var(--sobre-acento);
-  --p-boton-hover: var(--acento-fuerte);
-  --p-firma: var(--acento);
+  --p-boton: var(--dorado);
+  --p-boton-texto: var(--sobre-dorado);
+  --p-boton-hover: var(--dorado-fuerte);
+  --p-firma: var(--dorado);
 
   color-scheme: light;
 }
