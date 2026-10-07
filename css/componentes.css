@@ -270,9 +270,6 @@ img, svg { max-width: 100%; }
   display: block; width: 100%; height: min(86vh, 960px); min-height: 560px;
   border: 1px solid var(--borde); border-top: 4px solid var(--p-acento); border-radius: var(--radio); background: var(--superficie);
 }
-.capturas { display: grid; gap: var(--espacio-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
-.capturas figure { margin: 0; }
-.capturas img { display: block; width: 100%; height: auto; border: 1px solid var(--borde); border-radius: var(--radio-sm); box-shadow: var(--sombra); }
 .caso-navegacion { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--espacio-3); padding-top: var(--espacio-7); }
 
 /* Apéndice técnico plegable: la capa técnica queda disponible sin competir con el relato de negocio */
@@ -291,8 +288,22 @@ img, svg { max-width: 100%; }
 .capturas { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: var(--espacio-5); }
 .capturas figure { margin: 0; }
 .capturas a { display: block; border-radius: var(--radio); }
-.capturas img { display: block; width: 100%; height: auto; border: 1px solid var(--borde); border-radius: var(--radio); background: var(--superficie); }
+.capturas img { display: block; width: 100%; height: auto; border: 1px solid var(--borde); border-radius: var(--radio); background: var(--superficie); box-shadow: var(--sombra); }
 .capturas figcaption { margin-top: var(--espacio-2); font-size: var(--texto-sm); color: var(--texto-suave); }
+
+/* Visor de capturas (js/capturas.js): <dialog> nativo; se cierra con ESC, con el botón o haciendo clic fuera. */
+.visor { padding: 0; border: 0; background: transparent; max-width: 96vw; max-height: 96vh; overflow: visible; }
+.visor::backdrop { background: color-mix(in srgb, var(--marca) 94%, transparent); }
+.visor figure { margin: 0; display: grid; gap: var(--espacio-3); justify-items: center; }
+.visor img { display: block; max-width: 96vw; max-height: 80vh; width: auto; height: auto; border-radius: var(--radio-sm); background: var(--superficie); }
+.visor figcaption { color: var(--sobre-marca); font-size: var(--texto-sm); max-width: 70ch; text-align: center; }
+.visor-controles { display: flex; gap: var(--espacio-2); justify-content: center; }
+.visor-controles button {
+  min-height: 40px; padding: 0 var(--espacio-4); border-radius: var(--radio-sm); cursor: pointer;
+  font: 600 var(--texto-sm)/1 var(--fuente); border: 1px solid var(--sobre-marca); background: transparent; color: var(--sobre-marca);
+}
+.visor-controles button:hover { background: color-mix(in srgb, var(--sobre-marca) 16%, transparent); }
+.visor :focus-visible { outline-color: var(--sobre-marca); }
 @media (prefers-reduced-motion: reduce) { .apendice > summary::before { transition: none; } }
 
 /* --- Página: académicos --- */
