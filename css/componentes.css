@@ -190,7 +190,8 @@ img, svg { max-width: 100%; }
 .cv-caso h5 { font-size: var(--texto-base); margin-bottom: var(--espacio-1); }
 .cv-caso p { color: var(--texto); }
 .cv-caso p + p { margin-top: var(--espacio-1); }
-.cv-titulo { font-size: var(--texto-titulo); font-weight: 500; letter-spacing: -0.01em; }
+.cv-caso .vinetas { margin-top: var(--espacio-1); }
+.cv-caso .vinetas + p { margin-top: var(--espacio-3); }
 .cv-cargo { padding: var(--espacio-5) 0; border-top: 1px solid var(--borde); display: grid; gap: var(--espacio-2); }
 .cv-cargo:first-of-type { border-top: 0; padding-top: 0; }
 .cv-empresa { font-size: var(--texto-xl); font-weight: 500; }
