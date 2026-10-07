@@ -1,7 +1,24 @@
-// Visor de capturas de las páginas de proyecto. Cada miniatura de .capturas es un enlace a la imagen completa; con
-// este módulo, el clic abre la imagen en un <dialog> nativo en vez de navegar a ella:
-// ESC (propio del <dialog>), el botón Cerrar o un clic fuera de la imagen lo cierran, y las flechas pasan de captura.
-// Sin JavaScript, el enlace sigue abriendo la imagen.
+// Visores de las páginas de proyecto.
+// 1. Capturas: cada miniatura de .capturas es un enlace a la imagen completa; con este módulo, el clic abre la imagen
+//    en un <dialog> nativo en vez de navegar a ella. ESC (propio del <dialog>), el botón Cerrar o un clic fuera de la
+//    imagen lo cierran, y las flechas pasan de captura. Sin JavaScript, el enlace sigue abriendo la imagen.
+// 2. Diagrama de infraestructura: el botón "pantalla completa" pone el iframe del diagrama a pantalla completa en la
+//    misma página. ESC sale siempre, porque lo maneja el navegador aunque el foco esté dentro del diagrama (un
+//    <dialog> no recibiría ESC desde el iframe). Donde no hay pantalla completa (iPhone), el enlace abre otra pestaña.
+
+const marcoDiagrama = document.querySelector('.infra-marco');
+const botonDiagrama = document.querySelector('.infra-cabecera a');
+const pedirPantallaCompleta = marcoDiagrama && (marcoDiagrama.requestFullscreen || marcoDiagrama.webkitRequestFullscreen);
+if (marcoDiagrama && botonDiagrama && pedirPantallaCompleta && (document.fullscreenEnabled || document.webkitFullscreenEnabled)) {
+  botonDiagrama.addEventListener('click', (evento) => {
+    if (evento.button !== 0 || evento.ctrlKey || evento.metaKey || evento.shiftKey || evento.altKey) return;
+    evento.preventDefault();
+    marcoDiagrama.loading = 'eager';
+    // Si el navegador la rechaza, se abre el diagrama en otra pestaña, como sin JavaScript.
+    Promise.resolve(pedirPantallaCompleta.call(marcoDiagrama))
+      .catch(() => window.open(botonDiagrama.href, '_blank', 'noopener'));
+  });
+}
 
 const enlaces = [...document.querySelectorAll('.capturas a')];
 

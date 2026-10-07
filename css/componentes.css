@@ -270,6 +270,8 @@ img, svg { max-width: 100%; }
   display: block; width: 100%; height: min(86vh, 960px); min-height: 560px;
   border: 1px solid var(--borde); border-top: 4px solid var(--p-acento); border-radius: var(--radio); background: var(--superficie);
 }
+/* Diagrama a pantalla completa (js/visor.js): ocupa toda la pantalla y ESC sale. */
+.infra-marco:fullscreen { border: 0; border-radius: 0; background: var(--superficie); }
 .caso-navegacion { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--espacio-3); padding-top: var(--espacio-7); }
 
 /* Apéndice técnico plegable: la capa técnica queda disponible sin competir con el relato de negocio */
