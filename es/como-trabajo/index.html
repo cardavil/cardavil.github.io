@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cómo trabajo — Carlos Davila</title>
+  <meta name="description" content="El entorno de control detrás de los proyectos de Carlos Davila: instrucciones por capas, salvaguardas que revisan cada acción de la IA, revisores independientes y verificaciones automáticas.">
+  <link rel="canonical" href="https://cardavil.github.io/es/como-trabajo/">
+  <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/como-trabajo/">
+  <link rel="alternate" hreflang="en" href="https://cardavil.github.io/how-i-work/">
+  <link rel="alternate" hreflang="x-default" href="https://cardavil.github.io/how-i-work/">
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="Carlos Davila">
+  <meta property="og:title" content="Cómo trabajo — Carlos Davila">
+  <meta property="og:description" content="El entorno de control detrás de los proyectos de Carlos Davila: instrucciones por capas, salvaguardas que revisan cada acción de la IA, revisores independientes y verificaciones automáticas.">
+  <meta property="og:url" content="https://cardavil.github.io/es/como-trabajo/">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:locale:alternate" content="en_CA">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../css/tokens.css">
+  <link rel="stylesheet" href="../../css/componentes.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- encabezado:inicio -->
+  <header class="encabezado">
+    <div class="contenedor encabezado-interior">
+      <a class="marca" href="../"><span class="marca-sello" aria-hidden="true">CD</span><span class="marca-nombre">Carlos Davila</span></a>
+      <nav class="navegacion" aria-label="Principal">
+        <a href="../">Resumen</a>
+        <a href="../experiencia/">Experiencia y habilidades</a>
+        <a href="../proyectos/">Proyectos</a>
+        <a href="./" aria-current="page">Cómo trabajo</a>
+      </nav>
+      <a class="idioma" href="../../how-i-work/" hreflang="en" lang="en">English</a>
+    </div>
+  </header>
+  <!-- encabezado:fin -->
+
+  <main id="contenido" class="contenedor como-trabajo">
+    <header class="proyectos-cabecera">
+      <h1>Cómo trabajo</h1>
+      <p>Construyo con asistentes de IA dentro de un entorno de control que diseñé. Instrucciones por capas, salvaguardas que revisan cada acción, revisores independientes y verificaciones automáticas deciden qué puede hacer la IA. Nada llega a producción sin pasarlos y sin mi aprobación.</p>
+      <p>Es la lógica de las operaciones bancarias (doble control, control de cambios, pista de auditoría) aplicada al software. Las piezas de abajo son reales, tomadas de mis proyectos; cada proyecto usa las que su riesgo pide.</p>
+    </header>
+
+    <section class="caso-seccion" aria-labelledby="titulo-capas">
+      <h2 id="titulo-capas">El entorno, capa por capa</h2>
+      <div class="tabla-marco" role="region" aria-label="Capas del entorno" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Capa</th><th scope="col">Qué hace</th><th scope="col">Qué garantiza</th></tr></thead>
+          <tbody>
+            <tr><td>Estación de trabajo</td><td>Las herramientas de archivos de la IA no pueden leer fuera de las carpetas del proyecto. Los tokens de acceso están limitados a cada proyecto u organización y viven en el entorno, nunca en el código.</td><td>Una sesión no puede meterse en otros archivos, y ninguna credencial vive en un repositorio.</td></tr>
+            <tr><td>Salvaguardas compartidas</td><td>Un plugin que mantengo revisa cada acción de la IA antes de que se ejecute: secretos, comandos destructivos, git, producción, acceso y su propia configuración. Se prueba a sí mismo al inicio de cada sesión.</td><td>La misma base en todos los proyectos, y la IA no puede apagarla.</td></tr>
+            <tr><td>Instrucciones del proyecto</td><td>Una guía por proyecto: qué es, el protocolo, las reglas que no se rompen y qué fuente manda. Las reglas por carpeta solo se cargan al tocar esa parte, y las lecciones se cargan en cada sesión.</td><td>La IA trabaja con las reglas reales del proyecto, no con hábitos generales.</td></tr>
+            <tr><td>Procedimientos (skills)</td><td>Rutinas paso a paso: auditar, planear, ensayar, revisar contrapartidas, hacer commit, atender un incidente y retomar después de una sesión larga.</td><td>Los mismos pasos cada vez, sin importar quién abra la sesión.</td></tr>
+            <tr><td>Revisores independientes</td><td>Agentes aparte, con acceso de solo lectura: uno revisa el plan contra mis decisiones y el código; otro intenta refutar cada hallazgo de seguridad.</td><td>El resultado de la IA se desafía antes de que yo lo vea.</td></tr>
+            <tr><td>Control de cambios</td><td>Las mismas verificaciones corren antes de cada commit, antes de cada push y en la integración continua (CI). Un push se bloquea mientras el CI de la rama principal esté en rojo, y las verificaciones no se pueden saltar.</td><td>No entra nada roto, y nada entra encima de algo roto.</td></tr>
+            <tr><td>Camino a producción</td><td>Los scripts de publicación confirman la cuenta y el proyecto de destino antes de escribir, pueden correr en simulación y comprueban que lo publicado es lo que se construyó. Los cambios en la base de datos se ensayan dentro de una transacción que se deshace.</td><td>Los cambios en producción son deliberados, ensayados y verificados.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-vida">
+      <h2 id="titulo-vida">La vida de un cambio</h2>
+      <ol class="decisiones">
+        <li><h3>Inicio de sesión</h3><p>Antes de trabajar, la sesión recibe el estado de git, las últimas corridas del CI y la autoprueba de las salvaguardas.</p></li>
+        <li><h3>Auditoría</h3><p>Cada afirmación se respalda con una línea de código (<code>archivo:línea</code>), una consulta a la base de datos o una medición. Una segunda pasada busca solo supuestos, y lo que no se puede comprobar queda listado como «no verificado».</p></li>
+        <li><h3>Plan con secciones fijas</h3>
+          <ul class="vinetas">
+            <li>Hoy y propuesto.</li>
+            <li>Por qué es la solución más pequeña.</li>
+            <li>Impacto en lo que ya existe, que cierra con una línea obligatoria de «no degrada».</li>
+            <li>El código actual junto al propuesto.</li>
+            <li>Lo verificado y lo no verificado.</li>
+          </ul>
+        </li>
+        <li><h3>Revisión independiente</h3><p>Un agente revisor contrasta el plan con mis decisiones y el código. Cada hallazgo se corrige o se responde antes de que el plan me llegue.</p></li>
+        <li><h3>Mi aprobación</h3><p>Un OK explícito para ese cambio. Si el plan resulta equivocado a mitad de camino, el trabajo se revierte y se vuelve a planear; nunca se corrige sobre la marcha.</p></li>
+        <li><h3>Ensayo</h3><p>El cambio se construye en una copia desechable, y las pruebas, los tipos y la compilación se miden antes y después. Una prueba nueva solo cuenta después de verla fallar.</p></li>
+        <li><h3>Commit</h3><p>Cada archivo y cada línea del cambio se cotejan contra el plan aprobado, se revisan las contrapartidas y los archivos se agregan por nombre.</p></li>
+        <li><h3>Verificaciones y fusión</h3><p>Verificaciones locales y luego un pull request que solo se fusiona con el CI en verde sobre su último commit.</p></li>
+        <li><h3>Publicación</h3><p>Por script, con verificación en vivo después.</p></li>
+        <li><h3>Retomar</h3><p>Si la conversación se compacta, el estado se reconstruye desde el disco (git, el plan escrito, la fuente viva), nunca desde el resumen de la conversación.</p></li>
+      </ol>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-contrapartidas">
+      <h2 id="titulo-contrapartidas">Contrapartidas: si existe X, tiene que existir Y</h2>
+      <p>El código se revisa por pares, en los dos sentidos cuando aplica: una prueba cuya función ya no existe también es un faltante. Un par que falla dos veces en la revisión manual se vuelve una verificación automática.</p>
+      <div class="tabla-marco" role="region" aria-label="Contrapartidas" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Si hay…</th><th scope="col">tiene que haber…</th><th scope="col">Lo revisa</th></tr></thead>
+          <tbody>
+            <tr><td>una función exportada</td><td>una prueba que la ejercite</td><td>revisión</td></tr>
+            <tr><td>una tabla de la base de datos</td><td>políticas de acceso y un caso de prueba para ellas</td><td>revisión y pruebas</td></tr>
+            <tr><td>una acción del frontend</td><td>su manejador en el backend, y ningún manejador sin quien lo llame</td><td>mapa automático</td></tr>
+            <tr><td>un código de error en el backend</td><td>un mensaje que el usuario entienda</td><td>revisión</td></tr>
+            <tr><td>un <code>catch</code> en el frontend</td><td>un aviso visible, un relanzamiento o una razón escrita</td><td>verificación automática</td></tr>
+            <tr><td>una lectura de la base de datos</td><td>una decisión sobre su error, nunca «no existe» por defecto</td><td>verificación automática</td></tr>
+            <tr><td>un valor dinámico en HTML</td><td>su escape</td><td>verificación automática</td></tr>
+            <tr><td>una llamada externa</td><td>un tiempo límite y el manejo de las respuestas que no son 2xx</td><td>verificación automática</td></tr>
+            <tr><td>una variable de entorno en el código</td><td>su entrada en la documentación de seguridad</td><td>verificación automática</td></tr>
+            <tr><td>una operación que cobra, sella o envía</td><td>protección contra la doble ejecución, y una prueba de ella</td><td>arnés de pruebas</td></tr>
+            <tr><td><strong>una verificación automática</strong></td><td><strong>la prueba de que se la vio fallar ante su defecto</strong></td><td>ensayo en una copia</td></tr>
+            <tr><td><strong>una excepción a una verificación</strong></td><td><strong>una razón escrita, y que lo que exime siga existiendo</strong></td><td>revisión</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-guardas">
+      <h2 id="titulo-guardas">Salvaguardas antes de cada acción</h2>
+      <p>Antes de cada acción, las salvaguardas leen el comando, el archivo o la llamada a la herramienta, y deciden.</p>
+      <div class="tabla-marco" role="region" aria-label="Decisiones de las salvaguardas" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Cuando la IA intenta…</th><th scope="col">Decisión</th><th scope="col">Por qué</th></tr></thead>
+          <tbody>
+            <tr><td>imprimir un secreto, volcar el entorno o leer un archivo <code>.env</code> o de llaves</td><td>se niega</td><td>una vez que un valor entra al contexto de la IA, nada puede sacarlo</td></tr>
+            <tr><td>borrar una carpeta raíz o la del usuario, o descartar trabajo sin commitear (<code>git reset --hard</code>)</td><td>se niega, salvo dentro de una copia desechable</td><td>no tiene vuelta atrás</td></tr>
+            <tr><td>saltarse las verificaciones de git (<code>--no-verify</code>, cambiar la ruta de los hooks, cualquier push forzado)</td><td>se niega</td><td>una verificación solo cuenta si no se puede saltar</td></tr>
+            <tr><td>iniciar sesión de forma interactiva o poner credenciales en una URL</td><td>se niega</td><td>el acceso va solo por el token del proyecto</td></tr>
+            <tr><td>correr un comando de producción, escribir con SQL, migrar, publicar o fusionar</td><td>me pregunta</td><td>producción necesita un sí a esa acción concreta</td></tr>
+            <tr><td>correr SQL dentro de una transacción que termina en <code>rollback</code></td><td>se permite</td><td>un ensayo no cambia nada</td></tr>
+            <tr><td>editar la configuración de las propias salvaguardas</td><td>me pregunta</td><td>la IA no puede aflojar sus propios controles</td></tr>
+            <tr><td>leer, probar o compilar</td><td>silencio</td><td>permitir es no decir nada, así nada queda aprobado de antemano</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="vinetas">
+        <li><strong>Diseño:</strong> un despachador corre todas las reglas; «negar» gana a «preguntar»; una regla que falla pregunta, nunca permite.</li>
+        <li><strong>Sin red dentro de la revisión:</strong> una revisión que se vence dejaría pasar la acción, así que nunca espera a la red.</li>
+        <li><strong>Difícil de engañar:</strong> lee los comandos como los lee la shell. Atrapa banderas entre comillas (<code>git push "--force"</code>) y prefijos de variables (<code>VAR=1 git push -f</code>). También atrapa comandos metidos en otra shell (<code>bash -c "…"</code>, <code>cmd /c rd /s /q C:\</code>) y scripts pasados por un heredoc.</li>
+        <li><strong>Probado:</strong> 52 pruebas automáticas, y cada regla se escribió después de ver fallar sus pruebas. Una versión nueva solo se instala después de que GitHub confirma que su tag está en la rama principal y que su CI pasó.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-ejemplo">
+      <h2 id="titulo-ejemplo">Un cambio real, de punta a punta</h2>
+      <p>El bot de chat de un proyecto registra movimientos bancarios, y leía los montos escritos con centavos como 100 veces más grandes. En Colombia, el punto separa los miles y la coma marca los decimales.</p>
+      <ol class="decisiones">
+        <li><h3>Encontrado buscando, no por suerte</h3><p>Mientras se corregía el mismo error en otra pantalla, una búsqueda de todos los lugares que leen un monto encontró el bot.</p></li>
+        <li><h3>Auditoría</h3><p>La única función que lee el monto, cada camino que lleva a ella y dónde se guarda el valor. Una consulta de solo lectura a la base de datos confirmó que ningún movimiento guardado se había afectado.</p></li>
+        <li><h3>Plan</h3>
+          <div class="tabla-marco" role="region" aria-label="Montos antes y después" tabindex="0">
+            <table class="tabla">
+              <thead><tr><th scope="col">Se escribe</th><th scope="col">Se guardaba</th><th scope="col">Se guarda ahora</th></tr></thead>
+              <tbody>
+                <tr><td><code>840.000</code> · <code>1'500.000</code> · <code>1500000</code></td><td>bien</td><td>igual</td></tr>
+                <tr><td><code>840000,00</code></td><td>84.000.000</td><td>840.000</td></tr>
+                <tr><td><code>840.000,50</code></td><td>84.000.050</td><td>pide el monto sin centavos</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </li>
+        <li><h3>Control negativo</h3><p>Tres escenarios de prueba nuevos. Dos fallaron con el código anterior, con exactamente los montos equivocados, y el tercero probó que los montos normales no cambian.</p></li>
+        <li><h3>Publicación y verificación</h3><p>CI en verde en el pull request; la función publicada se revisó en vivo y sus registros no tenían errores.</p></li>
+        <li><h3>Declarado, no escondido</h3><p>No verificado: una conversación en vivo con el bot. El banco de pruebas cubre la misma función.</p></li>
+      </ol>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-errores">
+      <h2 id="titulo-errores">Los errores se vuelven controles</h2>
+      <ol class="decisiones">
+        <li><h3>La IA comete un error</h3></li>
+        <li><h3>Queda registrado</h3><p>Qué pasó, la causa raíz, la regla que lo habría evitado y lo que costó.</p></li>
+        <li><h3>Se vuelve una lección</h3><p>Una línea que cita su origen y se carga al inicio de cada sesión.</p></li>
+        <li><h3>Si vuelve a pasar</h3><p>La lección se vuelve una verificación automática (una salvaguarda o parte del control de cambios) y sale de las reglas escritas.</p></li>
+      </ol>
+      <h3>Lecciones de ejemplo</h3>
+      <ul class="vinetas">
+        <li>Una afirmación sobre el código necesita la línea, leída completa, no un nombre ni un fragmento.</li>
+        <li>Responder una pregunta no es aprobar un cambio.</li>
+        <li>Una recomendación sobre una herramienta externa sale de leerla completa, no de su README.</li>
+        <li>Una prueba nueva solo cuenta cuando se la vio fallar por el motivo esperado.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-documentos">
+      <h2 id="titulo-documentos">Documentos que no se desactualizan</h2>
+      <ul class="vinetas">
+        <li><strong>Generados, no escritos:</strong> los diagramas de infraestructura de cada página de proyecto se generan desde el código. La foto del esquema de la base de datos se genera desde la base real.</li>
+        <li><strong>Verificados:</strong> el control de cambios falla si un documento no está en el índice o si un enlace a un documento está roto. También falla si una variable de entorno del código no está documentada, o si un manual de usuario cita un texto que no existe en la aplicación.</li>
+        <li><strong>Protegidos:</strong> una salvaguarda impide que la IA edite a mano un archivo generado, y dice qué comando lo escribe.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-aplicado">
+      <h2 id="titulo-aplicado">Dónde se ve</h2>
+      <p>Cada página de proyecto muestra estos controles aplicados a su propio negocio: <a href="../proyectos/consentia/">Consentia</a>, <a href="../proyectos/tanteo/">Tanteo</a>, <a href="../proyectos/corex/">Corex</a> y <a href="../proyectos/conecta/">CONECTA</a>. Los <a href="../proyectos/academicos/">proyectos académicos</a> tienen su propia página.</p>
+    </section>
+  </main>
+
+  <!-- pie:inicio -->
+  <footer class="pie">
+    <div class="contenedor pie-interior">
+      <span>Carlos Davila</span>
+      <span>HTML, CSS y JavaScript · GitHub Pages</span>
+    </div>
+  </footer>
+  <!-- pie:fin -->
+</body>
+</html>

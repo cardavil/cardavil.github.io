@@ -308,6 +308,11 @@ img, svg { max-width: 100%; }
 .visor :focus-visible { outline-color: var(--sobre-marca); }
 @media (prefers-reduced-motion: reduce) { .apendice > summary::before { transition: none; } }
 
+/* --- Página: cómo trabajo (los comandos se leen como comandos) --- */
+.como-trabajo code { font-family: var(--fuente-mono); font-size: inherit; }
+/* Un paso con tabla no ensancha la página: la tabla se desplaza dentro de su marco. */
+.como-trabajo .decisiones > li { min-width: 0; }
+
 /* --- Página: académicos --- */
 .academico { display: grid; gap: var(--espacio-3); scroll-margin-top: 80px; }
 .academico h2 { font-size: var(--texto-xl); }

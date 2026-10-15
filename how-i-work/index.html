@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How I work — Carlos Davila</title>
+  <meta name="description" content="The control environment behind Carlos Davila's projects: layered instructions, guardrails that check every AI action, independent reviewers and automated gates.">
+  <link rel="canonical" href="https://cardavil.github.io/how-i-work/">
+  <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/como-trabajo/">
+  <link rel="alternate" hreflang="en" href="https://cardavil.github.io/how-i-work/">
+  <link rel="alternate" hreflang="x-default" href="https://cardavil.github.io/how-i-work/">
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="Carlos Davila">
+  <meta property="og:title" content="How I work — Carlos Davila">
+  <meta property="og:description" content="The control environment behind Carlos Davila's projects: layered instructions, guardrails that check every AI action, independent reviewers and automated gates.">
+  <meta property="og:url" content="https://cardavil.github.io/how-i-work/">
+  <meta property="og:locale" content="en_CA">
+  <meta property="og:locale:alternate" content="es_CO">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/componentes.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Skip to content</a>
+
+  <!-- encabezado:inicio -->
+  <header class="encabezado">
+    <div class="contenedor encabezado-interior">
+      <a class="marca" href="../"><span class="marca-sello" aria-hidden="true">CD</span><span class="marca-nombre">Carlos Davila</span></a>
+      <nav class="navegacion" aria-label="Main">
+        <a href="../">Summary</a>
+        <a href="../experience/">Experience &amp; skills</a>
+        <a href="../projects/">Projects</a>
+        <a href="./" aria-current="page">How I work</a>
+      </nav>
+      <a class="idioma" href="../es/como-trabajo/" hreflang="es" lang="es">Español</a>
+    </div>
+  </header>
+  <!-- encabezado:fin -->
+
+  <main id="contenido" class="contenedor como-trabajo">
+    <header class="proyectos-cabecera">
+      <h1>How I work</h1>
+      <p>I build with AI coding assistants inside a control environment I designed. Layered instructions, guardrails that check every action, independent reviewers and automated gates decide what the AI can do. Nothing reaches production without passing them and my approval.</p>
+      <p>It’s the logic of banking operations (maker-checker, change control, an audit trail) applied to software. The pieces below are real, taken from my projects; each project uses the ones its risk calls for.</p>
+    </header>
+
+    <section class="caso-seccion" aria-labelledby="titulo-capas">
+      <h2 id="titulo-capas">The setup, layer by layer</h2>
+      <div class="tabla-marco" role="region" aria-label="Layers of the setup" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Layer</th><th scope="col">What it does</th><th scope="col">What it guarantees</th></tr></thead>
+          <tbody>
+            <tr><td>Workstation</td><td>The AI’s file tools can’t read outside the project folders. Access tokens are scoped to each project or organization and kept in the environment, never in the code.</td><td>A session can’t wander into other files, and no credential lives in a repository.</td></tr>
+            <tr><td>Shared guardrails</td><td>A plugin I maintain checks every AI action before it runs: secrets, destructive commands, git, production, access and its own configuration. It tests itself at the start of each session.</td><td>The same baseline in every project, which the AI can’t switch off.</td></tr>
+            <tr><td>Project instructions</td><td>A guide per project: what it is, the protocol, rules that can’t be broken and which source wins. Rules per folder load only when that area is touched, and lessons load every session.</td><td>The AI works from the project’s real rules, not from general habits.</td></tr>
+            <tr><td>Procedures (skills)</td><td>Step-by-step routines: audit, plan, rehearse, review counterparts, commit, handle an incident, resume after a long session.</td><td>The same steps every time, whoever starts the session.</td></tr>
+            <tr><td>Independent reviewers</td><td>Separate agents with read-only access: one checks the plan against my decisions and the code; another tries to refute each security finding.</td><td>The AI’s output is challenged before I see it.</td></tr>
+            <tr><td>Gates</td><td>The same checks run before every commit, before every push and in continuous integration (CI). A push is blocked while the main branch’s CI is red, and the checks can’t be skipped.</td><td>Nothing broken gets in, and nothing gets in on top of something broken.</td></tr>
+            <tr><td>Path to production</td><td>Deployment scripts confirm the target account and project before writing, can run dry, and check that what’s served is what was built. Database changes are rehearsed inside a transaction that’s rolled back.</td><td>Production changes are deliberate, rehearsed and verified.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-vida">
+      <h2 id="titulo-vida">The life of a change</h2>
+      <ol class="decisiones">
+        <li><h3>Session start</h3><p>Before any work, the session receives the git state, the latest CI runs and the guardrails’ self-test.</p></li>
+        <li><h3>Audit</h3><p>Every claim is backed by a line of code (<code>file:line</code>), a database query or a measurement. A second pass looks only for assumptions, and what can’t be checked is listed as “not verified”.</p></li>
+        <li><h3>Plan with fixed sections</h3>
+          <ul class="vinetas">
+            <li>Today vs proposed.</li>
+            <li>Why it’s the smallest solution.</li>
+            <li>Impact on what already exists, ending with a mandatory “does not degrade” line.</li>
+            <li>Current code next to proposed code.</li>
+            <li>Verified vs not verified.</li>
+          </ul>
+        </li>
+        <li><h3>Independent review</h3><p>A reviewer agent checks the plan against my decisions and the code. Each finding is fixed or answered before the plan reaches me.</p></li>
+        <li><h3>My approval</h3><p>An explicit OK for that change. If the plan proves wrong halfway, the work is reverted and planned again, never patched on the fly.</p></li>
+        <li><h3>Rehearsal</h3><p>The change is built in a disposable copy, and tests, types and the build are measured before and after. A new test counts only after it has been seen failing.</p></li>
+        <li><h3>Commit</h3><p>Every file and line of the diff is matched against the approved plan, counterparts are reviewed, and files are added by name.</p></li>
+        <li><h3>Gates and merge</h3><p>Local checks, then a pull request merged only when CI is green on its latest commit.</p></li>
+        <li><h3>Release</h3><p>By script, with live verification afterwards.</p></li>
+        <li><h3>Resume</h3><p>If the conversation is compacted, the state is rebuilt from disk (git, the written plan, the live source), never from the conversation’s summary.</p></li>
+      </ol>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-contrapartidas">
+      <h2 id="titulo-contrapartidas">Counterparts: if X exists, Y must exist</h2>
+      <p>The code is reviewed as pairs, in both directions where it makes sense: a test whose function no longer exists is also a gap. A pair that fails manual review twice becomes an automated check.</p>
+      <div class="tabla-marco" role="region" aria-label="Counterparts" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">If there is…</th><th scope="col">there must be…</th><th scope="col">Checked by</th></tr></thead>
+          <tbody>
+            <tr><td>an exported function</td><td>a test that exercises it</td><td>review</td></tr>
+            <tr><td>a database table</td><td>access rules and a test case for them</td><td>review and tests</td></tr>
+            <tr><td>a frontend action</td><td>a backend handler for it, and no handler without a caller</td><td>automated map</td></tr>
+            <tr><td>an error code in the backend</td><td>a message the user can read</td><td>review</td></tr>
+            <tr><td>a <code>catch</code> in the frontend</td><td>a visible warning, a re-throw or a written reason</td><td>automated check</td></tr>
+            <tr><td>a database read</td><td>a decision on its error, never “not found” by default</td><td>automated check</td></tr>
+            <tr><td>a dynamic value in HTML</td><td>escaping</td><td>automated check</td></tr>
+            <tr><td>an external call</td><td>a timeout and handling of non-2xx responses</td><td>automated check</td></tr>
+            <tr><td>an environment variable in code</td><td>its entry in the security documentation</td><td>automated check</td></tr>
+            <tr><td>an operation that charges, seals or sends</td><td>protection against running twice, and a test of it</td><td>test harness</td></tr>
+            <tr><td><strong>an automated check</strong></td><td><strong>proof that it was seen failing against its defect</strong></td><td>rehearsal in a copy</td></tr>
+            <tr><td><strong>an exception to a check</strong></td><td><strong>a written reason, and the thing it exempts still existing</strong></td><td>review</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-guardas">
+      <h2 id="titulo-guardas">Guardrails before every action</h2>
+      <p>Before each action, the guardrails read the command, the file or the tool call, and decide.</p>
+      <div class="tabla-marco" role="region" aria-label="Guardrail decisions" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">When the AI tries to…</th><th scope="col">Decision</th><th scope="col">Why</th></tr></thead>
+          <tbody>
+            <tr><td>print a secret, dump the environment or read a <code>.env</code> or key file</td><td>denied</td><td>once a value is in the AI’s context, nothing can take it out</td></tr>
+            <tr><td>delete a root or home folder, or discard uncommitted work (<code>git reset --hard</code>)</td><td>denied, except inside a throwaway copy</td><td>there is no way back</td></tr>
+            <tr><td>skip git checks (<code>--no-verify</code>, changing the hooks path, any force push)</td><td>denied</td><td>a check only counts if it can’t be skipped</td></tr>
+            <tr><td>log in interactively or put credentials in a URL</td><td>denied</td><td>access goes only through each project’s scoped token</td></tr>
+            <tr><td>run a production command, write SQL, migrate, deploy or merge</td><td>asks me</td><td>production needs a yes to that specific action</td></tr>
+            <tr><td>run SQL inside a transaction that ends in <code>rollback</code></td><td>allowed</td><td>a rehearsal changes nothing</td></tr>
+            <tr><td>edit the guardrails’ own configuration</td><td>asks me</td><td>the AI can’t loosen its own controls</td></tr>
+            <tr><td>read, test or build</td><td>silent</td><td>allowing means saying nothing, so nothing is pre-approved</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="vinetas">
+        <li><strong>Design:</strong> one dispatcher runs every rule; “deny” beats “ask”; a rule that fails asks, it never allows.</li>
+        <li><strong>No network inside the check:</strong> a check that times out would let the action through, so it never waits on the network.</li>
+        <li><strong>Hard to fool:</strong> it reads commands the way the shell does. It catches quoted flags (<code>git push "--force"</code>) and variable prefixes (<code>VAR=1 git push -f</code>). It also catches commands nested in another shell (<code>bash -c "…"</code>, <code>cmd /c rd /s /q C:\</code>) and scripts passed through a heredoc.</li>
+        <li><strong>Tested:</strong> 52 automated tests, and each rule was written after seeing its tests fail. A new version installs only after GitHub confirms its tag is on the main branch and its CI passed.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-ejemplo">
+      <h2 id="titulo-ejemplo">A real change, end to end</h2>
+      <p>One project’s chat bot records bank movements, and it read amounts typed with decimal cents as 100 times larger. In Colombia a period separates thousands and a comma marks decimals.</p>
+      <ol class="decisiones">
+        <li><h3>Found by searching, not by luck</h3><p>While fixing the same error on another screen, a search for every place that reads an amount turned up the bot.</p></li>
+        <li><h3>Audit</h3><p>The one function that reads the amount, every path that leads to it, and where the value is stored. A read-only database query confirmed no stored movement had been affected.</p></li>
+        <li><h3>Plan</h3>
+          <div class="tabla-marco" role="region" aria-label="Amounts before and after" tabindex="0">
+            <table class="tabla">
+              <thead><tr><th scope="col">Typed</th><th scope="col">Stored before</th><th scope="col">Stored after</th></tr></thead>
+              <tbody>
+                <tr><td><code>840.000</code> · <code>1'500.000</code> · <code>1500000</code></td><td>correct</td><td>unchanged</td></tr>
+                <tr><td><code>840000,00</code></td><td>84,000,000</td><td>840,000</td></tr>
+                <tr><td><code>840.000,50</code></td><td>84,000,050</td><td>asks for the amount without cents</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </li>
+        <li><h3>Negative control</h3><p>Three new test scenarios. Two of them failed on the old code with exactly the wrong amounts, and the third proved that normal amounts don’t change.</p></li>
+        <li><h3>Release and verification</h3><p>CI green on the pull request; the deployed function was checked live and its logs had no errors.</p></li>
+        <li><h3>Declared, not hidden</h3><p>Not verified: a live conversation with the bot. The test bench covers the same function.</p></li>
+      </ol>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-errores">
+      <h2 id="titulo-errores">Mistakes become controls</h2>
+      <ol class="decisiones">
+        <li><h3>The AI makes a mistake</h3></li>
+        <li><h3>It’s recorded</h3><p>What happened, the root cause, the rule that would have prevented it, and what it cost.</p></li>
+        <li><h3>It becomes a lesson</h3><p>One line that cites its origin and loads at the start of every session.</p></li>
+        <li><h3>If it happens again</h3><p>The lesson becomes an automated check (a guardrail or a gate) and leaves the written rules.</p></li>
+      </ol>
+      <h3>Example lessons</h3>
+      <ul class="vinetas">
+        <li>A claim about the code needs the line, read in full, not a name or a fragment.</li>
+        <li>Answering a question is not approving a change.</li>
+        <li>A recommendation about an external tool comes from reading all of it, not its README.</li>
+        <li>A new test only counts once it has been seen failing for the expected reason.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-documentos">
+      <h2 id="titulo-documentos">Documents that can’t drift</h2>
+      <ul class="vinetas">
+        <li><strong>Generated, not written:</strong> the infrastructure diagrams on each project page and the database schema snapshot are generated from the code and the live database.</li>
+        <li><strong>Checked:</strong> the gate fails if a document is missing from the index or a link to a document is broken. It also fails if an environment variable in code is undocumented, or a user manual quotes text that doesn’t exist in the app.</li>
+        <li><strong>Protected:</strong> a guardrail stops the AI from editing a generated file by hand, and names the command that writes it.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-aplicado">
+      <h2 id="titulo-aplicado">Where it shows</h2>
+      <p>Each project page shows these controls applied to its own business: <a href="../projects/consentia/">Consentia</a>, <a href="../projects/tanteo/">Tanteo</a>, <a href="../projects/corex/">Corex</a> and <a href="../projects/conecta/">CONECTA</a>. The <a href="../projects/academic/">academic projects</a> have their own page.</p>
+    </section>
+  </main>
+
+  <!-- pie:inicio -->
+  <footer class="pie">
+    <div class="contenedor pie-interior">
+      <span>Carlos Davila</span>
+      <span>HTML, CSS &amp; JavaScript · GitHub Pages</span>
+    </div>
+  </footer>
+  <!-- pie:fin -->
+</body>
+</html>
