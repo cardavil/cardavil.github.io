@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How I work — Carlos Davila</title>
+  <meta name="description" content="How Carlos Davila works with AI: he defines the problem, the data model and the controls; AI writes and tests the code under his direction; nothing is released without passing those controls and his review.">
+  <link rel="canonical" href="https://cardavil.github.io/how-i-work/">
+  <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/como-trabajo/">
+  <link rel="alternate" hreflang="en" href="https://cardavil.github.io/how-i-work/">
+  <link rel="alternate" hreflang="x-default" href="https://cardavil.github.io/how-i-work/">
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="Carlos Davila">
+  <meta property="og:title" content="How I work — Carlos Davila">
+  <meta property="og:description" content="How Carlos Davila works with AI: he defines the problem, the data model and the controls; AI writes and tests the code under his direction; nothing is released without passing those controls and his review.">
+  <meta property="og:url" content="https://cardavil.github.io/how-i-work/">
+  <meta property="og:locale" content="en_CA">
+  <meta property="og:locale:alternate" content="es_CO">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/componentes.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Skip to content</a>
+
+  <!-- encabezado:inicio -->
+  <header class="encabezado">
+    <div class="contenedor encabezado-interior">
+      <a class="marca" href="../"><span class="marca-sello" aria-hidden="true">CD</span><span class="marca-nombre">Carlos Davila</span></a>
+      <nav class="navegacion" aria-label="Main">
+        <a href="../">Summary</a>
+        <a href="../experience/">Experience &amp; skills</a>
+        <a href="../projects/">Projects</a>
+        <a href="./" aria-current="page">How I work</a>
+      </nav>
+      <a class="idioma" href="../es/como-trabajo/" hreflang="es" lang="es">Español</a>
+    </div>
+  </header>
+  <!-- encabezado:fin -->
+
+  <main id="contenido" class="contenedor">
+    <header class="proyectos-cabecera">
+      <h1>How I work</h1>
+      <p>I define the problem, the requirements, the data model and the controls. AI coding assistants write and test the code under my direction. Nothing is released until it passes those controls and my review.</p>
+    </header>
+
+    <section class="caso-seccion" aria-labelledby="titulo-quien">
+      <h2 id="titulo-quien">Who does what</h2>
+      <ul class="vinetas">
+        <li><strong>My part:</strong> the business problem, the requirements, the data model, the controls, every decision and every approval.</li>
+        <li><strong>The AI’s part:</strong> drafting code and tests, running checks and gathering evidence, always against a plan I approved. I use Claude Code.</li>
+        <li><strong>Accountability:</strong> I answer for every change, as I would for any process I run.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-cambio">
+      <h2 id="titulo-cambio">How a change reaches production</h2>
+      <ol class="decisiones">
+        <li><h3>Research first</h3><p>Before designing, I look for evidence: dated sources, the current code and the live data. A recommendation about a tool comes from reading the tool, not its description.</p></li>
+        <li><h3>A plan with evidence</h3><p>The plan states what changes, what stays the same and what happens to existing data. Every claim cites the line of code, the query or the measurement behind it. The plan ends by listing what was verified and what was not.</p></li>
+        <li><h3>Challenge the output</h3><p>A second pass looks only for assumptions without evidence. For security findings, a separate AI reviewer sees only the finding, not the reasoning behind it, and tries to refute it.</p></li>
+        <li><h3>Explicit approval</h3><p>Nothing changes without my OK for that specific change. If the plan proves wrong halfway, the work is reverted and planned again, never patched on the fly.</p></li>
+        <li><h3>Rehearsal</h3><p>The change is built and measured in a disposable copy before it touches the project. A new test counts only after I have seen it fail.</p></li>
+        <li><h3>Release under change control</h3><p>The same automated checks run before each change is saved, before it is shared and again in continuous integration, and the guardrails block skipping them. Every write to production asks for my confirmation.</p></li>
+      </ol>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-garantias">
+      <h2 id="titulo-garantias">What every project guarantees</h2>
+      <ul class="vinetas">
+        <li><strong>No silent changes:</strong> nothing is modified without an explicit approval for that change.</li>
+        <li><strong>No degradation:</strong> a change improves or preserves what exists. If it would remove a feature, a validation, a test or a check, it stops.</li>
+        <li><strong>Production under confirmation:</strong> database changes, releases and merges ask for confirmation each time.</li>
+        <li><strong>Access by token only:</strong> each project uses its own token with the minimum access it needs. Secrets live outside the code, the guardrails block printing them, and interactive logins are blocked.</li>
+        <li><strong>Data minimization:</strong> real people’s data is never used as an example or in tests, and the AI reports anonymize it first.</li>
+        <li><strong>Human review (human in the loop):</strong> a person keeps the decision. In Corex the coach approves each AI report before it is published; in Fraud Exploration the analyst decides on each alert.</li>
+        <li><strong>Documented decisions:</strong> each decision is written down with its reason. Anything the code can generate, such as the infrastructure diagrams, is generated rather than written by hand.</li>
+        <li><strong>Learning from mistakes:</strong> every mistake is recorded with its root cause and becomes a rule. A rule that keeps being needed becomes an automated check.</li>
+        <li><strong>The same guardrails everywhere:</strong> one shared set of guardrails runs in every project and tests itself at the start of each session. I maintain it as a Claude Code plugin.</li>
+      </ul>
+    </section>
+
+    <section class="caso-seccion" aria-labelledby="titulo-aplicado">
+      <h2 id="titulo-aplicado">See it applied</h2>
+      <p>Each project page shows these controls applied to its own business: <a href="../projects/consentia/">Consentia</a>, <a href="../projects/tanteo/">Tanteo</a>, <a href="../projects/corex/">Corex</a> and <a href="../projects/conecta/">CONECTA</a>. The <a href="../projects/academic/">academic projects</a> have their own page.</p>
+    </section>
+  </main>
+
+  <!-- pie:inicio -->
+  <footer class="pie">
+    <div class="contenedor pie-interior">
+      <span>Carlos Davila</span>
+      <span>HTML, CSS &amp; JavaScript · GitHub Pages</span>
+    </div>
+  </footer>
+  <!-- pie:fin -->
+</body>
+</html>
