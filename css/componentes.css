@@ -311,7 +311,52 @@ img, svg { max-width: 100%; }
 /* --- Página: cómo trabajo (los comandos se leen como comandos) --- */
 .como-trabajo code { font-family: var(--fuente-mono); font-size: inherit; }
 /* Un paso con tabla no ensancha la página: la tabla se desplaza dentro de su marco. */
-.como-trabajo .decisiones > li { min-width: 0; }
+.como-trabajo .decisiones > li { min-width: 0; scroll-margin-top: 80px; }
+/* Capas: bandas apiladas, de la máquina a producción. */
+.como-trabajo .capas { list-style: none; margin-top: var(--espacio-4); border: 1px solid var(--borde); border-radius: var(--radio-sm); overflow: hidden; background: var(--superficie); }
+.como-trabajo .capa { display: grid; gap: var(--espacio-2) var(--espacio-5); padding: var(--espacio-4); border-left: 4px solid var(--acento); }
+.como-trabajo .capa + .capa { border-top: 1px solid var(--borde); }
+.como-trabajo .capa:nth-child(even) { background: var(--superficie-2); }
+.como-trabajo .capa > div { min-width: 0; }
+.como-trabajo .capa h3 { font-size: var(--texto-base); margin: 0; }
+.como-trabajo .capa-herramienta { font: 13px/1.5 var(--fuente-mono); color: var(--texto-suave); margin-top: 2px; }
+.como-trabajo .capa-cuerpo p + p { margin-top: var(--espacio-2); }
+@media (min-width: 720px) { .como-trabajo .capa { grid-template-columns: 190px minmax(0, 1fr); } }
+/* Tubería: los pasos de un cambio en una franja; los puntos de control llevan su etiqueta en texto. */
+.como-trabajo .tuberia { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: var(--espacio-2) var(--espacio-1); margin-top: var(--espacio-4); font-size: var(--texto-sm); }
+.como-trabajo .tuberia li { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--espacio-1); }
+.como-trabajo .tuberia li:not(:last-child)::after { content: "→"; content: "→" / ""; color: var(--texto-tenue); margin-left: var(--espacio-1); }
+.como-trabajo .tuberia a { display: inline-block; padding: 4px 10px; border: 1px solid var(--borde-control); border-radius: var(--radio-pildora); background: var(--superficie); color: var(--texto); }
+.como-trabajo .tuberia a:hover { border-color: var(--acento); color: var(--acento); }
+.como-trabajo .tuberia-control a { border-color: var(--acento); background: var(--acento-suave); font-weight: 600; }
+.como-trabajo .tuberia-marca { font-size: 13px; font-weight: 600; color: var(--aviso-texto); background: var(--aviso-fondo); padding: 2px 8px; border-radius: var(--radio-pildora); }
+/* Ciclo de errores a controles: SVG decorativo; la lista numerada de abajo es el texto. */
+.como-trabajo .ciclo { display: block; width: 100%; max-width: 360px; height: auto; margin: var(--espacio-5) auto var(--espacio-2); }
+.como-trabajo .ciclo-nodo { fill: var(--superficie); stroke: var(--borde-control); stroke-width: 1; }
+.como-trabajo .ciclo-final { fill: var(--acento-suave); stroke: var(--acento); stroke-width: 1.5; }
+.como-trabajo .ciclo-texto { font: 600 15px var(--fuente); fill: var(--texto); text-anchor: middle; dominant-baseline: central; }
+.como-trabajo .ciclo-flecha { fill: none; stroke: var(--acento); stroke-width: 1.5; }
+.como-trabajo .ciclo-punta { fill: var(--acento); }
+/* Demo de los hooks: oculta hasta que el JS la activa; la decisión va en texto, no solo en color. */
+.como-trabajo .demo-hooks { margin: var(--espacio-5) 0; padding: var(--espacio-5); border: 1px solid var(--borde); border-radius: var(--radio); background: var(--superficie-2); }
+.como-trabajo .demo-hooks[hidden] { display: none; }
+.como-trabajo .demo-hooks h3 { margin-top: 0; }
+.como-trabajo .demo-controles { display: grid; gap: var(--espacio-3); margin-top: var(--espacio-4); align-items: end; }
+@media (min-width: 640px) { .como-trabajo .demo-controles { grid-template-columns: minmax(0, 1fr) 170px; } }
+.como-trabajo .demo-campo { display: grid; gap: var(--espacio-1); min-width: 0; }
+.como-trabajo .demo-campo label { font-size: var(--texto-sm); font-weight: 600; }
+.como-trabajo .demo-campo select, .como-trabajo .demo-campo input {
+  width: 100%; min-height: 42px; padding: 0 var(--espacio-3); border: 1px solid var(--borde-control); border-radius: var(--radio-sm);
+  background: var(--superficie); color: var(--texto); font: var(--texto-base) var(--fuente);
+}
+.como-trabajo .demo-campo input { font-family: var(--fuente-mono); }
+.como-trabajo .demo-controles .boton { justify-content: center; }
+.como-trabajo .demo-resultado { margin-top: var(--espacio-4); padding: var(--espacio-3) var(--espacio-4); border: 1px solid var(--borde); border-left: 4px solid var(--borde-control); border-radius: var(--radio-sm); background: var(--superficie); }
+.como-trabajo .demo-resultado[data-decision="deny"] { border-left-color: var(--aviso-texto); background: var(--aviso-fondo); }
+.como-trabajo .demo-resultado[data-decision="ask"] { border-left-color: var(--acento); background: var(--acento-suave); }
+.como-trabajo .demo-decision { font-weight: 700; }
+.como-trabajo .demo-motivos { list-style: none; display: grid; gap: var(--espacio-2); margin-top: var(--espacio-2); font-size: var(--texto-sm); }
+.como-trabajo .demo-motivos:empty { display: none; }
 
 /* --- Página: académicos --- */
 .academico { display: grid; gap: var(--espacio-3); scroll-margin-top: 80px; }

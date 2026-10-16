@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How I work — Carlos Davila</title>
-  <meta name="description" content="The control environment behind Carlos Davila's projects: layered instructions, guardrails that check every AI action, independent reviewers and automated gates.">
+  <meta name="description" content="The control environment behind Carlos Davila's projects: prompt scaffolding, permission rules, hooks that check every AI action, skills, read-only subagents and CI gates.">
   <link rel="canonical" href="https://cardavil.github.io/how-i-work/">
   <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/como-trabajo/">
   <link rel="alternate" hreflang="en" href="https://cardavil.github.io/how-i-work/">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="profile">
   <meta property="og:site_name" content="Carlos Davila">
   <meta property="og:title" content="How I work — Carlos Davila">
-  <meta property="og:description" content="The control environment behind Carlos Davila's projects: layered instructions, guardrails that check every AI action, independent reviewers and automated gates.">
+  <meta property="og:description" content="The control environment behind Carlos Davila's projects: prompt scaffolding, permission rules, hooks that check every AI action, skills, read-only subagents and CI gates.">
   <meta property="og:url" content="https://cardavil.github.io/how-i-work/">
   <meta property="og:locale" content="en_CA">
   <meta property="og:locale:alternate" content="es_CO">
@@ -43,34 +43,92 @@
   <main id="contenido" class="contenedor como-trabajo">
     <header class="proyectos-cabecera">
       <h1>How I work</h1>
-      <p>I build with AI coding assistants inside a control environment I designed. Layered instructions, guardrails that check every action, independent reviewers and automated gates decide what the AI can do. Nothing reaches production without passing them and my approval.</p>
-      <p>It’s the logic of banking operations (maker-checker, change control, an audit trail) applied to software. The pieces below are real, taken from my projects; each project uses the ones its risk calls for.</p>
+      <p>I build with AI coding assistants inside a control environment I designed. Layered instructions, permission rules, hooks that check every action, independent reviewers and automated gates decide what the AI can do. Nothing reaches production without passing them and my approval.</p>
+      <p>In practice that means context engineering for the agent, hooks and scripts that enforce the rules instead of trusting them to be followed, and a change process with evidence at every step. Everything below is real and comes from my projects; each project uses what its risk calls for.</p>
     </header>
 
     <section class="caso-seccion" aria-labelledby="titulo-capas">
       <h2 id="titulo-capas">The setup, layer by layer</h2>
-      <div class="tabla-marco" role="region" aria-label="Layers of the setup" tabindex="0">
-        <table class="tabla">
-          <thead><tr><th scope="col">Layer</th><th scope="col">What it does</th><th scope="col">What it guarantees</th></tr></thead>
-          <tbody>
-            <tr><td>Workstation</td><td>The AI’s file tools can’t read outside the project folders. Access tokens are scoped to each project or organization and kept in the environment, never in the code.</td><td>A session can’t wander into other files, and no credential lives in a repository.</td></tr>
-            <tr><td>Shared guardrails</td><td>A plugin I maintain checks every AI action before it runs: secrets, destructive commands, git, production, access and its own configuration. It tests itself at the start of each session.</td><td>The same baseline in every project, which the AI can’t switch off.</td></tr>
-            <tr><td>Project instructions</td><td>A guide per project: what it is, the protocol, rules that can’t be broken and which source wins. Rules per folder load only when that area is touched, and lessons load every session.</td><td>The AI works from the project’s real rules, not from general habits.</td></tr>
-            <tr><td>Procedures (skills)</td><td>Step-by-step routines: audit, plan, rehearse, review counterparts, commit, handle an incident, resume after a long session.</td><td>The same steps every time, whoever starts the session.</td></tr>
-            <tr><td>Independent reviewers</td><td>Separate agents with read-only access: one checks the plan against my decisions and the code; another tries to refute each security finding.</td><td>The AI’s output is challenged before I see it.</td></tr>
-            <tr><td>Gates</td><td>The same checks run before every commit, before every push and in continuous integration (CI). A push is blocked while the main branch’s CI is red, and the checks can’t be skipped.</td><td>Nothing broken gets in, and nothing gets in on top of something broken.</td></tr>
-            <tr><td>Path to production</td><td>Deployment scripts confirm the target account and project before writing, can run dry, and check that what’s served is what was built. Database changes are rehearsed inside a transaction that’s rolled back.</td><td>Production changes are deliberate, rehearsed and verified.</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <p>From the machine the AI runs on down to production. Each layer is a real tool, named as it’s called.</p>
+      <ol class="capas">
+        <li class="capa">
+          <div class="capa-nombre"><h3>Workstation</h3><p class="capa-herramienta">settings · fine-grained tokens</p></div>
+          <div class="capa-cuerpo">
+            <p>The AI’s file tools can’t read outside the project folders. Access goes through fine-grained tokens, each one limited to a single project or organization, kept in environment variables and never in the code.</p>
+            <p class="capa-garantia"><strong>Guarantees:</strong> a session can’t wander into other files, and no credential lives in a repository.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Permissions</h3><p class="capa-herramienta"><code>allow</code> · <code>ask</code> · <code>deny</code></p></div>
+          <div class="capa-cuerpo">
+            <p>Claude Code’s own permission rules, set per project. Some actions are denied outright, such as staging everything at once (<code>git&nbsp;add&nbsp;.</code>) or a force push. Others always ask me first: SQL on the live database, migrations, function deploys and writes to GitHub through MCP (the protocol that connects the AI to outside services).</p>
+            <p class="capa-garantia"><strong>Guarantees:</strong> the riskiest actions are refused or wait for my click, whatever the AI decides.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Hooks</h3><p class="capa-herramienta">plugin · <code>PreToolUse</code> · <code>SessionStart</code></p></div>
+          <div class="capa-cuerpo">
+            <p>Hooks are scripts that Claude Code runs at fixed moments. A plugin I maintain runs one before every action. Its six rules (secrets, destructive commands, git, production, tokens only and its own configuration) read the command, the file or the tool call, and deny it, ask me or stay silent. Another runs at session start and tests the rules.</p>
+            <p class="capa-garantia"><strong>Guarantees:</strong> the same guardrails in every project, and the AI can’t loosen them without my yes.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Prompt scaffolding</h3><p class="capa-herramienta"><code>CLAUDE.md</code> · rules · lessons</p></div>
+          <div class="capa-cuerpo">
+            <p>The instruction files the agent reads before it works. One <code>CLAUDE.md</code> per project: what it is, the protocol, rules that can’t be broken and which source wins. Path-scoped rules load only when the AI touches that folder, and the lessons file loads every session.</p>
+            <p class="capa-garantia"><strong>Guarantees:</strong> the AI works from the project’s real rules, not from general habits.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Skills</h3><p class="capa-herramienta"><code>SKILL.md</code></p></div>
+          <div class="capa-cuerpo">
+            <p>Step-by-step procedures the agent follows: audit, plan, rehearse, review counterparts, commit, handle an incident, resume after a long session. The ones that touch production (deploy, migrate, handle secrets) only start when I call them (<code>disable-model-invocation</code>).</p>
+            <p class="capa-garantia"><strong>Guarantees:</strong> the same steps every time, whoever starts the session.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Subagents</h3><p class="capa-herramienta"><code>Read</code> · <code>Grep</code> · <code>Glob</code></p></div>
+          <div class="capa-cuerpo">
+            <p>Separate agents limited to read-only tools: one checks the plan against my decisions and the code; another tries to refute each security finding.</p>
+            <p class="capa-garantia"><strong>Guarantees:</strong> the AI’s output is challenged before I see it.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Git hooks and CI</h3><p class="capa-herramienta">pre-commit · pre-push · GitHub Actions</p></div>
+          <div class="capa-cuerpo">
+            <p>The same checks run before every commit, before every push and in continuous integration (CI: the checks GitHub runs on every change). A push is blocked while the main branch’s CI is red, and the checks can’t be skipped.</p>
+            <p class="capa-garantia"><strong>Guarantees:</strong> nothing broken gets in, and nothing gets in on top of something broken.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Production scripts</h3><p class="capa-herramienta">Node · Deno</p></div>
+          <div class="capa-cuerpo">
+            <p>Deploy scripts confirm the target account and project before writing, can run dry (show what they would do without doing it) and check that what’s served is what was built. Database changes are rehearsed in a transaction that ends in <code>rollback</code>.</p>
+            <p>A secret reaches a script only through its environment, and to check that a token exists, a script reports its name and length, never its value.</p>
+            <p class="capa-garantia"><strong>Guarantees:</strong> production changes are deliberate, rehearsed and verified, and no secret gets printed.</p>
+          </div>
+        </li>
+      </ol>
     </section>
 
     <section class="caso-seccion" aria-labelledby="titulo-vida">
       <h2 id="titulo-vida">The life of a change</h2>
+      <ol class="tuberia" aria-label="Steps of a change">
+        <li><a href="#paso-1">Session start</a></li>
+        <li><a href="#paso-2">Audit</a></li>
+        <li><a href="#paso-3">Plan</a></li>
+        <li><a href="#paso-4">Review</a></li>
+        <li class="tuberia-control"><a href="#paso-5">Approval</a> <span class="tuberia-marca">human checkpoint</span></li>
+        <li><a href="#paso-6">Rehearsal</a></li>
+        <li><a href="#paso-7">Commit</a></li>
+        <li class="tuberia-control"><a href="#paso-8">Git hooks and CI</a> <span class="tuberia-marca">automatic gate</span></li>
+        <li><a href="#paso-9">Release</a></li>
+        <li><a href="#paso-10">Resume</a></li>
+      </ol>
       <ol class="decisiones">
-        <li><h3>Session start</h3><p>Before any work, the session receives the git state, the latest CI runs and the guardrails’ self-test.</p></li>
-        <li><h3>Audit</h3><p>Every claim is backed by a line of code (<code>file:line</code>), a database query or a measurement. A second pass looks only for assumptions, and what can’t be checked is listed as “not verified”.</p></li>
-        <li><h3>Plan with fixed sections</h3>
+        <li id="paso-1"><h3>Session start</h3><p>Before any work, a <code>SessionStart</code> hook hands the session the git state, the latest CI runs and the plugin’s self-test.</p></li>
+        <li id="paso-2"><h3>Audit</h3><p>Every claim is backed by a line of code (<code>file:line</code>), a database query or a measurement. A second pass looks only for assumptions, and what can’t be checked is listed as “not verified”.</p></li>
+        <li id="paso-3"><h3>Plan with fixed sections</h3>
           <ul class="vinetas">
             <li>Today vs proposed.</li>
             <li>Why it’s the smallest solution.</li>
@@ -79,13 +137,13 @@
             <li>Verified vs not verified.</li>
           </ul>
         </li>
-        <li><h3>Independent review</h3><p>A reviewer agent checks the plan against my decisions and the code. Each finding is fixed or answered before the plan reaches me.</p></li>
-        <li><h3>My approval</h3><p>An explicit OK for that change. If the plan proves wrong halfway, the work is reverted and planned again, never patched on the fly.</p></li>
-        <li><h3>Rehearsal</h3><p>The change is built in a disposable copy, and tests, types and the build are measured before and after. A new test counts only after it has been seen failing.</p></li>
-        <li><h3>Commit</h3><p>Every file and line of the diff is matched against the approved plan, counterparts are reviewed, and files are added by name.</p></li>
-        <li><h3>Gates and merge</h3><p>Local checks, then a pull request merged only when CI is green on its latest commit.</p></li>
-        <li><h3>Release</h3><p>By script, with live verification afterwards.</p></li>
-        <li><h3>Resume</h3><p>If the conversation is compacted, the state is rebuilt from disk (git, the written plan, the live source), never from the conversation’s summary.</p></li>
+        <li id="paso-4"><h3>Independent review</h3><p>A reviewer subagent checks the plan against my decisions and the code. Each finding is fixed or answered before the plan reaches me.</p></li>
+        <li id="paso-5"><h3>My approval</h3><p>An explicit OK for that change. If the plan proves wrong halfway, the work is reverted and planned again, never patched on the fly.</p></li>
+        <li id="paso-6"><h3>Rehearsal</h3><p>The change is built in a disposable copy, and tests, types and the build are measured before and after. Test-first: a new test counts only after it has been seen failing (red before green).</p></li>
+        <li id="paso-7"><h3>Commit</h3><p>Every file and line of the diff is matched against the approved plan, counterparts are reviewed, and files are added by name.</p></li>
+        <li id="paso-8"><h3>Git hooks, CI and merge</h3><p>The pre-commit and pre-push hooks, then a pull request merged only when CI is green on its latest commit.</p></li>
+        <li id="paso-9"><h3>Release</h3><p>By script, with live verification afterwards.</p></li>
+        <li id="paso-10"><h3>Resume</h3><p>If the conversation is compacted, the state is rebuilt from disk (git, the written plan, the live source), never from the conversation’s summary.</p></li>
       </ol>
     </section>
 
@@ -114,9 +172,53 @@
     </section>
 
     <section class="caso-seccion" aria-labelledby="titulo-guardas">
-      <h2 id="titulo-guardas">Guardrails before every action</h2>
-      <p>Before each action, the guardrails read the command, the file or the tool call, and decide.</p>
-      <div class="tabla-marco" role="region" aria-label="Guardrail decisions" tabindex="0">
+      <h2 id="titulo-guardas">Hooks before every action</h2>
+      <p>Before each action, the plugin’s <code>PreToolUse</code> hook reads the command, the file or the tool call, and decides.</p>
+      <div class="demo-hooks" hidden>
+        <h3>Try the hooks</h3>
+        <p>This runs the plugin’s real rules in your browser, on a sample repository. Nothing is executed: the rules only read the text of the command. Pick an example or type your own.</p>
+        <div class="demo-controles">
+          <div class="demo-campo demo-campo-ancho">
+            <label for="demo-ejemplo">Example</label>
+            <select id="demo-ejemplo">
+              <option value="">Pick an example…</option>
+              <option value="echo $GITHUB_TOKEN" data-shell="Bash">Print a token</option>
+              <option value="cat .env" data-shell="Bash">Read a .env file</option>
+              <option value="git push --force origin main" data-shell="Bash">Force push</option>
+              <option value="git push &quot;--force&quot;" data-shell="Bash">Force push hidden in quotes</option>
+              <option value="git commit --no-verify -m &quot;wip&quot;" data-shell="Bash">Skip the git hooks</option>
+              <option value="rm -rf ~" data-shell="Bash">Delete the home folder</option>
+              <option value="git reset --hard" data-shell="Bash">Discard uncommitted work</option>
+              <option value="bash -c &quot;rm -rf /&quot;" data-shell="Bash">Delete, nested in another shell</option>
+              <option value="cmd /c rd /s /q C:\" data-shell="PowerShell">Delete a drive from PowerShell</option>
+              <option value="gh auth login" data-shell="Bash">Interactive login</option>
+              <option value="powershell -EncodedCommand ZQBjAGgAbwA=" data-shell="PowerShell">Encoded command</option>
+              <option value="npx wrangler deploy" data-shell="Bash">Deploy</option>
+              <option value="git push" data-shell="Bash">Push</option>
+              <option value="git -C C:/Users/u/AppData/Local/Temp/claude/clon checkout -- ." data-shell="Bash">Discard work in a throwaway clone</option>
+              <option value="npm test" data-shell="Bash">Run the tests</option>
+              <option value="git status" data-shell="Bash">Check git status</option>
+            </select>
+          </div>
+          <div class="demo-campo">
+            <label for="demo-shell">Shell</label>
+            <select id="demo-shell">
+              <option value="Bash">Bash</option>
+              <option value="PowerShell">PowerShell</option>
+            </select>
+          </div>
+          <div class="demo-campo demo-campo-ancho">
+            <label for="demo-comando">Command</label>
+            <input id="demo-comando" type="text" spellcheck="false" autocomplete="off" autocapitalize="off">
+          </div>
+          <button id="demo-probar" class="boton boton-principal" type="button">Check</button>
+        </div>
+        <div id="demo-resultado" class="demo-resultado" aria-live="polite">
+          <p class="demo-decision"></p>
+          <ul class="demo-motivos"></ul>
+        </div>
+      </div>
+      <div class="tabla-marco" role="region" aria-label="Hook decisions" tabindex="0">
         <table class="tabla">
           <thead><tr><th scope="col">When the AI tries to…</th><th scope="col">Decision</th><th scope="col">Why</th></tr></thead>
           <tbody>
@@ -126,14 +228,14 @@
             <tr><td>log in interactively or put credentials in a URL</td><td>denied</td><td>access goes only through each project’s scoped token</td></tr>
             <tr><td>run a production command, write SQL, migrate, deploy or merge</td><td>asks me</td><td>production needs a yes to that specific action</td></tr>
             <tr><td>run SQL inside a transaction that ends in <code>rollback</code></td><td>allowed</td><td>a rehearsal changes nothing</td></tr>
-            <tr><td>edit the guardrails’ own configuration</td><td>asks me</td><td>the AI can’t loosen its own controls</td></tr>
+            <tr><td>edit the hooks’ own configuration</td><td>asks me</td><td>the AI can’t loosen its own controls</td></tr>
             <tr><td>read, test or build</td><td>silent</td><td>allowing means saying nothing, so nothing is pre-approved</td></tr>
           </tbody>
         </table>
       </div>
       <ul class="vinetas">
         <li><strong>Design:</strong> one dispatcher runs every rule; “deny” beats “ask”; a rule that fails asks, it never allows.</li>
-        <li><strong>No network inside the check:</strong> a check that times out would let the action through, so it never waits on the network.</li>
+        <li><strong>No network inside the check:</strong> a hook that times out would let the action through, so it never waits on the network.</li>
         <li><strong>Hard to fool:</strong> it reads commands the way the shell does. It catches quoted flags (<code>git push "--force"</code>) and variable prefixes (<code>VAR=1 git push -f</code>). It also catches commands nested in another shell (<code>bash -c "…"</code>, <code>cmd /c rd /s /q C:\</code>) and scripts passed through a heredoc.</li>
         <li><strong>Tested:</strong> 52 automated tests, and each rule was written after seeing its tests fail. A new version installs only after GitHub confirms its tag is on the main branch and its CI passed.</li>
       </ul>
@@ -165,11 +267,31 @@
 
     <section class="caso-seccion" aria-labelledby="titulo-errores">
       <h2 id="titulo-errores">Mistakes become controls</h2>
+      <p>A post-incident loop: every mistake the AI makes ends up as a written lesson, and one that repeats ends up as a hook or a CI check.</p>
+      <svg class="ciclo" viewBox="0 0 360 300" aria-hidden="true" focusable="false">
+        <defs>
+          <marker id="ciclo-punta" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path class="ciclo-punta" d="M0 0 L10 5 L0 10 z"/>
+          </marker>
+        </defs>
+        <path class="ciclo-flecha" d="M250 40 Q290 40 290 126" marker-end="url(#ciclo-punta)"/>
+        <path class="ciclo-flecha" d="M290 170 Q290 260 254 260" marker-end="url(#ciclo-punta)"/>
+        <path class="ciclo-flecha" d="M110 260 Q70 260 70 174" marker-end="url(#ciclo-punta)"/>
+        <path class="ciclo-flecha" d="M70 130 Q70 40 106 40" marker-end="url(#ciclo-punta)"/>
+        <rect class="ciclo-nodo" x="110" y="20" width="140" height="40" rx="8"/>
+        <text class="ciclo-texto" x="180" y="40">Mistake</text>
+        <rect class="ciclo-nodo" x="220" y="130" width="140" height="40" rx="8"/>
+        <text class="ciclo-texto" x="290" y="150">Recorded</text>
+        <rect class="ciclo-nodo" x="110" y="240" width="140" height="40" rx="8"/>
+        <text class="ciclo-texto" x="180" y="260">Lesson</text>
+        <rect class="ciclo-nodo ciclo-final" x="0" y="130" width="140" height="40" rx="8"/>
+        <text class="ciclo-texto" x="70" y="150">Automated check</text>
+      </svg>
       <ol class="decisiones">
         <li><h3>The AI makes a mistake</h3></li>
-        <li><h3>It’s recorded</h3><p>What happened, the root cause, the rule that would have prevented it, and what it cost.</p></li>
+        <li><h3>It’s recorded</h3><p>In the project’s error log: what happened, the root cause, the rule that would have prevented it, and what it cost.</p></li>
         <li><h3>It becomes a lesson</h3><p>One line that cites its origin and loads at the start of every session.</p></li>
-        <li><h3>If it happens again</h3><p>The lesson becomes an automated check (a guardrail or a gate) and leaves the written rules.</p></li>
+        <li><h3>If it happens again</h3><p>The lesson becomes an automated check (a hook or a CI check) and leaves the written rules.</p></li>
       </ol>
       <h3>Example lessons</h3>
       <ul class="vinetas">
@@ -182,10 +304,11 @@
 
     <section class="caso-seccion" aria-labelledby="titulo-documentos">
       <h2 id="titulo-documentos">Documents that can’t drift</h2>
+      <p>Docs-as-code: the documentation lives in the repository and is checked like code.</p>
       <ul class="vinetas">
         <li><strong>Generated, not written:</strong> the infrastructure diagrams on each project page and the database schema snapshot are generated from the code and the live database.</li>
         <li><strong>Checked:</strong> the gate fails if a document is missing from the index or a link to a document is broken. It also fails if an environment variable in code is undocumented, or a user manual quotes text that doesn’t exist in the app.</li>
-        <li><strong>Protected:</strong> a guardrail stops the AI from editing a generated file by hand, and names the command that writes it.</li>
+        <li><strong>Protected:</strong> a hook stops the AI from editing a generated file by hand, and names the command that writes it.</li>
       </ul>
     </section>
 
@@ -203,5 +326,6 @@
     </div>
   </footer>
   <!-- pie:fin -->
+  <script type="module" src="../js/como-trabajo.js"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cómo trabajo — Carlos Davila</title>
-  <meta name="description" content="El entorno de control detrás de los proyectos de Carlos Davila: instrucciones por capas, salvaguardas que revisan cada acción de la IA, revisores independientes y verificaciones automáticas.">
+  <meta name="description" content="El entorno de control detrás de los proyectos de Carlos Davila: prompt scaffolding, reglas de permisos, hooks que revisan cada acción de la IA, skills, subagentes de solo lectura y gates de CI.">
   <link rel="canonical" href="https://cardavil.github.io/es/como-trabajo/">
   <link rel="alternate" hreflang="es" href="https://cardavil.github.io/es/como-trabajo/">
   <link rel="alternate" hreflang="en" href="https://cardavil.github.io/how-i-work/">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="profile">
   <meta property="og:site_name" content="Carlos Davila">
   <meta property="og:title" content="Cómo trabajo — Carlos Davila">
-  <meta property="og:description" content="El entorno de control detrás de los proyectos de Carlos Davila: instrucciones por capas, salvaguardas que revisan cada acción de la IA, revisores independientes y verificaciones automáticas.">
+  <meta property="og:description" content="El entorno de control detrás de los proyectos de Carlos Davila: prompt scaffolding, reglas de permisos, hooks que revisan cada acción de la IA, skills, subagentes de solo lectura y gates de CI.">
   <meta property="og:url" content="https://cardavil.github.io/es/como-trabajo/">
   <meta property="og:locale" content="es_CO">
   <meta property="og:locale:alternate" content="en_CA">
@@ -43,34 +43,92 @@
   <main id="contenido" class="contenedor como-trabajo">
     <header class="proyectos-cabecera">
       <h1>Cómo trabajo</h1>
-      <p>Construyo con asistentes de IA dentro de un entorno de control que diseñé. Instrucciones por capas, salvaguardas que revisan cada acción, revisores independientes y verificaciones automáticas deciden qué puede hacer la IA. Nada llega a producción sin pasarlos y sin mi aprobación.</p>
-      <p>Es la lógica de las operaciones bancarias (doble control, control de cambios, pista de auditoría) aplicada al software. Las piezas de abajo son reales, tomadas de mis proyectos; cada proyecto usa las que su riesgo pide.</p>
+      <p>Construyo con asistentes de IA dentro de un entorno de control que diseñé. Instrucciones por capas, reglas de permisos, hooks que revisan cada acción, revisores independientes y verificaciones automáticas deciden qué puede hacer la IA. Nada llega a producción sin pasarlos y sin mi aprobación.</p>
+      <p>En la práctica es context engineering para el agente, hooks y scripts que hacen cumplir las reglas en lugar de confiar en que se sigan, y un proceso de cambios con evidencia en cada paso. Todo lo de abajo es real y sale de mis proyectos; cada proyecto usa lo que su riesgo pide.</p>
     </header>
 
     <section class="caso-seccion" aria-labelledby="titulo-capas">
       <h2 id="titulo-capas">El entorno, capa por capa</h2>
-      <div class="tabla-marco" role="region" aria-label="Capas del entorno" tabindex="0">
-        <table class="tabla">
-          <thead><tr><th scope="col">Capa</th><th scope="col">Qué hace</th><th scope="col">Qué garantiza</th></tr></thead>
-          <tbody>
-            <tr><td>Estación de trabajo</td><td>Las herramientas de archivos de la IA no pueden leer fuera de las carpetas del proyecto. Los tokens de acceso están limitados a cada proyecto u organización y viven en el entorno, nunca en el código.</td><td>Una sesión no puede meterse en otros archivos, y ninguna credencial vive en un repositorio.</td></tr>
-            <tr><td>Salvaguardas compartidas</td><td>Un plugin que mantengo revisa cada acción de la IA antes de que se ejecute: secretos, comandos destructivos, git, producción, acceso y su propia configuración. Se prueba a sí mismo al inicio de cada sesión.</td><td>La misma base en todos los proyectos, y la IA no puede apagarla.</td></tr>
-            <tr><td>Instrucciones del proyecto</td><td>Una guía por proyecto: qué es, el protocolo, las reglas que no se rompen y qué fuente manda. Las reglas por carpeta solo se cargan al tocar esa parte, y las lecciones se cargan en cada sesión.</td><td>La IA trabaja con las reglas reales del proyecto, no con hábitos generales.</td></tr>
-            <tr><td>Procedimientos (skills)</td><td>Rutinas paso a paso: auditar, planear, ensayar, revisar contrapartidas, hacer commit, atender un incidente y retomar después de una sesión larga.</td><td>Los mismos pasos cada vez, sin importar quién abra la sesión.</td></tr>
-            <tr><td>Revisores independientes</td><td>Agentes aparte, con acceso de solo lectura: uno revisa el plan contra mis decisiones y el código; otro intenta refutar cada hallazgo de seguridad.</td><td>El resultado de la IA se desafía antes de que yo lo vea.</td></tr>
-            <tr><td>Control de cambios</td><td>Las mismas verificaciones corren antes de cada commit, antes de cada push y en la integración continua (CI). Un push se bloquea mientras el CI de la rama principal esté en rojo, y las verificaciones no se pueden saltar.</td><td>No entra nada roto, y nada entra encima de algo roto.</td></tr>
-            <tr><td>Camino a producción</td><td>Los scripts de publicación confirman la cuenta y el proyecto de destino antes de escribir, pueden correr en simulación y comprueban que lo publicado es lo que se construyó. Los cambios en la base de datos se ensayan dentro de una transacción que se deshace.</td><td>Los cambios en producción son deliberados, ensayados y verificados.</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <p>Desde la máquina donde corre la IA hasta producción. Cada capa es una herramienta real, con su nombre.</p>
+      <ol class="capas">
+        <li class="capa">
+          <div class="capa-nombre"><h3>Estación de trabajo</h3><p class="capa-herramienta">settings · fine-grained tokens</p></div>
+          <div class="capa-cuerpo">
+            <p>Las herramientas de archivos de la IA no pueden leer fuera de las carpetas del proyecto. El acceso va por fine-grained tokens, cada uno limitado a un solo proyecto u organización, guardados en variables de entorno y nunca en el código.</p>
+            <p class="capa-garantia"><strong>Garantiza:</strong> una sesión no puede meterse en otros archivos, y ninguna credencial vive en un repositorio.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Permisos</h3><p class="capa-herramienta"><code>allow</code> · <code>ask</code> · <code>deny</code></p></div>
+          <div class="capa-cuerpo">
+            <p>Las reglas de permisos del propio Claude Code, definidas por proyecto. Algunas acciones se niegan de entrada, como agregar todo de una vez (<code>git&nbsp;add&nbsp;.</code>) o un push forzado. Otras siempre me preguntan primero: SQL sobre la base de datos en vivo, migraciones, despliegues de funciones y escrituras en GitHub por MCP (el protocolo que conecta la IA con servicios externos).</p>
+            <p class="capa-garantia"><strong>Garantiza:</strong> las acciones más riesgosas se niegan o esperan mi clic, decida lo que decida la IA.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Hooks (candados)</h3><p class="capa-herramienta">plugin · <code>PreToolUse</code> · <code>SessionStart</code></p></div>
+          <div class="capa-cuerpo">
+            <p>Los hooks son scripts que Claude Code corre en momentos fijos. Un plugin que mantengo corre uno antes de cada acción. Sus seis reglas (secretos, comandos destructivos, git, producción, solo tokens y su propia configuración) leen el comando, el archivo o la llamada a la herramienta, y lo niegan, me preguntan o no dicen nada. Otro corre al inicio de la sesión y prueba las reglas.</p>
+            <p class="capa-garantia"><strong>Garantiza:</strong> los mismos candados en todos los proyectos, y la IA no puede aflojarlos sin mi sí.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Prompt scaffolding</h3><p class="capa-herramienta"><code>CLAUDE.md</code> · reglas · lecciones</p></div>
+          <div class="capa-cuerpo">
+            <p>Los archivos de instrucciones que el agente lee antes de trabajar. Un <code>CLAUDE.md</code> por proyecto: qué es, el protocolo, las reglas que no se rompen y qué fuente manda. Las reglas por carpeta (path-scoped rules) solo se cargan cuando la IA toca esa carpeta, y el archivo de lecciones se carga en cada sesión.</p>
+            <p class="capa-garantia"><strong>Garantiza:</strong> la IA trabaja con las reglas reales del proyecto, no con hábitos generales.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Skills</h3><p class="capa-herramienta"><code>SKILL.md</code></p></div>
+          <div class="capa-cuerpo">
+            <p>Procedimientos paso a paso que el agente sigue: auditar, planear, ensayar, revisar contrapartidas, hacer commit, atender un incidente y retomar después de una sesión larga. Los que tocan producción (desplegar, migrar, manejar secretos) solo arrancan cuando yo los llamo (<code>disable-model-invocation</code>).</p>
+            <p class="capa-garantia"><strong>Garantiza:</strong> los mismos pasos cada vez, sin importar quién abra la sesión.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Subagentes</h3><p class="capa-herramienta"><code>Read</code> · <code>Grep</code> · <code>Glob</code></p></div>
+          <div class="capa-cuerpo">
+            <p>Agentes aparte, limitados a herramientas de solo lectura: uno revisa el plan contra mis decisiones y el código; otro intenta refutar cada hallazgo de seguridad.</p>
+            <p class="capa-garantia"><strong>Garantiza:</strong> el resultado de la IA se desafía antes de que yo lo vea.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Git hooks y CI</h3><p class="capa-herramienta">pre-commit · pre-push · GitHub Actions</p></div>
+          <div class="capa-cuerpo">
+            <p>Las mismas verificaciones corren antes de cada commit, antes de cada push y en la integración continua (CI: las verificaciones que GitHub corre en cada cambio). Un push se bloquea mientras el CI de la rama principal esté en rojo, y las verificaciones no se pueden saltar.</p>
+            <p class="capa-garantia"><strong>Garantiza:</strong> no entra nada roto, y nada entra encima de algo roto.</p>
+          </div>
+        </li>
+        <li class="capa">
+          <div class="capa-nombre"><h3>Scripts de producción</h3><p class="capa-herramienta">Node · Deno</p></div>
+          <div class="capa-cuerpo">
+            <p>Los scripts de despliegue confirman la cuenta y el proyecto de destino antes de escribir, pueden correr en seco (dry run: muestran lo que harían sin hacerlo) y comprueban que lo publicado es lo que se construyó. Los cambios en la base de datos se ensayan en una transacción que termina en <code>rollback</code>.</p>
+            <p>Un secreto llega a un script solo por su entorno, y para saber si un token existe, un script reporta su nombre y su longitud, nunca su valor.</p>
+            <p class="capa-garantia"><strong>Garantiza:</strong> los cambios en producción son deliberados, ensayados y verificados, y ningún secreto se imprime.</p>
+          </div>
+        </li>
+      </ol>
     </section>
 
     <section class="caso-seccion" aria-labelledby="titulo-vida">
       <h2 id="titulo-vida">La vida de un cambio</h2>
+      <ol class="tuberia" aria-label="Pasos de un cambio">
+        <li><a href="#paso-1">Inicio de sesión</a></li>
+        <li><a href="#paso-2">Auditoría</a></li>
+        <li><a href="#paso-3">Plan</a></li>
+        <li><a href="#paso-4">Revisión</a></li>
+        <li class="tuberia-control"><a href="#paso-5">Aprobación</a> <span class="tuberia-marca">punto de control humano</span></li>
+        <li><a href="#paso-6">Ensayo</a></li>
+        <li><a href="#paso-7">Commit</a></li>
+        <li class="tuberia-control"><a href="#paso-8">Git hooks y CI</a> <span class="tuberia-marca">gate automático</span></li>
+        <li><a href="#paso-9">Publicación</a></li>
+        <li><a href="#paso-10">Retomar</a></li>
+      </ol>
       <ol class="decisiones">
-        <li><h3>Inicio de sesión</h3><p>Antes de trabajar, la sesión recibe el estado de git, las últimas corridas del CI y la autoprueba de las salvaguardas.</p></li>
-        <li><h3>Auditoría</h3><p>Cada afirmación se respalda con una línea de código (<code>archivo:línea</code>), una consulta a la base de datos o una medición. Una segunda pasada busca solo supuestos, y lo que no se puede comprobar queda listado como «no verificado».</p></li>
-        <li><h3>Plan con secciones fijas</h3>
+        <li id="paso-1"><h3>Inicio de sesión</h3><p>Antes de trabajar, un hook <code>SessionStart</code> le entrega a la sesión el estado de git, las últimas corridas del CI y la autoprueba del plugin.</p></li>
+        <li id="paso-2"><h3>Auditoría</h3><p>Cada afirmación se respalda con una línea de código (<code>archivo:línea</code>), una consulta a la base de datos o una medición. Una segunda pasada busca solo supuestos, y lo que no se puede comprobar queda listado como «no verificado».</p></li>
+        <li id="paso-3"><h3>Plan con secciones fijas</h3>
           <ul class="vinetas">
             <li>Hoy y propuesto.</li>
             <li>Por qué es la solución más pequeña.</li>
@@ -79,13 +137,13 @@
             <li>Lo verificado y lo no verificado.</li>
           </ul>
         </li>
-        <li><h3>Revisión independiente</h3><p>Un agente revisor contrasta el plan con mis decisiones y el código. Cada hallazgo se corrige o se responde antes de que el plan me llegue.</p></li>
-        <li><h3>Mi aprobación</h3><p>Un OK explícito para ese cambio. Si el plan resulta equivocado a mitad de camino, el trabajo se revierte y se vuelve a planear; nunca se corrige sobre la marcha.</p></li>
-        <li><h3>Ensayo</h3><p>El cambio se construye en una copia desechable, y las pruebas, los tipos y la compilación se miden antes y después. Una prueba nueva solo cuenta después de verla fallar.</p></li>
-        <li><h3>Commit</h3><p>Cada archivo y cada línea del cambio se cotejan contra el plan aprobado, se revisan las contrapartidas y los archivos se agregan por nombre.</p></li>
-        <li><h3>Verificaciones y fusión</h3><p>Verificaciones locales y luego un pull request que solo se fusiona con el CI en verde sobre su último commit.</p></li>
-        <li><h3>Publicación</h3><p>Por script, con verificación en vivo después.</p></li>
-        <li><h3>Retomar</h3><p>Si la conversación se compacta, el estado se reconstruye desde el disco (git, el plan escrito, la fuente viva), nunca desde el resumen de la conversación.</p></li>
+        <li id="paso-4"><h3>Revisión independiente</h3><p>Un subagente revisor contrasta el plan con mis decisiones y el código. Cada hallazgo se corrige o se responde antes de que el plan me llegue.</p></li>
+        <li id="paso-5"><h3>Mi aprobación</h3><p>Un OK explícito para ese cambio. Si el plan resulta equivocado a mitad de camino, el trabajo se revierte y se vuelve a planear; nunca se corrige sobre la marcha.</p></li>
+        <li id="paso-6"><h3>Ensayo</h3><p>El cambio se construye en una copia desechable, y las pruebas, los tipos y la compilación se miden antes y después. Test-first: una prueba nueva solo cuenta después de verla fallar (rojo antes de verde).</p></li>
+        <li id="paso-7"><h3>Commit</h3><p>Cada archivo y cada línea del cambio se cotejan contra el plan aprobado, se revisan las contrapartidas y los archivos se agregan por nombre.</p></li>
+        <li id="paso-8"><h3>Git hooks, CI y fusión</h3><p>Los hooks pre-commit y pre-push, y luego un pull request que solo se fusiona con el CI en verde sobre su último commit.</p></li>
+        <li id="paso-9"><h3>Publicación</h3><p>Por script, con verificación en vivo después.</p></li>
+        <li id="paso-10"><h3>Retomar</h3><p>Si la conversación se compacta, el estado se reconstruye desde el disco (git, el plan escrito, la fuente viva), nunca desde el resumen de la conversación.</p></li>
       </ol>
     </section>
 
@@ -114,9 +172,53 @@
     </section>
 
     <section class="caso-seccion" aria-labelledby="titulo-guardas">
-      <h2 id="titulo-guardas">Salvaguardas antes de cada acción</h2>
-      <p>Antes de cada acción, las salvaguardas leen el comando, el archivo o la llamada a la herramienta, y deciden.</p>
-      <div class="tabla-marco" role="region" aria-label="Decisiones de las salvaguardas" tabindex="0">
+      <h2 id="titulo-guardas">Candados antes de cada acción</h2>
+      <p>Antes de cada acción, el hook <code>PreToolUse</code> del plugin lee el comando, el archivo o la llamada a la herramienta, y decide.</p>
+      <div class="demo-hooks" hidden>
+        <h3>Prueba los hooks</h3>
+        <p>Esto corre en tu navegador las reglas reales del plugin, sobre un repositorio de ejemplo. No se ejecuta nada: las reglas solo leen el texto del comando. Elige un ejemplo o escribe el tuyo.</p>
+        <div class="demo-controles">
+          <div class="demo-campo demo-campo-ancho">
+            <label for="demo-ejemplo">Ejemplo</label>
+            <select id="demo-ejemplo">
+              <option value="">Elige un ejemplo…</option>
+              <option value="echo $GITHUB_TOKEN" data-shell="Bash">Imprimir un token</option>
+              <option value="cat .env" data-shell="Bash">Leer un archivo .env</option>
+              <option value="git push --force origin main" data-shell="Bash">Push forzado</option>
+              <option value="git push &quot;--force&quot;" data-shell="Bash">Push forzado escondido entre comillas</option>
+              <option value="git commit --no-verify -m &quot;wip&quot;" data-shell="Bash">Saltarse los git hooks</option>
+              <option value="rm -rf ~" data-shell="Bash">Borrar la carpeta del usuario</option>
+              <option value="git reset --hard" data-shell="Bash">Descartar trabajo sin commitear</option>
+              <option value="bash -c &quot;rm -rf /&quot;" data-shell="Bash">Borrado metido en otra shell</option>
+              <option value="cmd /c rd /s /q C:\" data-shell="PowerShell">Borrar un disco desde PowerShell</option>
+              <option value="gh auth login" data-shell="Bash">Login interactivo</option>
+              <option value="powershell -EncodedCommand ZQBjAGgAbwA=" data-shell="PowerShell">Comando codificado</option>
+              <option value="npx wrangler deploy" data-shell="Bash">Desplegar</option>
+              <option value="git push" data-shell="Bash">Push</option>
+              <option value="git -C C:/Users/u/AppData/Local/Temp/claude/clon checkout -- ." data-shell="Bash">Descartar trabajo en un clon desechable</option>
+              <option value="npm test" data-shell="Bash">Correr las pruebas</option>
+              <option value="git status" data-shell="Bash">Ver el estado de git</option>
+            </select>
+          </div>
+          <div class="demo-campo">
+            <label for="demo-shell">Shell</label>
+            <select id="demo-shell">
+              <option value="Bash">Bash</option>
+              <option value="PowerShell">PowerShell</option>
+            </select>
+          </div>
+          <div class="demo-campo demo-campo-ancho">
+            <label for="demo-comando">Comando</label>
+            <input id="demo-comando" type="text" spellcheck="false" autocomplete="off" autocapitalize="off">
+          </div>
+          <button id="demo-probar" class="boton boton-principal" type="button">Revisar</button>
+        </div>
+        <div id="demo-resultado" class="demo-resultado" aria-live="polite">
+          <p class="demo-decision"></p>
+          <ul class="demo-motivos"></ul>
+        </div>
+      </div>
+      <div class="tabla-marco" role="region" aria-label="Decisiones de los candados" tabindex="0">
         <table class="tabla">
           <thead><tr><th scope="col">Cuando la IA intenta…</th><th scope="col">Decisión</th><th scope="col">Por qué</th></tr></thead>
           <tbody>
@@ -126,14 +228,14 @@
             <tr><td>iniciar sesión de forma interactiva o poner credenciales en una URL</td><td>se niega</td><td>el acceso va solo por el token del proyecto</td></tr>
             <tr><td>correr un comando de producción, escribir con SQL, migrar, publicar o fusionar</td><td>me pregunta</td><td>producción necesita un sí a esa acción concreta</td></tr>
             <tr><td>correr SQL dentro de una transacción que termina en <code>rollback</code></td><td>se permite</td><td>un ensayo no cambia nada</td></tr>
-            <tr><td>editar la configuración de las propias salvaguardas</td><td>me pregunta</td><td>la IA no puede aflojar sus propios controles</td></tr>
+            <tr><td>editar la configuración de los propios candados</td><td>me pregunta</td><td>la IA no puede aflojar sus propios controles</td></tr>
             <tr><td>leer, probar o compilar</td><td>silencio</td><td>permitir es no decir nada, así nada queda aprobado de antemano</td></tr>
           </tbody>
         </table>
       </div>
       <ul class="vinetas">
         <li><strong>Diseño:</strong> un despachador corre todas las reglas; «negar» gana a «preguntar»; una regla que falla pregunta, nunca permite.</li>
-        <li><strong>Sin red dentro de la revisión:</strong> una revisión que se vence dejaría pasar la acción, así que nunca espera a la red.</li>
+        <li><strong>Sin red dentro de la revisión:</strong> un hook que se vence dejaría pasar la acción, así que nunca espera a la red.</li>
         <li><strong>Difícil de engañar:</strong> lee los comandos como los lee la shell. Atrapa banderas entre comillas (<code>git push "--force"</code>) y prefijos de variables (<code>VAR=1 git push -f</code>). También atrapa comandos metidos en otra shell (<code>bash -c "…"</code>, <code>cmd /c rd /s /q C:\</code>) y scripts pasados por un heredoc.</li>
         <li><strong>Probado:</strong> 52 pruebas automáticas, y cada regla se escribió después de ver fallar sus pruebas. Una versión nueva solo se instala después de que GitHub confirma que su tag está en la rama principal y que su CI pasó.</li>
       </ul>
@@ -165,11 +267,31 @@
 
     <section class="caso-seccion" aria-labelledby="titulo-errores">
       <h2 id="titulo-errores">Los errores se vuelven controles</h2>
+      <p>Un ciclo post-incidente: cada error de la IA termina como una lección escrita, y el que se repite termina como un hook o un check de CI.</p>
+      <svg class="ciclo" viewBox="0 0 360 300" aria-hidden="true" focusable="false">
+        <defs>
+          <marker id="ciclo-punta" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path class="ciclo-punta" d="M0 0 L10 5 L0 10 z"/>
+          </marker>
+        </defs>
+        <path class="ciclo-flecha" d="M250 40 Q290 40 290 126" marker-end="url(#ciclo-punta)"/>
+        <path class="ciclo-flecha" d="M290 170 Q290 260 254 260" marker-end="url(#ciclo-punta)"/>
+        <path class="ciclo-flecha" d="M110 260 Q70 260 70 174" marker-end="url(#ciclo-punta)"/>
+        <path class="ciclo-flecha" d="M70 130 Q70 40 106 40" marker-end="url(#ciclo-punta)"/>
+        <rect class="ciclo-nodo" x="110" y="20" width="140" height="40" rx="8"/>
+        <text class="ciclo-texto" x="180" y="40">Error</text>
+        <rect class="ciclo-nodo" x="220" y="130" width="140" height="40" rx="8"/>
+        <text class="ciclo-texto" x="290" y="150">Registro</text>
+        <rect class="ciclo-nodo" x="110" y="240" width="140" height="40" rx="8"/>
+        <text class="ciclo-texto" x="180" y="260">Lección</text>
+        <rect class="ciclo-nodo ciclo-final" x="0" y="130" width="140" height="40" rx="8"/>
+        <text class="ciclo-texto" x="70" y="150">Check automático</text>
+      </svg>
       <ol class="decisiones">
         <li><h3>La IA comete un error</h3></li>
-        <li><h3>Queda registrado</h3><p>Qué pasó, la causa raíz, la regla que lo habría evitado y lo que costó.</p></li>
+        <li><h3>Queda registrado</h3><p>En el registro de errores del proyecto: qué pasó, la causa raíz, la regla que lo habría evitado y lo que costó.</p></li>
         <li><h3>Se vuelve una lección</h3><p>Una línea que cita su origen y se carga al inicio de cada sesión.</p></li>
-        <li><h3>Si vuelve a pasar</h3><p>La lección se vuelve una verificación automática (una salvaguarda o parte del control de cambios) y sale de las reglas escritas.</p></li>
+        <li><h3>Si vuelve a pasar</h3><p>La lección se vuelve una verificación automática (un hook o un check de CI) y sale de las reglas escritas.</p></li>
       </ol>
       <h3>Lecciones de ejemplo</h3>
       <ul class="vinetas">
@@ -182,10 +304,11 @@
 
     <section class="caso-seccion" aria-labelledby="titulo-documentos">
       <h2 id="titulo-documentos">Documentos que no se desactualizan</h2>
+      <p>Docs-as-code: la documentación vive en el repositorio y se verifica como el código.</p>
       <ul class="vinetas">
         <li><strong>Generados, no escritos:</strong> los diagramas de infraestructura de cada página de proyecto se generan desde el código. La foto del esquema de la base de datos se genera desde la base real.</li>
-        <li><strong>Verificados:</strong> el control de cambios falla si un documento no está en el índice o si un enlace a un documento está roto. También falla si una variable de entorno del código no está documentada, o si un manual de usuario cita un texto que no existe en la aplicación.</li>
-        <li><strong>Protegidos:</strong> una salvaguarda impide que la IA edite a mano un archivo generado, y dice qué comando lo escribe.</li>
+        <li><strong>Verificados:</strong> el CI falla si un documento no está en el índice o si un enlace a un documento está roto. También falla si una variable de entorno del código no está documentada, o si un manual de usuario cita un texto que no existe en la aplicación.</li>
+        <li><strong>Protegidos:</strong> un hook impide que la IA edite a mano un archivo generado, y dice qué comando lo escribe.</li>
       </ul>
     </section>
 
@@ -203,5 +326,6 @@
     </div>
   </footer>
   <!-- pie:fin -->
+  <script type="module" src="../../js/como-trabajo.js"></script>
 </body>
 </html>
