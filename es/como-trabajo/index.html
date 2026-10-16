@@ -43,69 +43,68 @@
   <main id="contenido" class="contenedor como-trabajo">
     <header class="proyectos-cabecera">
       <h1>Cómo trabajo</h1>
-      <p>Construyo con asistentes de IA dentro de un entorno de control que diseñé. Instrucciones por capas, reglas de permisos, hooks que revisan cada acción, revisores independientes y verificaciones automáticas deciden qué puede hacer la IA. Nada llega a producción sin pasarlos y sin mi aprobación.</p>
-      <p>En la práctica es context engineering para el agente, hooks y scripts que hacen cumplir las reglas en lugar de confiar en que se sigan, y un proceso de cambios con evidencia en cada paso. Todo lo de abajo es real y sale de mis proyectos; cada proyecto usa lo que su riesgo pide.</p>
+      <p>Mi fuerte es el análisis de negocio y las operaciones: entender un proceso, sus riesgos y sus controles. La IA es una de mis herramientas para mejorarlos. La manejo como cualquier operación con riesgo: reglas escritas, accesos limitados, revisión de lo que produce y nada a producción sin mi aprobación. Abajo está ese entorno, pieza por pieza, y puedes <a href="#titulo-guardas">probar los hooks</a>.</p>
     </header>
 
     <section class="caso-seccion" aria-labelledby="titulo-capas">
       <h2 id="titulo-capas">El entorno, capa por capa</h2>
-      <p>Desde la máquina donde corre la IA hasta producción. Cada capa es una herramienta real, con su nombre.</p>
+      <p>Cada capa cubre un riesgo distinto: primero qué puede tocar la IA, después cómo trabaja y al final qué pasa antes de producción.</p>
       <ol class="capas">
         <li class="capa">
           <div class="capa-nombre"><h3>Estación de trabajo</h3><p class="capa-herramienta">settings · fine-grained tokens</p></div>
           <div class="capa-cuerpo">
-            <p>Las herramientas de archivos de la IA no pueden leer fuera de las carpetas del proyecto. El acceso va por fine-grained tokens, cada uno limitado a un solo proyecto u organización, guardados en variables de entorno y nunca en el código.</p>
-            <p class="capa-garantia"><strong>Garantiza:</strong> una sesión no puede meterse en otros archivos, y ninguna credencial vive en un repositorio.</p>
+            <p class="capa-riesgo"><strong>Riesgo:</strong> que una sesión lea archivos de otro proyecto o que una credencial quede escrita en el código.</p>
+            <p>Las herramientas de archivos de la IA no pueden leer fuera de las carpetas del proyecto. Las credenciales viven en variables de entorno, nunca en el código. Los tokens de GitHub son fine-grained: cada uno sirve solo para un repositorio u organización.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Permisos</h3><p class="capa-herramienta"><code>allow</code> · <code>ask</code> · <code>deny</code></p></div>
           <div class="capa-cuerpo">
-            <p>Las reglas de permisos del propio Claude Code, definidas por proyecto. Algunas acciones se niegan de entrada, como agregar todo de una vez (<code>git&nbsp;add&nbsp;.</code>) o un push forzado. Otras siempre me preguntan primero: SQL sobre la base de datos en vivo, migraciones, despliegues de funciones y escrituras en GitHub por MCP (el protocolo que conecta la IA con servicios externos).</p>
-            <p class="capa-garantia"><strong>Garantiza:</strong> las acciones más riesgosas se niegan o esperan mi clic, decida lo que decida la IA.</p>
+            <p class="capa-riesgo"><strong>Riesgo:</strong> que la IA haga por su cuenta algo irreversible o publique en producción.</p>
+            <p>Las reglas de permisos del propio Claude Code. Algunas acciones se niegan de entrada, como agregar todo de una vez (<code>git&nbsp;add&nbsp;.</code>) o un push forzado. Otras siempre me preguntan primero: SQL sobre la base en vivo, migraciones y despliegues. También las escrituras en GitHub por MCP, el protocolo que conecta la IA con servicios externos.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Hooks (candados)</h3><p class="capa-herramienta">plugin · <code>PreToolUse</code> · <code>SessionStart</code></p></div>
           <div class="capa-cuerpo">
-            <p>Los hooks son scripts que Claude Code corre en momentos fijos. Un plugin que mantengo corre uno antes de cada acción. Sus seis reglas (secretos, comandos destructivos, git, producción, solo tokens y su propia configuración) leen el comando, el archivo o la llamada a la herramienta, y lo niegan, me preguntan o no dicen nada. Otro corre al inicio de la sesión y prueba las reglas.</p>
-            <p class="capa-garantia"><strong>Garantiza:</strong> los mismos candados en todos los proyectos, y la IA no puede aflojarlos sin mi sí.</p>
+            <p class="capa-riesgo"><strong>Riesgo:</strong> que la IA filtre un secreto, borre trabajo o se salte un control, aunque tenga permiso para usar la terminal.</p>
+            <p>Los hooks son scripts que Claude Code corre en momentos fijos. Un plugin que mantengo corre uno antes de cada acción. Sus seis reglas (secretos, comandos destructivos, git, producción, solo tokens y su propia configuración) leen el comando, el archivo o la llamada a la herramienta. Luego lo niegan, me preguntan o no dicen nada. Otro hook corre al iniciar la sesión y prueba las reglas. Cambiar su configuración necesita mi sí.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Prompt scaffolding</h3><p class="capa-herramienta"><code>CLAUDE.md</code> · reglas · lecciones</p></div>
           <div class="capa-cuerpo">
-            <p>Los archivos de instrucciones que el agente lee antes de trabajar. Un <code>CLAUDE.md</code> por proyecto: qué es, el protocolo, las reglas que no se rompen y qué fuente manda. Las reglas por carpeta (path-scoped rules) solo se cargan cuando la IA toca esa carpeta, y el archivo de lecciones se carga en cada sesión.</p>
-            <p class="capa-garantia"><strong>Garantiza:</strong> la IA trabaja con las reglas reales del proyecto, no con hábitos generales.</p>
+            <p class="capa-riesgo"><strong>Riesgo:</strong> que la IA trabaje con hábitos generales en vez de las reglas del proyecto.</p>
+            <p>Los archivos de instrucciones que el agente lee antes de trabajar. Un <code>CLAUDE.md</code> por proyecto dice qué es, el protocolo, las reglas que no se rompen y qué fuente manda. Las reglas por carpeta (path-scoped rules) solo se cargan cuando la IA toca esa carpeta, y las lecciones de errores pasados se cargan en cada sesión.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Skills</h3><p class="capa-herramienta"><code>SKILL.md</code></p></div>
           <div class="capa-cuerpo">
-            <p>Procedimientos paso a paso que el agente sigue: auditar, planear, ensayar, revisar contrapartidas, hacer commit, atender un incidente y retomar después de una sesión larga. Los que tocan producción (desplegar, migrar, manejar secretos) solo arrancan cuando yo los llamo (<code>disable-model-invocation</code>).</p>
-            <p class="capa-garantia"><strong>Garantiza:</strong> los mismos pasos cada vez, sin importar quién abra la sesión.</p>
+            <p class="capa-riesgo"><strong>Riesgo:</strong> que un procedimiento delicado se haga distinto cada vez.</p>
+            <p>Procedimientos paso a paso que el agente sigue: auditar, planear, ensayar, revisar contrapartidas, hacer commit, atender un incidente y retomar después de una sesión larga. Los que despliegan o migran terminan en un comando que el hook detiene hasta que yo lo apruebe.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Subagentes</h3><p class="capa-herramienta"><code>Read</code> · <code>Grep</code> · <code>Glob</code></p></div>
           <div class="capa-cuerpo">
+            <p class="capa-riesgo"><strong>Riesgo:</strong> que nadie cuestione lo que propone la IA antes de que me llegue.</p>
             <p>Agentes aparte, limitados a herramientas de solo lectura: uno revisa el plan contra mis decisiones y el código; otro intenta refutar cada hallazgo de seguridad.</p>
-            <p class="capa-garantia"><strong>Garantiza:</strong> el resultado de la IA se desafía antes de que yo lo vea.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Git hooks y CI</h3><p class="capa-herramienta">pre-commit · pre-push · GitHub Actions</p></div>
           <div class="capa-cuerpo">
+            <p class="capa-riesgo"><strong>Riesgo:</strong> que entre código roto, o código nuevo encima de algo roto.</p>
             <p>Las mismas verificaciones corren antes de cada commit, antes de cada push y en la integración continua (CI: las verificaciones que GitHub corre en cada cambio). Un push se bloquea mientras el CI de la rama principal esté en rojo, y las verificaciones no se pueden saltar.</p>
-            <p class="capa-garantia"><strong>Garantiza:</strong> no entra nada roto, y nada entra encima de algo roto.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Scripts de producción</h3><p class="capa-herramienta">Node · Deno</p></div>
           <div class="capa-cuerpo">
-            <p>Los scripts de despliegue confirman la cuenta y el proyecto de destino antes de escribir, pueden correr en seco (dry run: muestran lo que harían sin hacerlo) y comprueban que lo publicado es lo que se construyó. Los cambios en la base de datos se ensayan en una transacción que termina en <code>rollback</code>.</p>
-            <p>Un secreto llega a un script solo por su entorno, y para saber si un token existe, un script reporta su nombre y su longitud, nunca su valor.</p>
-            <p class="capa-garantia"><strong>Garantiza:</strong> los cambios en producción son deliberados, ensayados y verificados, y ningún secreto se imprime.</p>
+            <p class="capa-riesgo"><strong>Riesgo:</strong> publicar en la cuenta equivocada, cambiar datos sin ensayo o exponer un secreto.</p>
+            <p>Los scripts de despliegue confirman la cuenta y el proyecto de destino antes de escribir. Pueden correr en seco (dry run: muestran lo que harían sin hacerlo) y comprueban que lo publicado es lo que se construyó. Los cambios en la base de datos se ensayan en una transacción que termina en <code>rollback</code>.</p>
+            <p>La IA no maneja el valor de los secretos. Los hooks le impiden imprimirlo, y un script comprueba si un token existe reportando solo su nombre y su longitud.</p>
           </div>
         </li>
       </ol>
@@ -242,32 +241,39 @@
     </section>
 
     <section class="caso-seccion" aria-labelledby="titulo-ejemplo">
-      <h2 id="titulo-ejemplo">Un cambio real, de punta a punta</h2>
-      <p>El bot de chat de un proyecto registra movimientos bancarios, y leía los montos escritos con centavos como 100 veces más grandes. En Colombia, el punto separa los miles y la coma marca los decimales.</p>
+      <h2 id="titulo-ejemplo">Un cambio real: la caja que iba a dejar de guardar ventas</h2>
+      <p>Una auditoría completa del código de un sistema de ventas encontró una falla escondida. Desde la venta número 100&nbsp;000, cada venta nueva se descartaría mientras la pantalla decía «guardada». Con una opción que el dueño podía cambiar, el límite bajaba a 10&nbsp;000. No había pasado todavía.</p>
       <ol class="decisiones">
-        <li><h3>Encontrado buscando, no por suerte</h3><p>Mientras se corregía el mismo error en otra pantalla, una búsqueda de todos los lugares que leen un monto encontró el bot.</p></li>
-        <li><h3>Auditoría</h3><p>La única función que lee el monto, cada camino que lleva a ella y dónde se guarda el valor. Una consulta de solo lectura a la base de datos confirmó que ningún movimiento guardado se había afectado.</p></li>
-        <li><h3>Plan</h3>
-          <div class="tabla-marco" role="region" aria-label="Montos antes y después" tabindex="0">
-            <table class="tabla">
-              <thead><tr><th scope="col">Se escribe</th><th scope="col">Se guardaba</th><th scope="col">Se guarda ahora</th></tr></thead>
-              <tbody>
-                <tr><td><code>840.000</code> · <code>1'500.000</code> · <code>1500000</code></td><td>bien</td><td>igual</td></tr>
-                <tr><td><code>840000,00</code></td><td>84.000.000</td><td>840.000</td></tr>
-                <tr><td><code>840.000,50</code></td><td>84.000.050</td><td>pide el monto sin centavos</td></tr>
-              </tbody>
-            </table>
-          </div>
+        <li><h3>Causa raíz, verificada en el código</h3><p>Dos defectos encadenados:</p>
+          <ul class="vinetas">
+            <li>el número de comprobante se recortaba al pasar su ancho, así que la venta 100&nbsp;000 repetía uno existente;</li>
+            <li>la caja tomaba cualquier error de «duplicado» como «esta venta ya está guardada» y la descartaba.</li>
+          </ul>
         </li>
-        <li><h3>Control negativo</h3><p>Tres escenarios de prueba nuevos. Dos fallaron con el código anterior, con exactamente los montos equivocados, y el tercero probó que los montos normales no cambian.</p></li>
-        <li><h3>Publicación y verificación</h3><p>CI en verde en el pull request; la función publicada se revisó en vivo y sus registros no tenían errores.</p></li>
-        <li><h3>Declarado, no escondido</h3><p>No verificado: una conversación en vivo con el bot. El banco de pruebas cubre la misma función.</p></li>
+        <li><h3>La auditoría fue más allá del caso</h3><p>En la misma pasada salieron dos fallas más:</p>
+          <ul class="vinetas">
+            <li>nada en la base de datos impedía borrar un comprobante, salvo un filtro en un script de pruebas;</li>
+            <li>la limpieza programada fallaba entera si un producto borrado seguía nombrado en un descuento.</li>
+          </ul>
+        </li>
+        <li><h3>Plan antes de tocar nada</h3><p>Cada hallazgo quedó escrito con su causa verificada y su corrección propuesta, sin aplicar.</p></li>
+        <li><h3>La corrección</h3>
+          <ul class="vinetas">
+            <li>El número crece en vez de recortarse.</li>
+            <li>La caja solo toma como «ya guardada» la repetición de la misma venta.</li>
+            <li>La base rechaza borrar comprobantes, salvo en negocios de prueba.</li>
+            <li>La limpieza respeta los productos que un descuento todavía nombra.</li>
+            <li>Cada caso tiene su prueba en la base de datos.</li>
+          </ul>
+        </li>
+        <li><h3>Publicación por script</h3><p>El cambio se generó desde las definiciones vivas de la base. El script se negaba a producir nada si el código vivo no era exactamente el que el plan esperaba.</p></li>
+        <li><h3>Verificado en vivo</h3><p>Se aplicó en las dos instalaciones, y la siguiente limpieza programada terminó bien en ambas, según el registro de tareas de la propia base.</p></li>
       </ol>
     </section>
 
     <section class="caso-seccion" aria-labelledby="titulo-errores">
       <h2 id="titulo-errores">Los errores se vuelven controles</h2>
-      <p>Un ciclo post-incidente: cada error de la IA termina como una lección escrita, y el que se repite termina como un hook o un check de CI.</p>
+      <p>Un ciclo post-incidente: cada error de la IA termina como una lección escrita. El que se repite termina como un hook o un check de CI.</p>
       <svg class="ciclo" viewBox="0 0 360 300" aria-hidden="true" focusable="false">
         <defs>
           <marker id="ciclo-punta" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -293,13 +299,18 @@
         <li><h3>Se vuelve una lección</h3><p>Una línea que cita su origen y se carga al inicio de cada sesión.</p></li>
         <li><h3>Si vuelve a pasar</h3><p>La lección se vuelve una verificación automática (un hook o un check de CI) y sale de las reglas escritas.</p></li>
       </ol>
-      <h3>Lecciones de ejemplo</h3>
-      <ul class="vinetas">
-        <li>Una afirmación sobre el código necesita la línea, leída completa, no un nombre ni un fragmento.</li>
-        <li>Responder una pregunta no es aprobar un cambio.</li>
-        <li>Una recomendación sobre una herramienta externa sale de leerla completa, no de su README.</li>
-        <li>Una prueba nueva solo cuenta cuando se la vio fallar por el motivo esperado.</li>
-      </ul>
+      <h3>Errores reales y el control que dejó cada uno</h3>
+      <div class="tabla-marco" role="region" aria-label="Errores reales y sus controles" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">Error de la IA</th><th scope="col">Cómo se atrapó</th><th scope="col">En qué se convirtió</th></tr></thead>
+          <tbody>
+            <tr><td>Al comprobar que existía una llave de la base de datos, un comando la imprimió completa. Esa llave podía leer los datos de todos los negocios.</td><td>Quedó a la vista en la sesión, y la llave se revocó.</td><td>Un hook que bloquea cualquier comando capaz de imprimir un secreto. Hoy es una regla del plugin: el primer ejemplo de <a href="#titulo-guardas">la demo</a>.</td></tr>
+            <tr><td>Un endurecimiento de seguridad quitó un permiso del que dependía la regla de acceso de quienes abren su documento con un enlace. Abrir un documento con su enlace empezó a dar error.</td><td>Falló la prueba automática de aislamiento de accesos. Después, la IA quiso aplicar la reversión directo en producción, fuera del plan, y el control de permisos de la herramienta la bloqueó.</td><td>Un permiso y las reglas de acceso que lo leen se cambian juntos, y toda corrección en producción pasa por el plan.</td></tr>
+            <tr><td>Un cambio masivo de nombres en la base pasó todas las verificaciones, pero el mostrador dejó de sumar el impuesto y los comprobantes salieron sin medio de pago.</td><td>Lo vi yo, en producción.</td><td>Un check automático que compara los campos que pide cada consulta con los que el código de verdad lee. Una verificación que mira un solo lado de un contrato no lo cubre.</td></tr>
+            <tr><td>Varias funciones leían listas sin comprobar que vinieran completas. Pasado el límite de filas de la base, el sistema habría sugerido un número de cuenta ya usado. También habría cerrado una operación que el sistema contable aún cobraba.</td><td>El banco de pruebas, antes de que pasara con datos reales.</td><td>Una función común que lee la lista entera y falla ante un error, obligatoria para toda lista que decide algo.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section class="caso-seccion" aria-labelledby="titulo-documentos">

@@ -43,69 +43,68 @@
   <main id="contenido" class="contenedor como-trabajo">
     <header class="proyectos-cabecera">
       <h1>How I work</h1>
-      <p>I build with AI coding assistants inside a control environment I designed. Layered instructions, permission rules, hooks that check every action, independent reviewers and automated gates decide what the AI can do. Nothing reaches production without passing them and my approval.</p>
-      <p>In practice that means context engineering for the agent, hooks and scripts that enforce the rules instead of trusting them to be followed, and a change process with evidence at every step. Everything below is real and comes from my projects; each project uses what its risk calls for.</p>
+      <p>My strength is business analysis and operations: understanding a process, its risks and its controls. AI is one of my tools for improving them. I run it like any operation with risk: written rules, limited access, review of what it produces, and nothing reaching production without my approval. Below is that environment, piece by piece, and you can <a href="#titulo-guardas">try the hooks</a>.</p>
     </header>
 
     <section class="caso-seccion" aria-labelledby="titulo-capas">
       <h2 id="titulo-capas">The setup, layer by layer</h2>
-      <p>From the machine the AI runs on down to production. Each layer is a real tool, named as it’s called.</p>
+      <p>Each layer covers a different risk: first what the AI can touch, then how it works, and last what happens before production.</p>
       <ol class="capas">
         <li class="capa">
           <div class="capa-nombre"><h3>Workstation</h3><p class="capa-herramienta">settings · fine-grained tokens</p></div>
           <div class="capa-cuerpo">
-            <p>The AI’s file tools can’t read outside the project folders. Access goes through fine-grained tokens, each one limited to a single project or organization, kept in environment variables and never in the code.</p>
-            <p class="capa-garantia"><strong>Guarantees:</strong> a session can’t wander into other files, and no credential lives in a repository.</p>
+            <p class="capa-riesgo"><strong>Risk:</strong> a session reading another project’s files, or a credential ending up in the code.</p>
+            <p>The AI’s file tools can’t read outside the project folders. Credentials live in environment variables, never in the code. GitHub tokens are fine-grained: each one works only for one repository or organization.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Permissions</h3><p class="capa-herramienta"><code>allow</code> · <code>ask</code> · <code>deny</code></p></div>
           <div class="capa-cuerpo">
-            <p>Claude Code’s own permission rules, set per project. Some actions are denied outright, such as staging everything at once (<code>git&nbsp;add&nbsp;.</code>) or a force push. Others always ask me first: SQL on the live database, migrations, function deploys and writes to GitHub through MCP (the protocol that connects the AI to outside services).</p>
-            <p class="capa-garantia"><strong>Guarantees:</strong> the riskiest actions are refused or wait for my click, whatever the AI decides.</p>
+            <p class="capa-riesgo"><strong>Risk:</strong> the AI doing something irreversible on its own, or publishing to production.</p>
+            <p>Claude Code’s own permission rules. Some actions are denied outright, such as staging everything at once (<code>git&nbsp;add&nbsp;.</code>) or a force push. Others always ask me first: SQL on the live database, migrations and deploys. So do writes to GitHub through MCP, the protocol that connects the AI to outside services.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Hooks</h3><p class="capa-herramienta">plugin · <code>PreToolUse</code> · <code>SessionStart</code></p></div>
           <div class="capa-cuerpo">
-            <p>Hooks are scripts that Claude Code runs at fixed moments. A plugin I maintain runs one before every action. Its six rules (secrets, destructive commands, git, production, tokens only and its own configuration) read the command, the file or the tool call, and deny it, ask me or stay silent. Another runs at session start and tests the rules.</p>
-            <p class="capa-garantia"><strong>Guarantees:</strong> the same guardrails in every project, and the AI can’t loosen them without my yes.</p>
+            <p class="capa-riesgo"><strong>Risk:</strong> the AI leaking a secret, deleting work or skipping a control, even when it’s allowed to use the terminal.</p>
+            <p>Hooks are scripts that Claude Code runs at fixed moments. A plugin I maintain runs one before every action. Its six rules (secrets, destructive commands, git, production, tokens only and its own configuration) read the command, the file or the tool call. Then they deny it, ask me or stay silent. Another hook runs at session start and tests the rules. Changing their configuration needs my yes.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Prompt scaffolding</h3><p class="capa-herramienta"><code>CLAUDE.md</code> · rules · lessons</p></div>
           <div class="capa-cuerpo">
-            <p>The instruction files the agent reads before it works. One <code>CLAUDE.md</code> per project: what it is, the protocol, rules that can’t be broken and which source wins. Path-scoped rules load only when the AI touches that folder, and the lessons file loads every session.</p>
-            <p class="capa-garantia"><strong>Guarantees:</strong> the AI works from the project’s real rules, not from general habits.</p>
+            <p class="capa-riesgo"><strong>Risk:</strong> the AI working from general habits instead of the project’s rules.</p>
+            <p>The instruction files the agent reads before it works. One <code>CLAUDE.md</code> per project says what it is, the protocol, the rules that can’t be broken and which source wins. Path-scoped rules load only when the AI touches that folder, and the lessons from past mistakes load every session.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Skills</h3><p class="capa-herramienta"><code>SKILL.md</code></p></div>
           <div class="capa-cuerpo">
-            <p>Step-by-step procedures the agent follows: audit, plan, rehearse, review counterparts, commit, handle an incident, resume after a long session. The ones that touch production (deploy, migrate, handle secrets) only start when I call them (<code>disable-model-invocation</code>).</p>
-            <p class="capa-garantia"><strong>Guarantees:</strong> the same steps every time, whoever starts the session.</p>
+            <p class="capa-riesgo"><strong>Risk:</strong> a delicate procedure done differently each time.</p>
+            <p>Step-by-step procedures the agent follows: audit, plan, rehearse, review counterparts, commit, handle an incident, resume after a long session. The ones that deploy or migrate end in a command the hook holds until I approve it.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Subagents</h3><p class="capa-herramienta"><code>Read</code> · <code>Grep</code> · <code>Glob</code></p></div>
           <div class="capa-cuerpo">
+            <p class="capa-riesgo"><strong>Risk:</strong> nobody questioning what the AI proposes before it reaches me.</p>
             <p>Separate agents limited to read-only tools: one checks the plan against my decisions and the code; another tries to refute each security finding.</p>
-            <p class="capa-garantia"><strong>Guarantees:</strong> the AI’s output is challenged before I see it.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Git hooks and CI</h3><p class="capa-herramienta">pre-commit · pre-push · GitHub Actions</p></div>
           <div class="capa-cuerpo">
+            <p class="capa-riesgo"><strong>Risk:</strong> broken code getting in, or new code landing on top of something broken.</p>
             <p>The same checks run before every commit, before every push and in continuous integration (CI: the checks GitHub runs on every change). A push is blocked while the main branch’s CI is red, and the checks can’t be skipped.</p>
-            <p class="capa-garantia"><strong>Guarantees:</strong> nothing broken gets in, and nothing gets in on top of something broken.</p>
           </div>
         </li>
         <li class="capa">
           <div class="capa-nombre"><h3>Production scripts</h3><p class="capa-herramienta">Node · Deno</p></div>
           <div class="capa-cuerpo">
-            <p>Deploy scripts confirm the target account and project before writing, can run dry (show what they would do without doing it) and check that what’s served is what was built. Database changes are rehearsed in a transaction that ends in <code>rollback</code>.</p>
-            <p>A secret reaches a script only through its environment, and to check that a token exists, a script reports its name and length, never its value.</p>
-            <p class="capa-garantia"><strong>Guarantees:</strong> production changes are deliberate, rehearsed and verified, and no secret gets printed.</p>
+            <p class="capa-riesgo"><strong>Risk:</strong> publishing to the wrong account, changing data without a rehearsal, or exposing a secret.</p>
+            <p>Deploy scripts confirm the target account and project before writing. They can run dry (show what they would do without doing it) and check that what’s served is what was built. Database changes are rehearsed in a transaction that ends in <code>rollback</code>.</p>
+            <p>The AI doesn’t handle secret values. The hooks stop it from printing one, and a script checks that a token exists by reporting only its name and length.</p>
           </div>
         </li>
       </ol>
@@ -242,32 +241,39 @@
     </section>
 
     <section class="caso-seccion" aria-labelledby="titulo-ejemplo">
-      <h2 id="titulo-ejemplo">A real change, end to end</h2>
-      <p>One project’s chat bot records bank movements, and it read amounts typed with decimal cents as 100 times larger. In Colombia a period separates thousands and a comma marks decimals.</p>
+      <h2 id="titulo-ejemplo">A real change: the till that would have stopped saving sales</h2>
+      <p>A full audit of a sales system’s code found a hidden failure. From sale number 100,000, every new sale would be thrown away while the screen said “saved”. With a setting the owner could change, the limit dropped to 10,000. It hadn’t happened yet.</p>
       <ol class="decisiones">
-        <li><h3>Found by searching, not by luck</h3><p>While fixing the same error on another screen, a search for every place that reads an amount turned up the bot.</p></li>
-        <li><h3>Audit</h3><p>The one function that reads the amount, every path that leads to it, and where the value is stored. A read-only database query confirmed no stored movement had been affected.</p></li>
-        <li><h3>Plan</h3>
-          <div class="tabla-marco" role="region" aria-label="Amounts before and after" tabindex="0">
-            <table class="tabla">
-              <thead><tr><th scope="col">Typed</th><th scope="col">Stored before</th><th scope="col">Stored after</th></tr></thead>
-              <tbody>
-                <tr><td><code>840.000</code> · <code>1'500.000</code> · <code>1500000</code></td><td>correct</td><td>unchanged</td></tr>
-                <tr><td><code>840000,00</code></td><td>84,000,000</td><td>840,000</td></tr>
-                <tr><td><code>840.000,50</code></td><td>84,000,050</td><td>asks for the amount without cents</td></tr>
-              </tbody>
-            </table>
-          </div>
+        <li><h3>Root cause, verified in the code</h3><p>Two defects in a chain:</p>
+          <ul class="vinetas">
+            <li>the receipt number was cut when it outgrew its width, so sale 100,000 reused an existing number;</li>
+            <li>the till read any “duplicate” error as “this sale is already saved” and dropped the sale.</li>
+          </ul>
         </li>
-        <li><h3>Negative control</h3><p>Three new test scenarios. Two of them failed on the old code with exactly the wrong amounts, and the third proved that normal amounts don’t change.</p></li>
-        <li><h3>Release and verification</h3><p>CI green on the pull request; the deployed function was checked live and its logs had no errors.</p></li>
-        <li><h3>Declared, not hidden</h3><p>Not verified: a live conversation with the bot. The test bench covers the same function.</p></li>
+        <li><h3>The audit went past the case</h3><p>The same pass found two more failures:</p>
+          <ul class="vinetas">
+            <li>nothing in the database stopped a receipt from being deleted, except a filter in a test script;</li>
+            <li>the scheduled cleanup failed entirely if a deleted product was still named in a discount.</li>
+          </ul>
+        </li>
+        <li><h3>Plan before touching anything</h3><p>Each finding was written down with its verified cause and its proposed fix, not yet applied.</p></li>
+        <li><h3>The fix</h3>
+          <ul class="vinetas">
+            <li>The number grows instead of being cut.</li>
+            <li>The till treats as “already saved” only a repeat of the same sale.</li>
+            <li>The database refuses to delete receipts, except in test businesses.</li>
+            <li>The cleanup keeps the products a discount still names.</li>
+            <li>Each case has its own database test.</li>
+          </ul>
+        </li>
+        <li><h3>Release by script</h3><p>The change was generated from the live definitions in the database. The script refused to produce anything if the live code wasn’t exactly what the plan expected.</p></li>
+        <li><h3>Verified live</h3><p>It was applied to both installations, and the next scheduled cleanup finished successfully in both, according to the database’s own job log.</p></li>
       </ol>
     </section>
 
     <section class="caso-seccion" aria-labelledby="titulo-errores">
       <h2 id="titulo-errores">Mistakes become controls</h2>
-      <p>A post-incident loop: every mistake the AI makes ends up as a written lesson, and one that repeats ends up as a hook or a CI check.</p>
+      <p>A post-incident loop: every mistake the AI makes ends up as a written lesson. One that repeats ends up as a hook or a CI check.</p>
       <svg class="ciclo" viewBox="0 0 360 300" aria-hidden="true" focusable="false">
         <defs>
           <marker id="ciclo-punta" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -293,13 +299,18 @@
         <li><h3>It becomes a lesson</h3><p>One line that cites its origin and loads at the start of every session.</p></li>
         <li><h3>If it happens again</h3><p>The lesson becomes an automated check (a hook or a CI check) and leaves the written rules.</p></li>
       </ol>
-      <h3>Example lessons</h3>
-      <ul class="vinetas">
-        <li>A claim about the code needs the line, read in full, not a name or a fragment.</li>
-        <li>Answering a question is not approving a change.</li>
-        <li>A recommendation about an external tool comes from reading all of it, not its README.</li>
-        <li>A new test only counts once it has been seen failing for the expected reason.</li>
-      </ul>
+      <h3>Real mistakes and the control each one left</h3>
+      <div class="tabla-marco" role="region" aria-label="Real mistakes and their controls" tabindex="0">
+        <table class="tabla">
+          <thead><tr><th scope="col">The AI’s mistake</th><th scope="col">How it was caught</th><th scope="col">What it became</th></tr></thead>
+          <tbody>
+            <tr><td>While checking that a database key existed, a command printed the whole key. That key could read every business’s data.</td><td>It showed up in the session, and the key was revoked.</td><td>A hook that blocks any command able to print a secret. Today it’s a plugin rule: the first example in <a href="#titulo-guardas">the demo</a>.</td></tr>
+            <tr><td>A security hardening removed a permission that the access rule for people opening their document by link depended on. Opening a document by link started returning an error.</td><td>The automated access-isolation test failed. Then the AI tried to apply the revert straight to production, outside the plan, and the tool’s permission check blocked it.</td><td>A permission and the access rules that read it change together, and every production fix goes through the plan.</td></tr>
+            <tr><td>A bulk rename in the database passed every check, but the counter stopped adding tax and receipts came out without a payment method.</td><td>I saw it, in production.</td><td>An automated check that compares the fields each query asks for with the ones the code actually reads. A check that looks at one side of a contract doesn’t cover it.</td></tr>
+            <tr><td>Several functions read lists without checking they were complete. Once a list passed the database’s row limit, the system would have suggested an account number already in use. It would also have closed an operation the accounting system was still charging.</td><td>The test bench, before it happened with real data.</td><td>A shared function that reads the whole list and fails on an error, required for every list that decides something.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section class="caso-seccion" aria-labelledby="titulo-documentos">
